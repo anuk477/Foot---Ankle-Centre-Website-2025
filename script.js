@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let iosScrollBar = null;
   let iosScrollThumb = null;
   let iosScrollHandlersBound = false;
+  let iosRAF = null;
   const destroyIOSScrollbar = () => {
     if (iosScrollBar && iosScrollBar.parentNode) iosScrollBar.parentNode.removeChild(iosScrollBar);
     iosScrollBar = null;
@@ -64,10 +65,14 @@ document.addEventListener('DOMContentLoaded', () => {
       window.removeEventListener('resize', updateIOSScrollbar);
     }
     iosScrollHandlersBound = false;
+    if (iosRAF) { cancelAnimationFrame(iosRAF); iosRAF = null; }
   };
   const updateIOSScrollbar = () => {
     if (!isIOS || !mobileSubContent || !iosScrollBar || !iosScrollThumb) return;
-    const view = mobileSubContent.clientHeight;
+    // Use panel height for track sizing to decouple from content
+    const panelView = mobileProcPanel ? mobileProcPanel.clientHeight : 0;
+    const contentView = mobileSubContent.clientHeight;
+    const view = panelView || contentView;
     const scroll = mobileSubContent.scrollHeight;
     const topPad = 8; const bottomPad = 8; // keep in sync with CSS
     const trackHeight = Math.max(0, view - topPad - bottomPad);
@@ -78,10 +83,10 @@ document.addEventListener('DOMContentLoaded', () => {
     iosScrollBar.style.display = 'block';
     // Thumb size proportional to visible area
     const minThumb = 20; // px minimum for usability
-    const thumbHeight = Math.max(minThumb, Math.round((view / scroll) * trackHeight));
+    const thumbHeight = Math.max(minThumb, Math.round((contentView / scroll) * trackHeight));
     iosScrollThumb.style.height = thumbHeight + 'px';
     // Thumb position based on scrollTop
-    const maxScroll = scroll - view;
+    const maxScroll = scroll - contentView;
     const maxThumbTop = trackHeight - thumbHeight;
     const ratio = maxScroll > 0 ? (mobileSubContent.scrollTop / maxScroll) : 0;
     const thumbTop = Math.round(ratio * maxThumbTop);
@@ -102,6 +107,14 @@ document.addEventListener('DOMContentLoaded', () => {
       iosScrollHandlersBound = true;
       mobileSubContent.addEventListener('scroll', updateIOSScrollbar, { passive: true });
       window.addEventListener('resize', updateIOSScrollbar);
+      // Also update on touch move for better responsiveness
+      mobileSubContent.addEventListener('touchmove', updateIOSScrollbar, { passive: true });
+      // Start a lightweight RAF loop to keep in sync during momentum scrolling
+      const tick = () => {
+        updateIOSScrollbar();
+        iosRAF = requestAnimationFrame(tick);
+      };
+      if (!iosRAF) iosRAF = requestAnimationFrame(tick);
     }
     // Defer update to next frame so layout is final
     requestAnimationFrame(updateIOSScrollbar);
