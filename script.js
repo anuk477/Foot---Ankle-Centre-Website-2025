@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileProcPanel = document.getElementById('mobile-procedures-menu');
   const mobileSubContent = document.querySelector('#mobile-procedures-menu .mobile-subcontent');
 
-  // Detect iOS (including iPadOS masquerading as Mac) for custom scroll hint
+  // Detect iOS (including iPadOS masquerading as Mac) for telemetry/class only
   const isIOS = (() => {
     const ua = navigator.userAgent || '';
     const platform = navigator.platform || '';
@@ -346,21 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileProcPanel.style.opacity = '1';
     mobileProcTrigger.setAttribute('aria-expanded', 'true');
 
-    // iOS: show a subtle scroll hint bar if content overflows
-    if (isIOS && mobileSubContent) {
-      // Reset any previous hint state
-      mobileSubContent.classList.remove('hint-hide', 'show-scroll-hint');
-      const canScroll = mobileSubContent.scrollHeight > mobileSubContent.clientHeight + 2;
-      if (canScroll) {
-        mobileSubContent.classList.add('show-scroll-hint');
-        const hideOnce = () => {
-          mobileSubContent.classList.add('hint-hide');
-          mobileSubContent.classList.remove('show-scroll-hint');
-        };
-        // Hide the hint after the first user scroll interaction
-        mobileSubContent.addEventListener('scroll', hideOnce, { once: true, passive: true });
-      }
-    }
+    // Removed custom scroll hint to avoid long bar flash on mobile
   }
   function mobileCloseSub() {
     if (!mobileProcTrigger || !mobileProcPanel) return;
@@ -372,8 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
       mobileProcPanel.classList.remove('open');
       mobileProcPanel.hidden = true;
       mobileProcPanel.removeEventListener('transitionend', onEnd);
-      // Cleanup hint state
-      if (mobileSubContent) mobileSubContent.classList.remove('show-scroll-hint', 'hint-hide');
+      // No custom scroll hint to clean up
     };
     mobileProcPanel.addEventListener('transitionend', onEnd);
     // Fallback cleanup
