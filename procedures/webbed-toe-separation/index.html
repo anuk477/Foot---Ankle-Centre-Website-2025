@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script>
+    (function(){
+      try{
+        var l=window.location,p=l.protocol;
+        if(p==='http:'||p==='https:'){
+          var path=l.pathname;
+          if(/\/index\.html$/i.test(path)){
+            var clean=path.replace(/index\.html$/i,'');
+            history.replaceState(null,'',clean+l.search+l.hash);
+          }else if(/\.html$/i.test(path)){
+            var clean2=path.replace(/\.html$/i,'');
+            history.replaceState(null,'',clean2+l.search+l.hash);
+          }
+        }
+      }catch(e){}
+    })();
+  </script>
+  <title>Webbed Toe Separation — Foot & Ankle Centre</title>
+  <meta name="description" content="Webbed Toe Separation at the Foot & Ankle Centre. Learn more and book online." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+  <a href="#main" class="sr-only">Skip to main content</a>
+  <header>
+    <div class="container topbar" role="navigation" aria-label="Primary">
+      <a class="brand" href="../index.html" aria-label="Foot & Ankle Centre Home">
+        <img class="brand-logo" src="../../images/fac logo blue.jpg" alt="Foot & Ankle Centre logo" width="40" height="40">
+        <div>
+          <strong>Foot & Ankle Centre</strong><br>
+          <small class="muted-text">Podiatry Clinic</small>
+        </div>
+      </a>
+      <nav aria-label="Main">
+        <ul>
+          <li><a href="../index.html#services">Services</a></li>
+          <li><a id="procedures-trigger" href="#procedures" aria-expanded="false" aria-controls="procedures-menu">Procedures</a></li>
+          <li><a href="../index.html#team">Team</a></li>
+          <li><a href="../index.html#fees">Fees</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <a class="btn ghost" href="tel:+441234567890" aria-label="Call clinic">Call</a>
+        <a class="btn primary" href="../../booking.html" aria-label="Book an appointment">Book<span class="hide-sm"> Online</span></a>
+        <button class="btn ghost menu-toggle" aria-expanded="false" aria-controls="mobile-menu">Menu</button>
+      </div>
+      <div id="procedures-menu" class="mega-panel" aria-hidden="true">
+        <div class="mega-content">
+          <h3>Podiatry</h3>
+          <ul class="mega-list">
+            <li><a class="proc-link" href="../toe-shortening/">Toe Shortening</a></li>
+            <li><a class="proc-link" href="../corn-removal-surgery/">Corn Removal Surgery</a></li>
+            <li><a class="proc-link" href="../bunion-correction/">Bunion Correction</a></li>
+            <li><a class="proc-link" href="../webbed-toe-separation/">Webbed Toe Separation</a></li>
+            <li><a class="proc-link" href="../hammertoe-correction/">Hammertoe Correction</a></li>
+            <li><a class="proc-link" href="../ingrowing-toenail-removal/">Ingrowing Toenail Removal</a></li>
+          </ul>
+          <h3>Chiropody</h3>
+          <ul class="mega-list">
+            <li><a class="proc-link" href="../hard-skin-removal/">Hard Skin Removal</a></li>
+            <li><a class="proc-link" href="../verruca-treatment/">Verruca Treatment</a></li>
+            <li><a class="proc-link" href="../corn-removal/">Corn Removal</a></li>
+            <li><a class="proc-link" href="../long-nails/">Long Nails</a></li>
+            <li><a class="proc-link" href="../fungal-nails/">Fungal Nails</a></li>
+          </ul>
+          <h3>Physiotherapy</h3>
+          <ul class="mega-list">
+            <li><a class="proc-link" href="../shockwave-therapy/">Shockwave Therapy</a></li>
+            <li><a class="proc-link" href="../myofascial-release/">Myofascial Release</a></li>
+            <li><a class="proc-link" href="../triggerpoint-therapy/">Triggerpoint Therapy</a></li>
+            <li><a class="proc-link" href="../exercise-rehabilitation/">Exercise Rehabilitation</a></li>
+            <li><a class="proc-link" href="../electrotherapy/">Electrotherapy</a></li>
+            <li><a class="proc-link" href="../dry-needling/">Dry Needling</a></li>
+            <li><a class="proc-link" href="../cupping-therapy/">Cupping Therapy</a></li>
+            <li><a class="proc-link" href="../accupunture/">Accupunture</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div id="mobile-menu" class="mobile-panel" aria-hidden="true">
+    <button class="menu-close" aria-label="Close menu">×</button>
+    <div class="container">
+      <ul>
+        <li><a href="../index.html#services">Services</a></li>
+        <li class="mobile-has-sub">
+          <button id="mobile-procedures-trigger" class="mobile-sub-toggle" aria-expanded="false" aria-controls="mobile-procedures-menu">Procedures</button>
+          <div id="mobile-procedures-menu" class="mobile-subpanel" hidden>
+            <div class="mobile-subcontent">
+              <h3>Podiatry</h3>
+              <ul class="mobile-sublist">
+                <li><a class="proc-link" href="../bunion-correction/">Bunion correction</a></li>
+                <li><a class="proc-link" href="../hammertoe-correction/">Hammertoe correction</a></li>
+                <li><a class="proc-link" href="../corn-removal-surgery/">Surgical corn removal</a></li>
+                <li><a class="proc-link" href="../toe-shortening/">Toe shortening</a></li>
+                <li><a class="proc-link" href="../ingrowing-toenail-removal/">Ingrown toe nail removal</a></li>
+              </ul>
+              <h3>Chiropody</h3>
+              <ul class="mobile-sublist">
+                <li><a class="proc-link" href="../hard-skin-removal/">Hard Skin Removal</a></li>
+                <li><a class="proc-link" href="../verruca-treatment/">Verruca Treatment</a></li>
+                <li><a class="proc-link" href="../corn-removal/">Corn Removal</a></li>
+                <li><a class="proc-link" href="../long-nails/">Long Nails</a></li>
+                <li><a class="proc-link" href="../fungal-nails/">Fungal Nails</a></li>
+              </ul>
+              <h3>Physiotherapy</h3>
+              <ul class="mobile-sublist">
+                <li><a class="proc-link" href="../shockwave-therapy/">Shockwave Therapy</a></li>
+                <li><a class="proc-link" href="../myofascial-release/">Myofascial Release</a></li>
+                <li><a class="proc-link" href="../triggerpoint-therapy/">Triggerpoint Therapy</a></li>
+                <li><a class="proc-link" href="../exercise-rehabilitation/">Exercise Rehabilitation</a></li>
+                <li><a class="proc-link" href="../electrotherapy/">Electrotherapy</a></li>
+                <li><a class="proc-link" href="../dry-needling/">Dry Needling</a></li>
+                <li><a class="proc-link" href="../cupping-therapy/">Cupping Therapy</a></li>
+                <li><a class="proc-link" href="../accupunture/">Accupunture</a></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li><a href="../index.html#team">Team</a></li>
+        <li><a href="../index.html#fees">Fees</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+        <li class="mobile-booking"><a class="btn primary" href="../../booking.html">Book online</a></li>
+      </ul>
+    </div>
+  </div>
+  <main id="main" class="container" style="padding:2rem 0;">
+    <div class="section-head">
+      <div>
+        <div class="kicker">Podiatry</div>
+        <h1>Webbed Toe Separation</h1>
+      </div>
+      <a class="btn primary" href="../../booking.html">Book now</a>
+    </div>
+    <div class="split" style="align-items:start;">
+      <div>
+        <p>Cosmetic and functional separation of congenitally webbed toes by an experienced team with careful aftercare.</p>
+        <ul>
+          <li>Personalised assessment</li>
+          <li>Clear expectations and recovery guidance</li>
+          <li>Supportive follow-up</li>
+        </ul>
+      </div>
+      <div class="feature">
+        <strong>What to expect</strong>
+        <p>Local anaesthetic procedure with dressings and advice to promote healing and appearance.</p>
+      </div>
+    </div>
+  </main>
+  <script src="../../script.js"></script>
+</body>
+</html>

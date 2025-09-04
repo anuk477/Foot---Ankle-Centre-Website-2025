@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script>
+    (function(){
+      try{
+        var l=window.location,p=l.protocol;
+        if(p==='http:'||p==='https:'){
+          var path=l.pathname;
+          if(/\/index\.html$/i.test(path)){
+            var clean=path.replace(/index\.html$/i,'');
+            history.replaceState(null,'',clean+l.search+l.hash);
+          }else if(/\.html$/i.test(path)){
+            var clean2=path.replace(/\.html$/i,'');
+            history.replaceState(null,'',clean2+l.search+l.hash);
+          }
+        }
+      }catch(e){}
+    })();
+  </script>
+  <title>Foot & Ankle Centre — Book Online</title>
+  <meta name="description" content="Book an appointment online at Foot & Ankle Centre." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="booking-bg">
+  <a href="#main" class="sr-only">Skip to main content</a>
+
+  <!-- Header (links point back to index sections) -->
+  <header>
+    <div class="container topbar" role="navigation" aria-label="Primary">
+      <a class="brand" href="./" aria-label="Foot & Ankle Centre Home">
+        <img class="brand-logo" src="images/fac logo blue.jpg" alt="Foot & Ankle Centre logo" width="40" height="40">
+        <div>
+          <strong>Foot & Ankle Centre</strong><br>
+          <small class="muted-text">Podiatry Clinic</small>
+        </div>
+      </a>
+
+      <nav aria-label="Main">
+        <ul>
+          <li><a href="./#services">Services</a></li>
+          <li><a id="procedures-trigger" href="#procedures" aria-expanded="false" aria-controls="procedures-menu">Procedures</a></li>
+          <li><a href="./#team">Team</a></li>
+          <li><a href="./#fees">Fees</a></li>
+          <li><a href="./#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a class="btn ghost" href="tel:+441234567890" aria-label="Call clinic">Call</a>
+        <a class="btn primary" href="booking.html" aria-label="Book an appointment" aria-current="page">Book<span class="hide-sm"> Online</span></a>
+        <button class="btn ghost menu-toggle" aria-expanded="false" aria-controls="mobile-menu">Menu</button>
+      </div>
+
+      <!-- Procedures dropdown (spans navbar width) -->
+      <div id="procedures-menu" class="mega-panel" aria-hidden="true">
+        <div class="mega-content">
+          <h3>Podiatry</h3>
+          <ul class="mega-list">
+            <li><a class="proc-link" href="procedures/toe-shortening/" aria-label="View Toe Shortening">Toe Shortening</a></li>
+            <li><a class="proc-link" href="procedures/corn-removal-surgery/" aria-label="View Corn Removal Surgery">Corn Removal Surgery</a></li>
+            <li><a class="proc-link" href="procedures/bunion-correction/" aria-label="View Bunion Correction">Bunion Correction</a></li>
+            <li><a class="proc-link" href="procedures/webbed-toe-separation/" aria-label="View Webbed Toe Separation">Webbed Toe Separation</a></li>
+            <li><a class="proc-link" href="procedures/hammertoe-correction/" aria-label="View Hammertoe Correction">Hammertoe Correction</a></li>
+            <li><a class="proc-link" href="procedures/ingrowing-toenail-removal/" aria-label="View Ingrowing Toenail Removal">Ingrowing Toenail Removal</a></li>
+          </ul>
+          <h3>Chiropody</h3>
+          <ul class="mega-list">
+          <li><a class="proc-link" href="procedures/hard-skin-removal/" aria-label="View Hard Skin Removal">Hard Skin Removal</a></li>
+          <li><a class="proc-link" href="procedures/verruca-treatment/" aria-label="View Verruca Treatment">Verruca Treatment</a></li>
+          <li><a class="proc-link" href="procedures/corn-removal/" aria-label="View Corn Removal">Corn Removal</a></li>
+          <li><a class="proc-link" href="procedures/long-nails/" aria-label="View Long Nails">Long Nails</a></li>
+          <li><a class="proc-link" href="procedures/fungal-nails/" aria-label="View Fungal Nails">Fungal Nails</a></li>
+        </ul>
+          <h3>Physiotherapy</h3>
+          <ul class="mega-list">
+            <li><a class="proc-link" href="procedures/shockwave-therapy/" aria-label="View Shockwave Therapy">Shockwave Therapy</a></li>
+            <li><a class="proc-link" href="procedures/myofascial-release/" aria-label="View Myofascial Release">Myofascial Release</a></li>
+            <li><a class="proc-link" href="procedures/triggerpoint-therapy/" aria-label="View Triggerpoint Therapy">Triggerpoint Therapy</a></li>
+            <li><a class="proc-link" href="procedures/exercise-rehabilitation/" aria-label="View Exercise Rehabilitation">Exercise Rehabilitation</a></li>
+            <li><a class="proc-link" href="procedures/electrotherapy/" aria-label="View Electrotherapy">Electrotherapy</a></li>
+            <li><a class="proc-link" href="procedures/dry-needling/" aria-label="View Dry Needling">Dry Needling</a></li>
+            <li><a class="proc-link" href="procedures/cupping-therapy/" aria-label="View Cupping Therapy">Cupping Therapy</a></li>
+            <li><a class="proc-link" href="procedures/accupunture/" aria-label="View Accupunture">Accupunture</a></li>
+          </ul>
+        
+
+        </div>
+      </div>
+  </header>
+
+  <div id="mobile-menu" class="mobile-panel" aria-hidden="true">
+    <button class="menu-close" aria-label="Close menu">✕</button>
+    <div class="container">
+      <ul>
+        <li><a href="./#services">Services</a></li>
+        <li class="mobile-has-sub">
+          <button id="mobile-procedures-trigger" class="mobile-sub-toggle" aria-expanded="false" aria-controls="mobile-procedures-menu">Procedures</button>
+          <div id="mobile-procedures-menu" class="mobile-subpanel" hidden>
+            <div class="mobile-subcontent">
+              <h3>Podiatry</h3>
+              <ul class="mobile-sublist">
+                <li>Bunion correction</li>
+                <li>Hammertoe correction</li>
+                <li>Surgical corn removal</li>
+                <li>Toe shortening</li>
+                <li>Ingrown toe nail removal</li>
+              </ul>
+              <h3>Chiropody</h3>
+            </div>
+          </div>
+        </li>
+        <li><a href="./#team">Team</a></li>
+        <li><a href="./#fees">Fees</a></li>
+        <li><a href="./#contact">Contact</a></li>
+        <li class="mobile-booking"><a class="btn primary" href="booking.html" aria-current="page">Book online</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <main id="main">
+    <section id="booking" aria-labelledby="b-heading">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Booking</div>
+            <h2 id="b-heading">Book an appointment</h2>
+          </div>
+        </div>
+
+        <!-- Placeholder booking form (adjust or replace with your provider embed) -->
+        <form class="contact-form" aria-label="Booking form" action="https://formsubmit.co/b457907e6c2ccbd5c7c3c5de02439cdd" method="POST">
+          <!-- FormSubmit options -->
+          <input type="hidden" name="_subject" value="New Booking Request">
+          <input type="hidden" name="_template" value="table">
+          <!-- Honey pot (spam trap) -->
+          <input type="text" name="_honey" style="display:none">
+          <!-- Enable CAPTCHA challenge -->
+          <input type="hidden" name="_captcha" value="true">
+          <!-- After submit, redirect to local success page (extensionless) -->
+          <input type="hidden" name="_next" value="success/">
+          <label>
+            <span class="sr-only">Full name</span>
+            <input required type="text" name="name" placeholder="Full name" aria-label="Full name">
+          </label>
+          <label>
+            <span class="sr-only">Email</span>
+            <input required type="email" name="email" placeholder="Email" aria-label="Email">
+          </label>
+          <label>
+            <span class="sr-only">Phone</span>
+            <input required type="tel" name="phone" placeholder="Phone" aria-label="Phone">
+          </label>
+          <label>
+            <span class="sr-only">Service</span>
+            <select name="service" aria-label="Select a service">
+              <option value="New Patient Assessment">New Patient Assessment</option>
+              <option value="Routine Care">Routine Care</option>
+              <option value="Gait Analysis">Gait Analysis</option>
+              <option value="Minor Surgery">Minor Surgery</option>
+              <option value="Orthotics & Insoles">Orthotics & Insoles</option>
+            </select>
+          </label>
+          <label>
+            <span class="sr-only">Preferred date</span>
+            <input type="date" name="date" aria-label="Preferred date">
+          </label>
+          <label>
+            <span class="sr-only">Notes</span>
+            <textarea name="notes" rows="4" placeholder="Notes (optional)" aria-label="Notes (optional)"></textarea>
+          </label>
+          <button class="btn primary" type="submit">Request booking</button>
+        </form>
+
+        <p class="muted-text" style="margin-top: .75rem">Prefer to call? Phone <a href="tel:+441234567890">01234 567 890</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="grid">
+        <div>
+          <div class="brand footer-brand">
+            <img class="brand-logo" src="images/fac logo blue.jpg" alt="Foot & Ankle Centre logo" width="40" height="40">
+            <strong>Foot & Ankle Centre</strong>
+          </div>
+          <p class="footer-text">Evidence‑based podiatry to help you stay active. Book online or call to speak with our team.</p>
+        </div>
+        <div>
+          <strong>Clinic</strong>
+          <ul class="footer-links">
+            <li><a href="#services">Services</a></li>
+            <li><a href="#team">Team</a></li>
+            <li><a href="#fees">Fees</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <strong>Hours</strong>
+          <ul class="footer-links">
+            <li>Mon–Fri: 8am - 6pm</li>
+            <li>Sat: 9am - 1pm</li>
+            <li>Sun: Closed</li>
+          </ul>
+        </div>
+      </div>
+      <div class="bottom">
+        <small>© <span id="year"></span> Foot & Ankle Centre — HCPC Reg. CH123456</small>
+        <small>Website template by You — Built with semantic HTML, CSS & JS</small>
+      </div>
+    </div>
+  </footer>
+
+  <!-- External JS -->
+  <script src="script.js"></script>
+</body>
+</html>
