@@ -256,6 +256,7 @@ nav[aria-label="Main"] {
     padding-right: .25rem; /* small gutter for scrollbar */
   }
   .mobile-subcontent h3 { margin: 0; font-size: 1.05rem; font-weight: 700; }
+  .mobile-subcontent h3 a { text-decoration: none; color: inherit; display: block; padding: .25rem 0; }
   .mobile-sublist { list-style: none; margin: .25rem 0 0; padding: 0; display: flex; flex-direction: column; gap: .35rem; font-weight: 500; }
   /* Submenu item text: smaller and not bold */
   .mobile-sublist a { font-size: 1rem; font-weight: 400; padding: .5rem 0; }
@@ -407,8 +408,9 @@ section{padding:clamp(2rem,5vw,4rem) 0}
 .mega-panel{position:absolute;left:0;right:0;top:100%;z-index:60;background:#fff;border:1px solid rgba(13,27,42,.08);border-radius:14px;box-shadow:0 10px 30px rgba(13,27,42,.12);padding:1rem;margin-top:.5rem;opacity:0;transform:translateY(-8px) scaleY(.98);transform-origin:top;visibility:hidden;pointer-events:none;transition:opacity .22s ease,transform .22s ease}
 .mega-panel.open{opacity:1;transform:translateY(0) scaleY(1);visibility:visible;pointer-events:auto}
 .mega-panel.closing{visibility:visible;pointer-events:none}
-.mega-content{display:grid;grid-template-columns:1fr 1fr;gap:.5rem 2rem;align-items:start;grid-auto-flow:row dense}
+  .mega-content{display:grid;grid-template-columns:1fr 1fr;gap:.5rem 2rem;align-items:start;grid-auto-flow:row dense}
 .mega-content h3{margin:0;font-size:1.05rem}
+.mega-content h3 a{ text-decoration: none; color: inherit; }
 .mega-list{list-style:none;margin:.25rem 0 0;padding:0;display:flex;flex-direction:column;gap:.35rem}
 .mega-list a,.mobile-sublist a{text-decoration:none;color:inherit;display:block}
 .mega-list li{transition:color .15s ease}
