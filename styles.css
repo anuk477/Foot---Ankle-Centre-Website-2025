@@ -251,9 +251,28 @@ nav[aria-label="Main"] {
   /* Make Procedures submenu scrollable within the mobile dropdown */
   .mobile-subpanel.open .mobile-subcontent {
     max-height: 60vh;
-    overflow-y: auto;
+    overflow-y: scroll; /* always show scrollbar to hint scrollability */
     -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: var(--brand-primary) transparent; /* Firefox thumb & track */
+    scrollbar-gutter: stable; /* Reserve space when possible */
     padding-right: .25rem; /* small gutter for scrollbar */
+  }
+
+  /* WebKit scrollbar styling for mobile Procedures submenu */
+  .mobile-subpanel .mobile-subcontent::-webkit-scrollbar {
+    width: 6px;
+  }
+  .mobile-subpanel .mobile-subcontent::-webkit-scrollbar-track {
+    background: rgba(13, 27, 42, 0.06); /* subtle track */
+    border-radius: 8px;
+  }
+  .mobile-subpanel .mobile-subcontent::-webkit-scrollbar-thumb {
+    background: var(--brand-primary);
+    border-radius: 8px;
+  }
+  .mobile-subpanel .mobile-subcontent::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in oklab, var(--brand-primary) 85%, black);
   }
   .mobile-subcontent h3 { margin: 0; font-size: 1.05rem; font-weight: 700; }
   .mobile-subcontent h3 a { text-decoration: none; color: inherit; display: block; padding: .25rem 0; }
