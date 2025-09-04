@@ -448,7 +448,7 @@ section{padding:clamp(2rem,5vw,4rem) 0}
 @media (max-width: 860px){
   .brand strong{font-size:.95rem;line-height:1.1}
 }
-.testimonial-track{display:flex;gap:0;overflow-x:auto;scroll-snap-type:none;padding-bottom:.5rem;-ms-overflow-style:none;scrollbar-width:none;max-height:400px;overflow-y:hidden}
+.testimonial-track{display:flex;gap:0;overflow-x:auto;scroll-snap-type:none;padding-bottom:.5rem;-ms-overflow-style:none;scrollbar-width:none;max-height:400px;overflow-y:hidden;-webkit-overflow-scrolling:touch}
 .testimonial-track::-webkit-scrollbar{display:none}
 
 /* Procedures mega panel */
