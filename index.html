@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script>
+    (function(){
+      try{
+        var l=window.location,p=l.protocol;
+        if(p==='http:'||p==='https:'){
+          var path=l.pathname;
+          if(/\/index\.html$/i.test(path)){
+            var clean=path.replace(/index\.html$/i,'');
+            history.replaceState(null,'',clean+l.search+l.hash);
+          }else if(/\.html$/i.test(path)){
+            var clean2=path.replace(/\.html$/i,'');
+            history.replaceState(null,'',clean2+l.search+l.hash);
+          }
+        }
+      }catch(e){}
+    })();
+  </script>
+  <title>Foot & Ankle Centre</title>
+  <meta name="description" content="Caring, qualified foot & ankle specialists. Book an appointment online or call our friendly reception team." />
+
+  <!-- Font (optional) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a href="#main" class="sr-only">Skip to main content</a>
+
+  <!-- Header -->
+  <header>
+    <div class="container topbar" role="navigation" aria-label="Primary">
+      <a class="brand" href="#" aria-label="Foot & Ankle Centre Home">
+        <img class="brand-logo" src="images/fac logo blue.jpg" alt="Foot & Ankle Centre logo" width="40" height="40">
+        <div>
+          <strong>Foot & Ankle Centre</strong><br>
+          <small class="muted-text">Podiatry Clinic</small>
+        </div>
+      </a>
+
+      <nav aria-label="Main">
+        <ul>
+          <li><a href="#services" aria-current="page">Services</a></li>
+          <li><a id="procedures-trigger" href="#procedures" aria-expanded="false" aria-controls="procedures-menu">Procedures</a></li>
+          <li><a href="#team">Team</a></li>
+          <li><a href="#fees">Fees</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a class="btn ghost" href="tel:+442085244516" aria-label="Call clinic">Call</a>
+        <a class="btn primary" href="booking.html" aria-label="Book an appointment">Book<span class="hide-sm"> Online</span></a>
+        <button class="btn ghost menu-toggle" aria-expanded="false" aria-controls="mobile-menu">Menu</button>
+      </div>
+    
+      <!-- Procedures dropdown (spans navbar width) -->
+      <div id="procedures-menu" class="mega-panel" aria-hidden="true">
+        <div class="mega-content">
+          <h3>Podiatry</h3>
+          <ul class="mega-list">
+            <li><a class="proc-link" href="procedures/toe-shortening/" aria-label="View Toe Shortening">Toe Shortening</a></li>
+            <li><a class="proc-link" href="procedures/corn-removal-surgery/" aria-label="View Corn Removal Surgery">Corn Removal Surgery</a></li>
+            <li><a class="proc-link" href="procedures/bunion-correction/" aria-label="View Bunion Correction">Bunion Correction</a></li>
+            <li><a class="proc-link" href="procedures/webbed-toe-separation/" aria-label="View Webbed Toe Separation">Webbed Toe Separation</a></li>
+            <li><a class="proc-link" href="procedures/hammertoe-correction/" aria-label="View Hammertoe Correction">Hammertoe Correction</a></li>
+            <li><a class="proc-link" href="procedures/ingrowing-toenail-removal/" aria-label="View Ingrowing Toenail Removal">Ingrowing Toenail Removal</a></li>
+          </ul>
+          <h3>Chiropody</h3>
+          <ul class="mega-list">
+          <li><a class="proc-link" href="procedures/hard-skin-removal/" aria-label="View Hard Skin Removal">Hard Skin Removal</a></li>
+          <li><a class="proc-link" href="procedures/verruca-treatment/" aria-label="View Verruca Treatment">Verruca Treatment</a></li>
+          <li><a class="proc-link" href="procedures/corn-removal/" aria-label="View Corn Removal">Corn Removal</a></li>
+          <li><a class="proc-link" href="procedures/long-nails/" aria-label="View Long Nails">Long Nails</a></li>
+          <li><a class="proc-link" href="procedures/fungal-nails/" aria-label="View Fungal Nails">Fungal Nails</a></li>
+        </ul>
+          <h3>Physiotherapy</h3>
+          <ul class="mega-list">
+            <li><a class="proc-link" href="procedures/shockwave-therapy/" aria-label="View Shockwave Therapy">Shockwave Therapy</a></li>
+            <li><a class="proc-link" href="procedures/myofascial-release/" aria-label="View Myofascial Release">Myofascial Release</a></li>
+            <li><a class="proc-link" href="procedures/triggerpoint-therapy/" aria-label="View Triggerpoint Therapy">Triggerpoint Therapy</a></li>
+            <li><a class="proc-link" href="procedures/exercise-rehabilitation/" aria-label="View Exercise Rehabilitation">Exercise Rehabilitation</a></li>
+            <li><a class="proc-link" href="procedures/electrotherapy/" aria-label="View Electrotherapy">Electrotherapy</a></li>
+            <li><a class="proc-link" href="procedures/dry-needling/" aria-label="View Dry Needling">Dry Needling</a></li>
+            <li><a class="proc-link" href="procedures/cupping-therapy/" aria-label="View Cupping Therapy">Cupping Therapy</a></li>
+            <li><a class="proc-link" href="procedures/accupunture/" aria-label="View Accupunture">Accupunture</a></li>
+          </ul>
+        
+
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <div id="mobile-menu" class="mobile-panel" aria-hidden="true">
+    <button class="menu-close" aria-label="Close menu">✕</button>
+    <div class="container">
+      <ul>
+        <li><a href="#services">Services</a></li>
+        <li class="mobile-has-sub">
+          <button id="mobile-procedures-trigger" class="mobile-sub-toggle" aria-expanded="false" aria-controls="mobile-procedures-menu">Procedures</button>
+          <div id="mobile-procedures-menu" class="mobile-subpanel" hidden>
+            <div class="mobile-subcontent">
+              <h3>Podiatry</h3>
+              <ul class="mobile-sublist">
+                <li><a class="proc-link" href="procedures/bunion-correction.html" aria-label="View Bunion correction">Bunion correction</a></li>
+                <li><a class="proc-link" href="procedures/hammertoe-correction.html" aria-label="View Hammertoe correction">Hammertoe correction</a></li>
+                <li><a class="proc-link" href="procedures/corn-removal-surgery.html" aria-label="View Surgical corn removal">Surgical corn removal</a></li>
+                <li><a class="proc-link" href="procedures/toe-shortening.html" aria-label="View Toe shortening">Toe shortening</a></li>
+                <li><a class="proc-link" href="procedures/ingrowing-toenail-removal.html" aria-label="View Ingrown toe nail removal">Ingrown toe nail removal</a></li>
+              </ul>
+              <h3>Chiropody</h3>
+              <ul class="mobile-sublist">
+                <li><a class="proc-link" href="procedures/hard-skin-removal.html" aria-label="View Hard Skin Removal">Hard Skin Removal</a></li>
+                <li><a class="proc-link" href="procedures/verruca-treatment.html" aria-label="View Verruca Treatment">Verruca Treatment</a></li>
+                <li><a class="proc-link" href="procedures/corn-removal.html" aria-label="View Corn Removal">Corn Removal</a></li>
+                <li><a class="proc-link" href="procedures/long-nails.html" aria-label="View Long Nails treatment">Long Nails</a></li>
+                <li><a class="proc-link" href="procedures/fungal-nails.html" aria-label="View Fungal Nails treatment">Fungal Nails</a></li>
+              </ul>
+              <h3>Physiotherapy</h3>
+              <ul class="mobile-sublist">
+                <li><a class="proc-link" href="procedures/shockwave-therapy.html" aria-label="View Shockwave Therapy">Shockwave Therapy</a></li>
+                <li><a class="proc-link" href="procedures/myofascial-release.html" aria-label="View Myofascial Release">Myofascial Release</a></li>
+                <li><a class="proc-link" href="procedures/triggerpoint-therapy.html" aria-label="View Triggerpoint Therapy">Triggerpoint Therapy</a></li>
+                <li><a class="proc-link" href="procedures/exercise-rehabilitation.html" aria-label="View Exercise Rehabilitation">Exercise Rehabilitation</a></li>
+                <li><a class="proc-link" href="procedures/electrotherapy.html" aria-label="View Electrotherapy">Electrotherapy</a></li>
+                <li><a class="proc-link" href="procedures/dry-needling.html" aria-label="View Dry Needling">Dry Needling</a></li>
+                <li><a class="proc-link" href="procedures/cupping-therapy.html" aria-label="View Cupping Therapy">Cupping Therapy</a></li>
+                <li><a class="proc-link" href="procedures/accupunture.html" aria-label="View Accupunture">Accupunture</a></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li><a href="#team">Team</a></li>
+        <li><a href="#fees">Fees</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li class="mobile-booking"><a class="btn primary" href="booking.html">Book online</a></li>
+      </ul>
+    </div>
+  </div>
+  
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container wrap">
+      <div>
+        <span class="badge">HCPC Registered</span>
+        <h1>
+            Expert foot care in 
+            <span id="clinic-location" class="animated-location">Chingford</span>
+          </h1>
+          
+        <p>From routine nail care to advanced biomechanical assessments, we help you stay active and pain‑free. Same‑week appointments available.</p>
+        <div class="cta">
+          <a class="btn primary" href="booking.html">Book an appointment</a>
+          <a class="btn ghost" href="#services">See our services</a>
+        </div>
+        <ul class="hero-features">
+          <li>Accessible ground‑floor clinic</li>
+          <li>Free parking</li>
+          <li>NHS referrals welcome</li>
+        </ul>
+      </div>
+      <!-- <div class="hero-visual" aria-hidden="true">
+        <div class="hero-cards">
+          <div class="hero-card"><strong>New Patient</strong><br><small>Assessment · 45 mins</small></div>
+          <div class="hero-card"><strong>Routine Care</strong><br><small>Nails · Hard skin</small></div>
+          <div class="hero-card"><strong>Sports Rehab</strong><br><small>Gait · Orthotics</small></div>
+        </div> -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust bar -->
+  <div class="trust" role="region" aria-label="We work with">
+    <div class="container logos">
+      <span>HCPC</span>
+      <span>Royal College of Podiatry</span>
+      <span>AXA</span>
+      <span>Bupa</span>
+      <span>Vitality</span>
+    </div>
+  </div>
+
+  <main id="main">
+    <!-- Services -->
+    <section id="services" aria-labelledby="s-heading">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Our services</div>
+            <h2 id="s-heading">Comprehensive podiatry for every step</h2>
+          </div>
+          <a class="btn ghost" href="#fees">View fees</a>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <div class="icon" aria-hidden="true">GC</div>
+            <h3>General Chiropody</h3>
+            <p>Full assessment, treatment plan and immediate care where appropriate. Ideal for first‑time visitors.</p>
+            <div class="meta"><span>45 mins</span><a href="booking.html">Book</a></div>
+          </article>
+          <article class="card">
+            <div class="icon" aria-hidden="true">FAS</div>
+            <h3>Foot & Ankle Surgery</h3>
+            <p>Nail care, removal of hard skin and corns, advice on home care and footwear to keep you comfortable.</p>
+            <div class="meta"><span>30 mins</span><a href="booking.html">Book</a></div>
+          </article>
+          <article class="card">
+            <div class="icon" aria-hidden="true">MS</div>
+            <h3>Minor Surgery</h3>
+            <p>Video gait assessment and custom orthotic prescriptions for sports performance and injury prevention.</p>
+            <div class="meta"><span>60 mins</span><a href="booking.html">Book</a></div>
+          </article>
+          <article class="card">
+            <div class="icon" aria-hidden="true">MI</div>
+            <h3>Musculoskeletal Injuries</h3>
+            <p>Evidence‑based options including cryotherapy and needling, selected to suit your age and lifestyle.</p>
+            <div class="meta"><span>30–45 mins</span><a href="#booking">Book</a></div>
+          </article>
+          <article class="card">
+            <div class="icon" aria-hidden="true">O&I</div>
+            <h3>Orthotics & Insoles</h3>
+            <p>Conservative care and, if needed, minor surgery (partial nail avulsion) performed under local anaesthetic.</p>
+            <div class="meta"><span>45–60 mins</span><a href="#booking">Book</a></div>
+          </article>
+          <article class="card">
+            <div class="icon" aria-hidden="true">P</div>
+            <h3>Physiotherapy</h3>
+            <p>Assessment of children’s foot development, flat feet, toe‑walking and activity‑related pain.</p>
+            <div class="meta"><span>45 mins</span><a href="booking.html">Book</a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Procedures -->
+    <section id="Before & Afters" aria-labelledby="p-heading">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Before & Afters</div>
+            <h2 id="p-heading">Cosmetic Foot Surgery Before & Afters</h2>
+          </div>
+        </div>
+        <div class="ba-carousel-wrapper">
+          <button class="ba-nav ba-prev" aria-label="Previous before and after">&#10094;</button>
+          <div class="ba-carousel" id="ba-carousel" aria-live="polite">
+          <article class="card">
+            <h3 class="center-text">Toe Shortening Surgery</h3>
+            <img src="images/Toe shortening surgery.jpg" alt="Toe shortening surgery before and after" loading="lazy">
+            <div class="ba-labels">
+              <div>Before</div>
+              <div>After</div>
+            </div>
+            <a class="stretched-link" href="procedures/toe-shortening/" aria-label="View Toe Shortening procedure page"></a>
+          </article>
+          <article class="card">
+            <h3 class="center-text">Corn Removal Surgery</h3>
+            <img src="images/corn removal.jpg" alt="Toe shortening surgery before and after" loading="lazy">
+            <div class="ba-labels">
+              <div>Before</div>
+              <div>After</div>
+            </div>
+            <a class="stretched-link" href="procedures/corn-removal-surgery/" aria-label="View Corn Removal Surgery procedure page"></a>
+          </article>
+          <article class="card">
+            <h3 class="center-text">Bunion Correction</h3>
+            <img src="images/bunion surgery.jpg" alt="Toe shortening surgery before and after" loading="lazy">
+            <div class="ba-labels">
+              <div>Before</div>
+              <div>After</div>
+            </div>
+            <a class="stretched-link" href="procedures/bunion-correction/" aria-label="View Bunion Correction procedure page"></a>
+          </article>
+          <!-- Additional Before & After cards -->
+          <article class="card">
+            <h3 class="center-text">Webbed Toe Separation</h3>
+            <img src="images/webbed toe.jpg" alt="Ingrown toenail removal before and after" loading="lazy">
+            <div class="ba-labels">
+              <div>Before</div>
+              <div>After</div>
+            </div>
+            <a class="stretched-link" href="procedures/webbed-toe-separation/" aria-label="View Webbed Toe Separation procedure page"></a>
+          </article>
+          <article class="card">
+            <h3 class="center-text">Hammertoe Correction</h3>
+            <img src="images/hammertoe.jpg" alt="Hammertoe correction before and after" loading="lazy">
+            <div class="ba-labels">
+              <div>Before</div>
+              <div>After</div>
+            </div>
+            <a class="stretched-link" href="procedures/hammertoe-correction/" aria-label="View Hammertoe Correction procedure page"></a>
+          </article>
+          <article class="card">
+            <h3 class="center-text">Callus Removal</h3>
+            <img src="images/bunion surgery.jpg" alt="Callus removal before and after" loading="lazy">
+            <div class="ba-labels">
+              <div>Before</div>
+              <div>After</div>
+            </div>
+          </article>
+          <article class="card">
+            <h3 class="center-text">Ingrown Toenail Removal</h3>
+            <img src="images/Toe shortening surgery.jpg" alt="Ingrown toenail removal before and after" loading="lazy">
+            <div class="ba-labels">
+              <div>Before</div>
+              <div>After</div>
+            </div>
+            <a class="stretched-link" href="procedures/ingrowing-toenail-removal/" aria-label="View Ingrown Toenail Removal procedure page"></a>
+          </article>
+          <article class="card">
+            <h3 class="center-text">Shockwave Therapy</h3>
+            <img src="images/hammertoe.jpg" alt="Shockwave therapy before and after" loading="lazy">
+            <div class="ba-labels">
+              <div>Before</div>
+              <div>After</div>
+            </div>
+            <a class="stretched-link" href="procedures/shockwave-therapy/" aria-label="View Shockwave Therapy procedure page"></a>
+          </article>
+          </div>
+          <button class="ba-nav ba-next" aria-label="Next before and after">&#10095;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- About / Feature -->
+    <section class="feature" id="team" aria-labelledby="t-heading">
+      <div class="container split">
+        <div>
+          <div class="kicker">Why choose us</div>
+          <h2 id="t-heading">Qualified, friendly, and focused on outcomes</h2>
+          <p>Our HCPC‑registered podiatrists combine clinical expertise with a welcoming approach. We’ll take time to understand your goals, explain your options clearly, and tailor your treatment plan.</p>
+          <ul>
+            <li>HCPC registered clinicians</li>
+            <li>Evening & weekend appointments</li>
+            <li>Accessible, ground‑floor clinic</li>
+          </ul>
+          <div class="cta-line">
+            <a class="btn primary" href="#booking">Book Online</a>
+            <a class="btn ghost" href="#contact">Find our clinic</a>
+          </div>
+        </div>
+        <div>
+          <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=1200&auto=format&fit=crop" alt="Clinician talking with a patient in a bright clinic room" loading="lazy" class="team-image">
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials" aria-labelledby="r-heading">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Patient reviews</div>
+            <h2 id="r-heading">Kind words from our community</h2>
+          </div>
+        </div>
+        <div class="testimonial-track" id="quotes">
+          <figure class="quote" data-name="Georgia W" data-avatar="https://lh3.googleusercontent.com/a/ACg8ocINnf68pnBZCR2u0BF5IY7foWnlL8BnSFPdw1EwtpSpANgMQw=w90-h90-p-rp-mo-br100" data-posted="2025-05" data-posted-label="May 2025" data-link="https://share.google/hk3bQWdBNepaCoJeQ">
+            <blockquote>
+              <p>I had a really great experience at the Foot and Ankle Centre. The staff took excellent care of me from start to finish, making me feel comfortable and well looked after. They took the time to explain the procedure thoroughly and answered all my questions with patience and clarity. The facility itself was immaculate, creating a clean and professional environment. I highly recommend this clinic to anyone in need of foot and ankle care!</p>
+            </blockquote>
+            <figcaption>— Georgia W</figcaption>
+          </figure>
+          <figure class="quote" data-name="Linda Lancaster" data-link="https://share.google/YqDysWTajfUAsV4Vo" data-avatar="https://lh3.googleusercontent.com/a-/ALV-UjUMyWu7-nsPOQvYO4PtkPNnzQysaorIlO8P-Qo35AYl4btb3lbX=w90-h90-p-rp-mo-ba7-br100">
+            <blockquote>
+              <p>Excellent foot & ankle medical centre. Very welcoming, lovely environment and high professional customer service from beginning to end. Surgeon and his team were absolutely brilliant. Highly recommended 👌...thank you. Linda</p>
+            </blockquote>
+            <figcaption>— Linda Lancaster</figcaption>
+          </figure>
+          <figure class="quote" data-name="Stacey Wood" data-rating="5" data-avatar="https://lh3.googleusercontent.com/a/ACg8ocL7M7X9ObDHXcQiIeDObNay9XaPhMbKuCZdSHeC394lG-m9PIp4=w90-h90-p-rp-mo-br100" data-link="https://share.google/f22THz5YUaFS6l0TI">
+            <blockquote>
+              <p>Cannot recommend Mr Olivelle highly enough. We have been to the clinic several times over the last year for my daughters ingrowing toenails...he is helpful, kind, professional and always put my daughter at ease. A really nice man.
+Big shout out for the reception staff too who were always really helpful and great at communicating</p>
+            </blockquote>
+            <figcaption>— Stacey Wood</figcaption>
+          </figure>
+          <!-- Additional testimonials -->
+          <figure class="quote" data-name="Poppy Allen" data-rating="5" data-posted="2024-10" data-posted-label="Oct 2024" data-avatar="https://lh3.googleusercontent.com/a/ACg8ocI8RQGLS79INqnPD7OKZ5ADKdzH1LrQ3AMI-7wt5APhJRtH1A=w90-h90-p-rp-mo-br100" data-link="https://share.google/AoQldkh4k0tY6x30j">
+            <blockquote>
+              <p>My family and I have been clients of Ms Gupta for over 5 years. She does magic tidying up my neglected feet and has been brilliant treating my children’s various veruccas. Always a friendly welcome from the helpful reception staff. I wouldn’t hesitate to recommend the clinic.</p>
+            </blockquote>
+            <figcaption>— Poppy Allen</figcaption>
+          </figure>
+          <figure class="quote" data-name="Mona Mayo" data-rating="5" data-posted="2025-01" data-posted-label="Jan 2025" data-avatar="https://lh3.googleusercontent.com/a/ACg8ocLhXHa4kLQIh61aK0j88KUr6C8fKk1H5mo5egZmunWKyOfisg=w90-h90-p-rp-mo-br100" data-link="https://share.google/pmCfT9r1g0yf2QLBB">
+            <blockquote>
+              <p>I found the staff very kind and helpful. The practitioners were also very helpful and thorough. Ms Gupta referred me to Mr Olivelle for an ultrasound evaluation and I now know what is causing the pain in my feet, I can get the appropriate treatment. I can recommend this clinic unreservedly</p>
+            </blockquote>
+            <figcaption>— Mona Mayo</figcaption>
+          </figure>
+          <figure class="quote" data-name="Melanie Okine" data-rating="5" data-posted="2024-08" data-posted-label="Aug 2024" data-avatar="https://lh3.googleusercontent.com/a-/ALV-UjVTUoaeGMmiCu_mzGfHYpbIWafF5rN2xRz0aQsgZ5QTflex_c6T=w90-h90-p-rp-mo-br100" data-link="https://share.google/fCZpCqXoOU7vpky6j">
+            <blockquote>
+              <p>Very pleased with the service today my anesthetist was absolutely amazing throughout. I have just had surgery and I was put at ease throughout the entire procedure. The surgeon was very confident, and it seemed effortless, and the receptionist was amazing and made sure I was comfortable and even walked me out to my Uber and stayed with me until I was inside the car. I am very impressed with the service I received today.</p>
+            </blockquote>
+            <figcaption>- Melanie Okine</figcaption>
+          </figure>
+        </div>
+        <div class="reviews-cta">
+          <a class="google-rating" href="https://www.google.com/maps/place/Foot+%26+Ankle+Centre/@51.6325376,0.0040871,17z/data=!4m8!3m7!1s0x47d8a084908fa595:0x8732a1150dc73d94!8m2!3d51.6325343!4d0.0066674!9m1!1b1!16s%2Fg%2F1tfkkff6?hl=en-GB&entry=ttu&g_ep=EgoyMDI1MDgzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener" title="View Google reviews">
+            <img src="https://ssl.gstatic.com/images/branding/googlelogo/2x/googlelogo_color_74x24dp.png" alt="Google" height="20">
+            <span class="stars" aria-hidden="true" style="--rating:4.6"></span>
+            <span class="sr-only">Rated 4.6 out of 5 stars</span>
+           <span class="muted-text">50+ Reviews</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fees -->
+    <section id="fees" aria-labelledby="f-heading">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Fees</div>
+            <h2 id="f-heading">Clear, transparent pricing</h2>
+          </div>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <h3>New Patient Assessment</h3>
+            <p>Comprehensive assessment with treatment where appropriate.</p>
+            <div class="meta"><strong>£65</strong><a href="#booking">Book</a></div>
+          </article>
+          <article class="card">
+            <h3>Routine Care</h3>
+            <p>Follow‑up appointment for nail carcane, corns and callus.</p>
+            <div class="meta"><strong>£48</strong><a href="#booking">Book</a></div>
+          </article>
+          <article class="card">
+            <h3>Gait Analysis</h3>
+            <p>Includes video analysis and tailored rehab plan.</p>
+            <div class="meta"><strong>£85</strong><a href="#booking">Book</a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact / Map placeholder -->
+    <section id="contact" aria-labelledby="c-heading">
+      <div class="container split">
+        <div>
+          <div class="kicker">Contact</div>
+          <h2 id="c-heading">We’d love to hear from you</h2>
+          <p>Call our friendly reception team or use the form to request an appointment. We respond within one business day.</p>
+          <ul class="contact-list">
+            <li><strong>Phone:</strong> <a href="tel:+442085244516">0208 524 4516</a></li>
+            <li><strong>Email:</strong> <a href="mailto:enquiries@footandanklecentre.com">enquiries@footandanklecentre.com</a></li>
+            <li><strong>Address:</strong> Stationhouse Medical Centre, 66 Station Road, E4 7BA</li>
+          </ul>
+          <form class="contact-form" aria-label="Contact form" action="https://formsubmit.co/b457907e6c2ccbd5c7c3c5de02439cdd" method="POST">
+            <!-- FormSubmit options -->
+            <input type="hidden" name="_subject" value="New Enquiry">
+            <input type="hidden" name="_template" value="table">
+            <!-- Honey pot (spam trap) -->
+            <input type="text" name="_honey" style="display:none">
+            <!-- Enable CAPTCHA challenge -->
+            <input type="hidden" name="_captcha" value="true">
+            <!-- After submit, redirect to local success page (extensionless) -->
+            <input type="hidden" name="_next" value="success/">
+            <label>
+              <span class="sr-only">Your name</span>
+              <input required type="text" name="name" placeholder="Your name" aria-label="Your name">
+            </label>
+            <label>
+              <span class="sr-only">Email address</span>
+              <!-- FormSubmit uses _replyto to set Reply-To -->
+              <input required type="email" name="_replyto" placeholder="Email address" aria-label="Email address">
+            </label>
+            <label>
+              <span class="sr-only">Message</span>
+              <textarea required name="message" placeholder="How can we help?" aria-label="Your message" rows="4"></textarea>
+            </label>
+            <button class="btn primary" type="submit">Send message</button>
+          </form>
+        </div>
+        <div class="map-placeholder">
+          <div class="map-inner">
+            <div class="icon">📍</div>
+            <p>Embed your map here</p>
+            <small>Google Maps or OpenStreetMap iframe</small>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="grid">
+        <div>
+          <div class="brand footer-brand">
+            <img class="brand-logo" src="images/fac logo blue.jpg" alt="Foot & Ankle Centre logo" width="40" height="40">
+            <strong>Foot & Ankle Centre</strong>
+          </div>
+          <p class="footer-text">Evidence‑based podiatry to help you stay active. Book online or call to speak with our team.</p>
+        </div>
+        <div>
+          <strong>Clinic</strong>
+          <ul class="footer-links">
+            <li><a href="#services">Services</a></li>
+            <li><a href="#team">Team</a></li>
+            <li><a href="#fees">Fees</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <strong>Hours</strong>
+          <ul class="footer-links">
+            <li>Mon–Fri: 8am - 6pm</li>
+            <li>Sat: 9am - 1pm</li>
+            <li>Sun: Closed</li>
+          </ul>
+        </div>
+      </div>
+      <div class="bottom">
+        <small>© <span id="year"></span> Foot & Ankle Centre — HCPC Reg. CH123456</small>
+        <small>Website template by You — Built with semantic HTML, CSS & JS</small>
+      </div>
+    </div>
+  </footer>
+
+  <!-- External JS -->
+  <script src="script.js"></script>
+</body>
+</html>
