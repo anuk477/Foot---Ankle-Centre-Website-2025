@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const view = mobileSubContent.clientHeight;
     const scroll = mobileSubContent.scrollHeight;
     const topPad = 8; const bottomPad = 8; // keep in sync with CSS
-    const trackHeight = Math.max(0, mobileSubContent.clientHeight - topPad - bottomPad);
+    const trackHeight = Math.max(0, view - topPad - bottomPad);
     if (scroll <= view + 1 || trackHeight <= 0) {
       iosScrollBar.style.display = 'none';
       return;
@@ -95,7 +95,8 @@ document.addEventListener('DOMContentLoaded', () => {
       iosScrollThumb = document.createElement('div');
       iosScrollThumb.className = 'custom-scrollbar-thumb';
       iosScrollBar.appendChild(iosScrollThumb);
-      mobileSubContent.appendChild(iosScrollBar);
+      // Append to non-scrolling panel so it doesn't move with content
+      mobileProcPanel.appendChild(iosScrollBar);
     }
     if (!iosScrollHandlersBound) {
       iosScrollHandlersBound = true;

@@ -283,8 +283,8 @@ nav[aria-label="Main"] {
     width: 0 !important; /* Hide native overlay scrollbar */
     height: 0 !important;
   }
-  .is-ios .mobile-subpanel .mobile-subcontent { position: relative; }
-  .is-ios .mobile-subpanel .mobile-subcontent .custom-scrollbar {
+  .is-ios .mobile-subpanel { position: relative; }
+  .is-ios .mobile-subpanel .custom-scrollbar {
     position: absolute;
     right: 2px;
     top: 8px;
@@ -294,7 +294,7 @@ nav[aria-label="Main"] {
     pointer-events: none;
     z-index: 2;
   }
-  .is-ios .mobile-subpanel .mobile-subcontent .custom-scrollbar-thumb {
+  .is-ios .mobile-subpanel .custom-scrollbar-thumb {
     position: absolute;
     left: 0;
     width: 100%;
