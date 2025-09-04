@@ -275,8 +275,33 @@ nav[aria-label="Main"] {
     background: color-mix(in oklab, var(--brand-primary) 85%, black);
   }
 
-  /* Remove custom pseudo scrollbar; rely on native thin scrollbar */
-  .mobile-subpanel.open .mobile-subcontent { position: relative; }
+  /* iOS: hide native overlay scrollbar and show custom moving thumb */
+  .is-ios .mobile-subpanel .mobile-subcontent {
+    scrollbar-width: none; /* Firefox (not on iOS, harmless) */
+  }
+  .is-ios .mobile-subpanel .mobile-subcontent::-webkit-scrollbar {
+    width: 0 !important; /* Hide native overlay scrollbar */
+    height: 0 !important;
+  }
+  .is-ios .mobile-subpanel .mobile-subcontent { position: relative; }
+  .is-ios .mobile-subpanel .mobile-subcontent .custom-scrollbar {
+    position: absolute;
+    right: 2px;
+    top: 8px;
+    bottom: 8px;
+    width: 3px;
+    background: transparent; /* no track */
+    pointer-events: none;
+    z-index: 2;
+  }
+  .is-ios .mobile-subpanel .mobile-subcontent .custom-scrollbar-thumb {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background: var(--brand-primary);
+    border-radius: 2px;
+    transition: transform .06s linear; /* smooth but responsive */
+  }
   .mobile-subcontent h3 { margin: 0; font-size: 1.05rem; font-weight: 700; }
   .mobile-subcontent h3 a { text-decoration: none; color: inherit; display: block; padding: .25rem 0; }
   .mobile-sublist { list-style: none; margin: .25rem 0 0; padding: 0; display: flex; flex-direction: column; gap: .35rem; font-weight: 500; }
