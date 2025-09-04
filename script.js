@@ -592,33 +592,74 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     let scrollPos = 0;
-    const speed = 0.4; // pixels per frame (~24px/sec at 60fps)
+    const speed = 0.4; // px per frame (~24px/sec at 60fps) as originally
     let paused = false;
+    // Mobile interaction state
+    let userInteracting = false;
+    let idleTimer = null;
+    const idleDelay = 2000; // resume 2s after last interaction
 
     const step = () => {
       if (!paused) {
+        // Advance using fixed per-frame increment as originally
+        const half = track.scrollWidth / 2;
         scrollPos += speed;
-        // Reset seamlessly at halfway (after original content width)
-        if (scrollPos >= track.scrollWidth / 2) {
-          scrollPos = 0;
-        }
+        if (half > 0 && scrollPos >= half) scrollPos = 0;
         track.scrollLeft = scrollPos;
       }
       requestAnimationFrame(step);
     };
 
     // Pause on hover/focus for readability
-    track.addEventListener('mouseenter', () => paused = true);
-    track.addEventListener('mouseleave', () => paused = false);
-    track.addEventListener('focusin', () => paused = true);
-    track.addEventListener('focusout', () => paused = false);
+    track.addEventListener('mouseenter', () => { paused = true; });
+    track.addEventListener('mouseleave', () => { if (!userInteracting) paused = false; });
+    track.addEventListener('focusin', () => { paused = true; });
+    track.addEventListener('focusout', () => { if (!userInteracting) paused = false; });
+
+    // Mobile-only: allow user to swipe/scroll and pause auto-scroll during interaction
+    const isCoarse = (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) || 'ontouchstart' in window;
+    if (isCoarse) {
+      const pauseAuto = () => { paused = true; userInteracting = true; };
+      const resumeAutoSoon = () => {
+        if (idleTimer) clearTimeout(idleTimer);
+        idleTimer = setTimeout(() => {
+          // Continue from the current position to avoid a jump
+          scrollPos = track.scrollLeft;
+          paused = false;
+          userInteracting = false;
+        }, idleDelay);
+      };
+
+      ['touchstart','pointerdown'].forEach(evt => {
+        track.addEventListener(evt, (e) => {
+          // Only react to touch pointers for pointerdown
+          if (evt === 'pointerdown' && e.pointerType && e.pointerType !== 'touch') return;
+          pauseAuto();
+        }, { passive: true });
+      });
+
+      // While user scrolls, keep resetting the idle timer
+      track.addEventListener('scroll', () => {
+        if (!userInteracting) return; // only when user initiated
+        if (idleTimer) clearTimeout(idleTimer);
+        resumeAutoSoon();
+      }, { passive: true });
+
+      ['touchend','touchcancel','pointerup'].forEach(evt => {
+        track.addEventListener(evt, () => {
+          resumeAutoSoon();
+        }, { passive: true });
+      });
+    }
 
     // Keep position consistent on resize
     window.addEventListener('resize', () => {
-      // Clamp to current half-width loop
-      scrollPos = track.scrollLeft % (track.scrollWidth / 2);
+      // Clamp to current half-width loop and avoid jump
+      const half = track.scrollWidth / 2;
+      if (half > 0) scrollPos = track.scrollLeft % half;
     });
 
+    // Start loop
     requestAnimationFrame(step);
   }
 
