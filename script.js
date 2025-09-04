@@ -51,6 +51,61 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
   if (isIOS) document.documentElement.classList.add('is-ios');
 
+  // iOS custom scrollbar elements + helpers
+  let iosScrollBar = null;
+  let iosScrollThumb = null;
+  let iosScrollHandlersBound = false;
+  const destroyIOSScrollbar = () => {
+    if (iosScrollBar && iosScrollBar.parentNode) iosScrollBar.parentNode.removeChild(iosScrollBar);
+    iosScrollBar = null;
+    iosScrollThumb = null;
+    if (iosScrollHandlersBound && mobileSubContent) {
+      mobileSubContent.removeEventListener('scroll', updateIOSScrollbar, { passive: true });
+      window.removeEventListener('resize', updateIOSScrollbar);
+    }
+    iosScrollHandlersBound = false;
+  };
+  const updateIOSScrollbar = () => {
+    if (!isIOS || !mobileSubContent || !iosScrollBar || !iosScrollThumb) return;
+    const view = mobileSubContent.clientHeight;
+    const scroll = mobileSubContent.scrollHeight;
+    const topPad = 8; const bottomPad = 8; // keep in sync with CSS
+    const trackHeight = Math.max(0, mobileSubContent.clientHeight - topPad - bottomPad);
+    if (scroll <= view + 1 || trackHeight <= 0) {
+      iosScrollBar.style.display = 'none';
+      return;
+    }
+    iosScrollBar.style.display = 'block';
+    // Thumb size proportional to visible area
+    const minThumb = 20; // px minimum for usability
+    const thumbHeight = Math.max(minThumb, Math.round((view / scroll) * trackHeight));
+    iosScrollThumb.style.height = thumbHeight + 'px';
+    // Thumb position based on scrollTop
+    const maxScroll = scroll - view;
+    const maxThumbTop = trackHeight - thumbHeight;
+    const ratio = maxScroll > 0 ? (mobileSubContent.scrollTop / maxScroll) : 0;
+    const thumbTop = Math.round(ratio * maxThumbTop);
+    iosScrollThumb.style.transform = `translateY(${topPad + thumbTop}px)`;
+  };
+  const ensureIOSScrollbar = () => {
+    if (!isIOS || !mobileSubContent) return;
+    if (!iosScrollBar) {
+      iosScrollBar = document.createElement('div');
+      iosScrollBar.className = 'custom-scrollbar';
+      iosScrollThumb = document.createElement('div');
+      iosScrollThumb.className = 'custom-scrollbar-thumb';
+      iosScrollBar.appendChild(iosScrollThumb);
+      mobileSubContent.appendChild(iosScrollBar);
+    }
+    if (!iosScrollHandlersBound) {
+      iosScrollHandlersBound = true;
+      mobileSubContent.addEventListener('scroll', updateIOSScrollbar, { passive: true });
+      window.addEventListener('resize', updateIOSScrollbar);
+    }
+    // Defer update to next frame so layout is final
+    requestAnimationFrame(updateIOSScrollbar);
+  };
+
   if (toggle && panel) {
     // Ensure menu is hidden on load
     panel.classList.remove('open');
@@ -345,8 +400,8 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileProcPanel.style.maxHeight = mobileProcPanel.scrollHeight + 'px';
     mobileProcPanel.style.opacity = '1';
     mobileProcTrigger.setAttribute('aria-expanded', 'true');
-
-    // Removed custom scroll hint to avoid long bar flash on mobile
+    // iOS: initialize custom moving scrollbar
+    ensureIOSScrollbar();
   }
   function mobileCloseSub() {
     if (!mobileProcTrigger || !mobileProcPanel) return;
@@ -358,7 +413,8 @@ document.addEventListener('DOMContentLoaded', () => {
       mobileProcPanel.classList.remove('open');
       mobileProcPanel.hidden = true;
       mobileProcPanel.removeEventListener('transitionend', onEnd);
-      // No custom scroll hint to clean up
+      // iOS: remove custom scrollbar
+      destroyIOSScrollbar();
     };
     mobileProcPanel.addEventListener('transitionend', onEnd);
     // Fallback cleanup
