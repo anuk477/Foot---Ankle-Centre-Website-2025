@@ -66,11 +66,17 @@ main{flex:1 0 auto}
 .date-field{ display:block; position: relative; }
 .date-fake{ display: none; }
 .is-ios .date-fake{ display:block; }
+/* On iOS, place the real date input invisibly on top so taps open the picker */
 .is-ios .date-field .date-native{
   position:absolute;
-  width:0; height:0;
-  opacity:0;
-  pointer-events:none;
+  z-index:2;
+  left:0; top:0; right:0; bottom:0;
+  width:100%; height:100%;
+  opacity:0;                 /* visually hidden */
+  pointer-events:auto;       /* still clickable */
+  -webkit-appearance:none;   /* avoid odd rendering under opacity */
+  background:transparent;
+  border:0;
 }
 
 /* Booking form emphasis */
