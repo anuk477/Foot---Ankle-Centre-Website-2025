@@ -51,26 +51,65 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
   if (isIOS) document.documentElement.classList.add('is-ios');
 
-  // If iOS, add a visible placeholder overlay for empty date inputs
+  // iOS Safari: render a visible text proxy with dd/mm/yyyy and open native date picker
   if (isIOS) {
-    const dateLabels = document.querySelectorAll('label.date-field > input[type="date"]');
-    dateLabels.forEach(input => {
-      const label = input.closest('label.date-field');
+    const dateInputs = document.querySelectorAll('label.date-field > input[type="date"].date-native');
+    dateInputs.forEach(nativeInput => {
+      const label = nativeInput.closest('label.date-field');
       if (!label) return;
-      const sync = () => {
-        if (input.value) {
-          label.classList.add('has-value');
-        } else {
-          label.classList.remove('has-value');
+
+      // Build the visible text proxy
+      const fake = document.createElement('input');
+      fake.type = 'text';
+      fake.className = 'date-fake';
+      fake.placeholder = label.getAttribute('data-placeholder') || 'dd/mm/yyyy';
+      fake.setAttribute('aria-label', nativeInput.getAttribute('aria-label') || 'Preferred date');
+      fake.setAttribute('inputmode', 'none');
+      fake.setAttribute('readonly', 'true');
+
+      // Insert before the native to keep label association
+      label.insertBefore(fake, nativeInput);
+
+      // Helper: format yyyy-mm-dd -> dd/mm/yyyy
+      const formatDMY = (iso) => {
+        if (!iso) return '';
+        const parts = iso.split('-');
+        if (parts.length !== 3) return '';
+        const [y, m, d] = parts;
+        return `${d.padStart(2,'0')}/${m.padStart(2,'0')}/${y}`;
+      };
+
+      // Sync initial value if prefilled
+      fake.value = formatDMY(nativeInput.value);
+
+      // Open the native picker when the fake input is interacted with
+      const openPicker = () => {
+        try {
+          if (typeof nativeInput.showPicker === 'function') {
+            nativeInput.showPicker();
+          } else {
+            // Fallback: focus the native input to trigger any OS UI
+            nativeInput.focus();
+          }
+        } catch {
+          nativeInput.focus();
         }
       };
-      // Initialize and bind
-      sync();
-      input.addEventListener('change', sync, { passive: true });
-      input.addEventListener('input', sync, { passive: true });
-      // Also clear placeholder visually on focus
-      input.addEventListener('focus', () => label.classList.add('has-value'));
-      input.addEventListener('blur', sync);
+      fake.addEventListener('click', openPicker);
+      fake.addEventListener('focus', openPicker);
+      fake.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openPicker();
+        }
+      });
+
+      // When a date is picked, mirror to the fake input as dd/mm/yyyy
+      const syncFromNative = () => {
+        fake.value = formatDMY(nativeInput.value);
+      };
+      nativeInput.addEventListener('change', syncFromNative, { passive: true });
+      nativeInput.addEventListener('input', syncFromNative, { passive: true });
     });
   }
 
