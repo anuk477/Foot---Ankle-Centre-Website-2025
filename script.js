@@ -66,6 +66,20 @@ document.addEventListener('DOMContentLoaded', () => {
       input.addEventListener('input', sync, { passive: true });
       input.addEventListener('blur', sync, { passive: true });
       input.addEventListener('focus', () => label.classList.add('has-value'), { passive: true });
+
+      // Ensure the picker opens on tap/click reliably on iOS
+      const openPicker = () => {
+        try {
+          if (typeof input.showPicker === 'function') {
+            input.showPicker();
+          } else {
+            input.focus();
+          }
+        } catch { input.focus(); }
+      };
+      // Call on various interactions to be robust
+      input.addEventListener('click', openPicker);
+      input.addEventListener('touchend', openPicker, { passive: true });
     });
   }
 
