@@ -97,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
       };
       fake.addEventListener('click', openPicker);
       fake.addEventListener('focus', openPicker);
+      fake.addEventListener('touchend', openPicker, { passive: true });
       fake.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
