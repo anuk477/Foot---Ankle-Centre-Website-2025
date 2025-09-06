@@ -494,15 +494,24 @@ section{padding:clamp(2rem,5vw,4rem) 0}
 
 /* Testimonial card enhancements */
 .quote{display:flex;flex-direction:column;gap:.5rem}
-/* Constrain testimonial card height and prevent overflow */
-.quote{position:relative;max-height:280px;overflow:hidden}
+/* Let the card size naturally; rely on text clamp instead of max-height */
+.quote{position:relative}
 /* Clamp testimonial text to avoid spilling out of the card */
-.quote blockquote p{display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
+.quote blockquote p{
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:6;
+  /* Modern, unprefixed support (Chrome/Safari/Edge 119+, Safari 17+) */
+  line-clamp: 6;
+  overflow:hidden;
+}
 /* Subtle fade at bottom to indicate more text */
 .quote::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2.2rem;background:linear-gradient(180deg, rgba(255,255,255,0), #fff);border-bottom-left-radius:18px;border-bottom-right-radius:18px;pointer-events:none}
 @media (max-width: 860px){
-  .quote{max-height:240px}
-  .quote blockquote p{-webkit-line-clamp:5}
+  .quote blockquote p{
+    -webkit-line-clamp:5;
+    line-clamp:5;
+  }
 }
 .reviewer{display:flex;align-items:center;gap:.6rem}
 .avatar{inline-size:40px;block-size:40px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--brand),var(--accent))}
