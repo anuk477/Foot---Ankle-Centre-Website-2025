@@ -51,6 +51,29 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
   if (isIOS) document.documentElement.classList.add('is-ios');
 
+  // If iOS, add a visible placeholder overlay for empty date inputs
+  if (isIOS) {
+    const dateLabels = document.querySelectorAll('label.date-field > input[type="date"]');
+    dateLabels.forEach(input => {
+      const label = input.closest('label.date-field');
+      if (!label) return;
+      const sync = () => {
+        if (input.value) {
+          label.classList.add('has-value');
+        } else {
+          label.classList.remove('has-value');
+        }
+      };
+      // Initialize and bind
+      sync();
+      input.addEventListener('change', sync, { passive: true });
+      input.addEventListener('input', sync, { passive: true });
+      // Also clear placeholder visually on focus
+      input.addEventListener('focus', () => label.classList.add('has-value'));
+      input.addEventListener('blur', sync);
+    });
+  }
+
   // iOS custom scrollbar elements + helpers
   let iosScrollBar = null;
   let iosScrollThumb = null;
