@@ -62,22 +62,21 @@ main{flex:1 0 auto}
 .contact-list{list-style:none;padding:0;margin:0 0 1rem 0}
 .contact-form{display:grid;gap:.6rem;max-width:520px}
 .contact-form input,.contact-form textarea{width:100%;padding:.9rem;border:1px solid rgba(13,27,42,.15);border-radius:12px}
-/* iOS date input: use a visible text proxy that mirrors the native picker */
+/* iOS date input: show inline placeholder overlay, keep native control visible */
 .date-field{ display:block; position: relative; }
-.date-fake{ display: none; }
-.is-ios .date-fake{ display:block; }
-/* On iOS, place the real date input invisibly on top so taps open the picker */
-.is-ios .date-field .date-native{
-  position:absolute;
-  z-index:2;
-  left:0; top:0; right:0; bottom:0;
-  width:100%; height:100%;
-  opacity:0;                 /* visually hidden */
-  pointer-events:auto;       /* still clickable */
-  -webkit-appearance:none;   /* avoid odd rendering under opacity */
-  background:transparent;
-  border:0;
+.is-ios .date-field::after{
+  content: attr(data-placeholder);
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none; /* allow taps to reach the native input */
+  opacity: .9;
+  transition: opacity .15s ease;
 }
+.is-ios .date-field.has-value::after,
+.is-ios .date-field:focus-within::after{ opacity: 0; }
 
 /* Booking form emphasis */
 #booking .contact-form{
