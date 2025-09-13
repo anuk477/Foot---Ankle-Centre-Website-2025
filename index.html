@@ -30,6 +30,16 @@
 
   <!-- External CSS -->
   <link rel="stylesheet" href="styles.css">
+
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1PHVDX2CCK');
+</script> 
 </head>
 <body>
   <a href="#main" class="sr-only">Skip to main content</a>
@@ -41,7 +51,7 @@
         <img class="brand-logo" src="images/fac logo blue.jpg" alt="Foot & Ankle Centre logo" width="40" height="40">
         <div>
           <strong>Foot & Ankle Centre</strong><br>
-          <small class="muted-text">Podiatry Clinic</small>
+          <small class="muted-text">Podiatry & Chiropody Centre</small>
         </div>
       </a>
 
@@ -50,7 +60,8 @@
           <li><a href="#services" aria-current="page">Services</a></li>
           <li><a id="procedures-trigger" href="#procedures" aria-expanded="false" aria-controls="procedures-menu">Procedures</a></li>
           <li><a href="#team">Team</a></li>
-          <li><a href="#fees">Fees</a></li>
+          <li><a href="#prices">Prices</a></li>
+          <li><a id="locations-trigger" href="#locations" aria-expanded="false" aria-controls="locations-menu">Locations</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
@@ -64,36 +75,66 @@
       <!-- Procedures dropdown (spans navbar width) -->
       <div id="procedures-menu" class="mega-panel" aria-hidden="true">
         <div class="mega-content">
-          <h3><a class="mobile-category-link" href="procedures/bunion-correction/">Podiatry</a></h3>
-          <ul class="mega-list">
-            <li><a class="proc-link" href="procedures/toe-shortening/" aria-label="View Toe Shortening">Toe Shortening</a></li>
-            <li><a class="proc-link" href="procedures/corn-removal-surgery/" aria-label="View Corn Removal Surgery">Corn Removal Surgery</a></li>
-            <li><a class="proc-link" href="procedures/bunion-correction/" aria-label="View Bunion Correction">Bunion Correction</a></li>
-            <li><a class="proc-link" href="procedures/webbed-toe-separation/" aria-label="View Webbed Toe Separation">Webbed Toe Separation</a></li>
-            <li><a class="proc-link" href="procedures/hammertoe-correction/" aria-label="View Hammertoe Correction">Hammertoe Correction</a></li>
-            <li><a class="proc-link" href="procedures/ingrowing-toenail-removal/" aria-label="View Ingrowing Toenail Removal">Ingrowing Toenail Removal</a></li>
-          </ul>
-          <h3><a class="mobile-category-link" href="procedures/hard-skin-removal/">Chiropody</a></h3>
-          <ul class="mega-list">
-          <li><a class="proc-link" href="procedures/hard-skin-removal/" aria-label="View Hard Skin Removal">Hard Skin Removal</a></li>
-          <li><a class="proc-link" href="procedures/verruca-treatment/" aria-label="View Verruca Treatment">Verruca Treatment</a></li>
-          <li><a class="proc-link" href="procedures/corn-removal/" aria-label="View Corn Removal">Corn Removal</a></li>
-          <li><a class="proc-link" href="procedures/long-nails/" aria-label="View Long Nails">Long Nails</a></li>
-          <li><a class="proc-link" href="procedures/fungal-nails/" aria-label="View Fungal Nails">Fungal Nails</a></li>
-        </ul>
-          <h3><a class="mobile-category-link" href="procedures/shockwave-therapy/">Physiotherapy</a></h3>
-          <ul class="mega-list">
-            <li><a class="proc-link" href="procedures/shockwave-therapy/" aria-label="View Shockwave Therapy">Shockwave Therapy</a></li>
-            <li><a class="proc-link" href="procedures/myofascial-release/" aria-label="View Myofascial Release">Myofascial Release</a></li>
-            <li><a class="proc-link" href="procedures/triggerpoint-therapy/" aria-label="View Triggerpoint Therapy">Triggerpoint Therapy</a></li>
-            <li><a class="proc-link" href="procedures/exercise-rehabilitation/" aria-label="View Exercise Rehabilitation">Exercise Rehabilitation</a></li>
-            <li><a class="proc-link" href="procedures/electrotherapy/" aria-label="View Electrotherapy">Electrotherapy</a></li>
-            <li><a class="proc-link" href="procedures/dry-needling/" aria-label="View Dry Needling">Dry Needling</a></li>
-            <li><a class="proc-link" href="procedures/cupping-therapy/" aria-label="View Cupping Therapy">Cupping Therapy</a></li>
-            <li><a class="proc-link" href="procedures/accupunture/" aria-label="View Accupunture">Accupunture</a></li>
-          </ul>
-        
+          <div class="mega-section">
+            <h3><a class="mobile-category-link" href="procedures/bunion-correction/">Foot &amp; Ankle Surgery</a></h3>
+            <ul class="mega-list">
+              <li><a class="proc-link" href="procedures/toe-shortening/" aria-label="View Toe Shortening">Toe Shortening</a></li>
+              <li><a class="proc-link" href="procedures/corn-removal-surgery/" aria-label="View Corn Removal Surgery">Corn Removal Surgery</a></li>
+              <li><a class="proc-link" href="procedures/bunion-correction/" aria-label="View Bunion Correction">Bunion Correction</a></li>
+              <li><a class="proc-link" href="procedures/webbed-toe-separation/" aria-label="View Webbed Toe Separation">Webbed Toe Separation</a></li>
+              <li><a class="proc-link" href="procedures/hammertoe-correction/" aria-label="View Hammertoe Correction">Hammertoe Correction</a></li>
+              <li><a class="proc-link" href="procedures/ingrowing-toenail-removal/" aria-label="View Ingrowing Toenail Removal">Ingrowing Toenail Removal</a></li>
+            </ul>
+          </div>
+          <div class="mega-section">
+            <h3>Podiatry</h3>
+            <ul class="mega-list">
+              <li><a class="proc-link" href="procedures/biomechanics/" aria-label="View Biomechanics">Biomechanics</a></li>
+              <li><a class="proc-link" href="procedures/gait-analysis/" aria-label="View Gait Analysis">Gait Analysis</a></li>
+              <li><a class="proc-link" href="procedures/insoles/" aria-label="View Insoles">Insoles</a></li>
+              <li><a class="proc-link" href="procedures/ultrasound-guided-injections/" aria-label="View Ultrasound Guided Injections">Ultrasound Guided Injections</a></li>
+              <li><a class="proc-link" href="procedures/diagnostic-injections/" aria-label="View Diagnostic Injections">Diagnostic Injections</a></li>
+              <li><a class="proc-link" href="procedures/x-ray-facilities/" aria-label="View X-ray Facilities">X-ray Facilities</a></li>
+              <li><a class="proc-link" href="procedures/cushions-for-feet/" aria-label="View Cushions for Feet">Cushions for Feet</a></li>
+              <li><a class="proc-link" href="procedures/foot-botox/" aria-label="View Foot Botox">Foot Botox</a></li>
+            </ul>
+          </div>
+          <div class="mega-section">
+            <h3><a class="mobile-category-link" href="procedures/hard-skin-removal/">Chiropody</a></h3>
+            <ul class="mega-list">
+              <li><a class="proc-link" href="procedures/hard-skin-removal/" aria-label="View Hard Skin Removal">Hard Skin Removal</a></li>
+              <li><a class="proc-link" href="procedures/verruca-treatment/" aria-label="View Verruca Treatment">Verruca Treatment</a></li>
+              <li><a class="proc-link" href="procedures/corn-removal/" aria-label="View Corn Removal">Corn Removal</a></li>
+              <li><a class="proc-link" href="procedures/long-nails/" aria-label="View Long Nails">Long Nails</a></li>
+              <li><a class="proc-link" href="procedures/ingrowing-toenails/" aria-label="View Ingrowing Toenails">Ingrowing Toenails</a></li>
+              <li><a class="proc-link" href="procedures/fungal-nails/" aria-label="View Fungal Nails">Fungal Nails</a></li>
+            </ul>
+          </div>
+          <div class="mega-section">
+            <h3><a class="mobile-category-link" href="procedures/shockwave-therapy/">Physiotherapy</a></h3>
+            <ul class="mega-list">
+              <li><a class="proc-link" href="procedures/shockwave-therapy/" aria-label="View Shockwave Therapy">Shockwave Therapy</a></li>
+              <li><a class="proc-link" href="procedures/myofascial-release/" aria-label="View Myofascial Release">Myofascial Release</a></li>
+              <li><a class="proc-link" href="procedures/triggerpoint-therapy/" aria-label="View Triggerpoint Therapy">Triggerpoint Therapy</a></li>
+              <li><a class="proc-link" href="procedures/exercise-rehabilitation/" aria-label="View Exercise Rehabilitation">Exercise Rehabilitation</a></li>
+              <li><a class="proc-link" href="procedures/electrotherapy/" aria-label="View Electrotherapy">Electrotherapy</a></li>
+              <li><a class="proc-link" href="procedures/dry-needling/" aria-label="View Dry Needling">Dry Needling</a></li>
+              <li><a class="proc-link" href="procedures/cupping-therapy/" aria-label="View Cupping Therapy">Cupping Therapy</a></li>
+              <li><a class="proc-link" href="procedures/accupunture/" aria-label="View Accupunture">Accupunture</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
 
+      <!-- Locations dropdown (same style as Procedures) -->
+      <div id="locations-menu" class="mega-panel" aria-hidden="true">
+        <div class="mega-content">
+          <h3>Clinics</h3>
+          <ul class="mega-list">
+            <li><a class="location-link" href="#contact" data-location="Chingford" aria-label="View Chingford clinic">Chingford</a></li>
+            <li><a class="location-link" href="#contact" data-location="Wanstead" aria-label="View Wanstead clinic">Wanstead</a></li>
+            <li><a class="location-link" href="#contact" data-location="Westcliff-on-sea" aria-label="View Westcliff-on-Sea clinic">Westcliff-on-Sea</a></li>
+          </ul>
         </div>
       </div>
 
@@ -109,7 +150,7 @@
           <button id="mobile-procedures-trigger" class="mobile-sub-toggle" aria-expanded="false" aria-controls="mobile-procedures-menu">Procedures</button>
           <div id="mobile-procedures-menu" class="mobile-subpanel" hidden>
             <div class="mobile-subcontent">
-              <h3><a class="mobile-category-link" href="procedures/bunion-correction/">Podiatry</a></h3>
+              <h3><a class="mobile-category-link" href="procedures/bunion-correction/">Foot &amp; Ankle Surgery</a></h3>
               <ul class="mobile-sublist">
                 <li><a class="proc-link" href="procedures/bunion-correction/" aria-label="View Bunion correction">Bunion correction</a></li>
                 <li><a class="proc-link" href="procedures/hammertoe-correction/" aria-label="View Hammertoe correction">Hammertoe correction</a></li>
@@ -123,6 +164,7 @@
                 <li><a class="proc-link" href="procedures/verruca-treatment/" aria-label="View Verruca Treatment">Verruca Treatment</a></li>
                 <li><a class="proc-link" href="procedures/corn-removal/" aria-label="View Corn Removal">Corn Removal</a></li>
                 <li><a class="proc-link" href="procedures/long-nails/" aria-label="View Long Nails treatment">Long Nails</a></li>
+                <li><a class="proc-link" href="procedures/ingrowing-toenails/" aria-label="View Ingrowing Toenails treatment">Ingrowing Toenails</a></li>
                 <li><a class="proc-link" href="procedures/fungal-nails/" aria-label="View Fungal Nails treatment">Fungal Nails</a></li>
               </ul>
               <h3><a class="mobile-category-link" href="procedures/shockwave-therapy/">Physiotherapy</a></h3>
@@ -139,8 +181,20 @@
             </div>
           </div>
         </li>
+        <li class="mobile-has-sub">
+          <button id="mobile-locations-trigger" class="mobile-sub-toggle" aria-expanded="false" aria-controls="mobile-locations-menu">Locations</button>
+          <div id="mobile-locations-menu" class="mobile-subpanel" hidden>
+            <div class="mobile-subcontent">
+              <ul class="mobile-sublist">
+                <li><a class="location-link" href="#contact" data-location="Chingford" aria-label="View Chingford clinic">Chingford</a></li>
+                <li><a class="location-link" href="#contact" data-location="Wanstead" aria-label="View Wanstead clinic">Wanstead</a></li>
+                <li><a class="location-link" href="#contact" data-location="Westcliff-on-sea" aria-label="View Westcliff-on-Sea clinic">Westcliff-on-Sea</a></li>
+              </ul>
+            </div>
+          </div>
+        </li>
         <li><a href="#team">Team</a></li>
-        <li><a href="#fees">Fees</a></li>
+        <li><a href="#prices">Prices</a></li>
         <li><a href="#contact">Contact</a></li>
         <li class="mobile-booking"><a class="btn primary" href="booking.html">Book online</a></li>
       </ul>
@@ -152,22 +206,22 @@
   <section class="hero">
     <div class="container wrap">
       <div>
-        <span class="badge">HCPC Registered</span>
+        <!-- <span class="badge">HCPC Registered</span> -->
         <h1>
-            Expert foot care in 
+            Specialist Foot & Ankle care in
             <span id="clinic-location" class="animated-location">Chingford</span>
           </h1>
           
-        <p>From routine nail care to advanced biomechanical assessments, we help you stay active and pain‑free. Same‑week appointments available.</p>
+        <p>A unique centre providing the highest quality podiatry and chiropody services for over 30 years.</p>
         <div class="cta">
           <a class="btn primary" href="booking.html">Book an appointment</a>
           <a class="btn ghost" href="#services">See our services</a>
         </div>
-        <ul class="hero-features">
+        <!-- <ul class="hero-features">
           <li>Accessible ground‑floor clinic</li>
           <li>Free parking</li>
           <li>NHS referrals welcome</li>
-        </ul>
+        </ul> -->
       </div>
       <!-- <div class="hero-visual" aria-hidden="true">
         <div class="hero-cards">
@@ -180,7 +234,7 @@
   </section>
 
   <!-- Trust bar -->
-  <div class="trust" role="region" aria-label="We work with">
+  <!-- <div class="trust" role="region" aria-label="We work with">
     <div class="container logos">
       <span>HCPC</span>
       <span>Royal College of Podiatry</span>
@@ -188,7 +242,7 @@
       <span>Bupa</span>
       <span>Vitality</span>
     </div>
-  </div>
+  </div> -->
 
   <main id="main">
     <!-- Services -->
@@ -197,47 +251,47 @@
         <div class="section-head">
           <div>
             <div class="kicker">Our services</div>
-            <h2 id="s-heading">Comprehensive podiatry for every step</h2>
+            <h2 id="s-heading">Comprehensive podiatry & chiropody for every step</h2>
           </div>
           <a class="btn ghost" href="#fees">View fees</a>
         </div>
 
         <div class="cards">
           <article class="card">
-            <div class="icon" aria-hidden="true">GC</div>
-            <h3>General Chiropody</h3>
-            <p>Full assessment, treatment plan and immediate care where appropriate. Ideal for first‑time visitors.</p>
-            <div class="meta"><span>45 mins</span><a href="booking.html">Book</a></div>
+            <div class="icon" aria-hidden="true">RC</div>
+            <h3>Routine Care</h3>
+            <p>Nail care, removal of hard skin, corns, cracked heels, ingrown toenails and advice on home care and footwear to keep you comfortable.</p>
+            <div class="meta"><span>20 mins</span><a href="booking.html">Book</a></div>
           </article>
           <article class="card">
             <div class="icon" aria-hidden="true">FAS</div>
             <h3>Foot & Ankle Surgery</h3>
-            <p>Nail care, removal of hard skin and corns, advice on home care and footwear to keep you comfortable.</p>
+            <p>Cosmetic surgery, lumps and bumps, bunions, hammertoes, minimally invasive flat foot surgery, tendon & ligament repairs, heel spurs, ganglions and neuromas.</p>
             <div class="meta"><span>30 mins</span><a href="booking.html">Book</a></div>
           </article>
           <article class="card">
             <div class="icon" aria-hidden="true">MS</div>
-            <h3>Minor Surgery</h3>
-            <p>Video gait assessment and custom orthotic prescriptions for sports performance and injury prevention.</p>
-            <div class="meta"><span>60 mins</span><a href="booking.html">Book</a></div>
+            <h3>Minor Surgery & Ultrasound Guided Injections</h3>
+            <p>Ingrown toenails, verruca cautery & excisions, cysts and corn removals and injections for tendinopathy, heel pain, foot pain and arthritic pain. </p>
+            <div class="meta"><span>30 mins</span><a href="booking.html">Book</a></div>
           </article>
           <article class="card">
             <div class="icon" aria-hidden="true">MI</div>
             <h3>Musculoskeletal Injuries</h3>
-            <p>Evidence‑based options including cryotherapy and needling, selected to suit your age and lifestyle.</p>
-            <div class="meta"><span>30–45 mins</span><a href="#booking">Book</a></div>
+            <p>Heel pain, forefoot pain, knee pain, posterior tibal tendinopathy, shin splints, flat feet & high arched feet. </p>
+            <div class="meta"><span>30 mins</span><a href="#booking">Book</a></div>
           </article>
           <article class="card">
-            <div class="icon" aria-hidden="true">O&I</div>
-            <h3>Orthotics & Insoles</h3>
-            <p>Conservative care and, if needed, minor surgery (partial nail avulsion) performed under local anaesthetic.</p>
-            <div class="meta"><span>45–60 mins</span><a href="#booking">Book</a></div>
+            <div class="icon" aria-hidden="true">BO&I</div>
+            <h3>Biomechanics, Orthotics & Insoles</h3>
+            <p>Analyse forces and motions to improve performance to reduce risk of injury. Helps correct musculoskeletal skeletal defects to help align the feet and body.  </p>
+            <div class="meta"><span>30 mins</span><a href="#booking">Book</a></div>
           </article>
           <article class="card">
             <div class="icon" aria-hidden="true">P</div>
             <h3>Physiotherapy</h3>
-            <p>Assessment of children’s foot development, flat feet, toe‑walking and activity‑related pain.</p>
-            <div class="meta"><span>45 mins</span><a href="booking.html">Book</a></div>
+            <p>A comprehensive full-body treatment that combines myofascial release, shockwave therapy, dry needling, cupping, and sports massage to restore movement and relieve tension.</p>
+            <div class="meta"><span>30 mins</span><a href="booking.html">Book</a></div>
           </article>
         </div>
       </div>
@@ -339,11 +393,12 @@
         <div>
           <div class="kicker">Why choose us</div>
           <h2 id="t-heading">Qualified, friendly, and focused on outcomes</h2>
-          <p>Our HCPC‑registered podiatrists combine clinical expertise with a welcoming approach. We’ll take time to understand your goals, explain your options clearly, and tailor your treatment plan.</p>
+          <p>Our long-standing relationships with local GPs, private healthcare providers, local sports clubs and charities demonstrate our commitment to improving the well-being of our community.</p>
           <ul>
-            <li>HCPC registered clinicians</li>
-            <li>Evening & weekend appointments</li>
-            <li>Accessible, ground‑floor clinic</li>
+            <li>Emphasis on patient care</li>
+            <li>Evidence based medicine</li>
+            <li> CQC Registered</li>
+            <li>Established for over 30 years</li>
           </ul>
           <div class="cta-line">
             <a class="btn primary" href="#booking">Book Online</a>
@@ -417,7 +472,7 @@ Big shout out for the reception staff too who were always really helpful and gre
     </section>
 
     <!-- Fees -->
-    <section id="fees" aria-labelledby="f-heading">
+    <!-- <section id="fees" aria-labelledby="f-heading">
       <div class="container">
         <div class="section-head">
           <div>
@@ -427,23 +482,23 @@ Big shout out for the reception staff too who were always really helpful and gre
         </div>
         <div class="cards">
           <article class="card">
-            <h3>New Patient Assessment</h3>
+            <h3>Podiatry Consultation</h3>
             <p>Comprehensive assessment with treatment where appropriate.</p>
-            <div class="meta"><strong>£65</strong><a href="#booking">Book</a></div>
+            <div class="meta"><strong>£120</strong><a href="#booking">Book</a></div>
           </article>
           <article class="card">
-            <h3>Routine Care</h3>
+            <h3>Routine Care Consultation</h3>
             <p>Follow‑up appointment for nail carcane, corns and callus.</p>
-            <div class="meta"><strong>£48</strong><a href="#booking">Book</a></div>
+            <div class="meta"><strong>£55</strong><a href="#booking">Book</a></div>
           </article>
           <article class="card">
-            <h3>Gait Analysis</h3>
+            <h3>Biomechanical / Gait Analysis Consultation</h3>
             <p>Includes video analysis and tailored rehab plan.</p>
-            <div class="meta"><strong>£85</strong><a href="#booking">Book</a></div>
+            <div class="meta"><strong>£220</strong><a href="#booking">Book</a></div>
           </article>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <!-- Contact / Map placeholder -->
     <section id="contact" aria-labelledby="c-heading">
@@ -534,3 +589,4 @@ Big shout out for the reception staff too who were always really helpful and gre
   <script src="script.js"></script>
 </body>
 </html>
+

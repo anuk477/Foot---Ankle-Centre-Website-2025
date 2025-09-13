@@ -28,6 +28,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css">
+
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1PHVDX2CCK');
+</script> 
 </head>
 <body class="booking-bg">
   <a href="#main" class="sr-only">Skip to main content</a>
@@ -48,7 +58,7 @@
           <li><a href="./#services">Services</a></li>
           <li><a id="procedures-trigger" href="#procedures" aria-expanded="false" aria-controls="procedures-menu">Procedures</a></li>
           <li><a href="./#team">Team</a></li>
-          <li><a href="./#fees">Fees</a></li>
+          <li><a href="./#prices">Prices</a></li>
           <li><a href="./#contact">Contact</a></li>
         </ul>
       </nav>
@@ -62,7 +72,7 @@
       <!-- Procedures dropdown (spans navbar width) -->
       <div id="procedures-menu" class="mega-panel" aria-hidden="true">
         <div class="mega-content">
-          <h3>Podiatry</h3>
+          <h3>Foot &amp; Ankle Surgery</h3>
           <ul class="mega-list">
             <li><a class="proc-link" href="procedures/toe-shortening/" aria-label="View Toe Shortening">Toe Shortening</a></li>
             <li><a class="proc-link" href="procedures/corn-removal-surgery/" aria-label="View Corn Removal Surgery">Corn Removal Surgery</a></li>
@@ -77,8 +87,21 @@
           <li><a class="proc-link" href="procedures/verruca-treatment/" aria-label="View Verruca Treatment">Verruca Treatment</a></li>
           <li><a class="proc-link" href="procedures/corn-removal/" aria-label="View Corn Removal">Corn Removal</a></li>
           <li><a class="proc-link" href="procedures/long-nails/" aria-label="View Long Nails">Long Nails</a></li>
+          <li><a class="proc-link" href="procedures/ingrowing-toenails/" aria-label="View Ingrowing Toenails">Ingrowing Toenails</a></li>
           <li><a class="proc-link" href="procedures/fungal-nails/" aria-label="View Fungal Nails">Fungal Nails</a></li>
         </ul>
+          <h3>Podiatry</h3>
+          <h3>Podiatry</h3>
+          <ul class="mega-list">
+            <li><a class="proc-link" href="procedures/biomechanics/">Biomechanics</a></li>
+            <li><a class="proc-link" href="procedures/gait-analysis/">Gait Analysis</a></li>
+            <li><a class="proc-link" href="procedures/insoles/">Insoles</a></li>
+            <li><a class="proc-link" href="procedures/ultrasound-guided-injections/">Ultrasound Guided Injections</a></li>
+            <li><a class="proc-link" href="procedures/diagnostic-injections/">Diagnostic Injections</a></li>
+            <li><a class="proc-link" href="procedures/x-ray-facilities/">X-ray Facilities</a></li>
+            <li><a class="proc-link" href="procedures/cushions-for-feet/">Cushions for Feet</a></li>
+            <li><a class="proc-link" href="procedures/foot-botox/">Foot Botox</a></li>
+          </ul>
           <h3>Physiotherapy</h3>
           <ul class="mega-list">
             <li><a class="proc-link" href="procedures/shockwave-therapy/" aria-label="View Shockwave Therapy">Shockwave Therapy</a></li>
@@ -105,7 +128,7 @@
           <button id="mobile-procedures-trigger" class="mobile-sub-toggle" aria-expanded="false" aria-controls="mobile-procedures-menu">Procedures</button>
           <div id="mobile-procedures-menu" class="mobile-subpanel" hidden>
             <div class="mobile-subcontent">
-              <h3><a class="mobile-category-link" href="procedures/bunion-correction/">Podiatry</a></h3>
+              <h3><a class="mobile-category-link" href="procedures/bunion-correction/">Foot &amp; Ankle Surgery</a></h3>
               <ul class="mobile-sublist">
                 <li><a class="proc-link" href="procedures/bunion-correction/" aria-label="View Bunion correction">Bunion correction</a></li>
                 <li><a class="proc-link" href="procedures/hammertoe-correction/" aria-label="View Hammertoe correction">Hammertoe correction</a></li>
@@ -119,6 +142,7 @@
                 <li><a class="proc-link" href="procedures/verruca-treatment/" aria-label="View Verruca Treatment">Verruca Treatment</a></li>
                 <li><a class="proc-link" href="procedures/corn-removal/" aria-label="View Corn Removal">Corn Removal</a></li>
                 <li><a class="proc-link" href="procedures/long-nails/" aria-label="View Long Nails treatment">Long Nails</a></li>
+                <li><a class="proc-link" href="procedures/ingrowing-toenails/" aria-label="View Ingrowing Toenails treatment">Ingrowing Toenails</a></li>
                 <li><a class="proc-link" href="procedures/fungal-nails/" aria-label="View Fungal Nails treatment">Fungal Nails</a></li>
               </ul>
               <h3><a class="mobile-category-link" href="procedures/shockwave-therapy/">Physiotherapy</a></h3>
@@ -136,7 +160,7 @@
           </div>
         </li>
         <li><a href="./#team">Team</a></li>
-        <li><a href="./#fees">Fees</a></li>
+        <li><a href="./#prices">Prices</a></li>
         <li><a href="./#contact">Contact</a></li>`
         <li class="mobile-booking"><a class="btn primary" href="booking.html" aria-current="page">Book online</a></li>
       </ul>
@@ -244,3 +268,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+

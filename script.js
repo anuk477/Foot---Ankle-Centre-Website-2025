@@ -40,6 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileProcTrigger = document.getElementById('mobile-procedures-trigger');
   const mobileProcPanel = document.getElementById('mobile-procedures-menu');
   const mobileSubContent = document.querySelector('#mobile-procedures-menu .mobile-subcontent');
+  // Mobile Locations submenu elements
+  const mobileLocTrigger = document.getElementById('mobile-locations-trigger');
+  const mobileLocPanel = document.getElementById('mobile-locations-menu');
 
   // Detect iOS (including iPadOS masquerading as Mac) for telemetry/class only
   const isIOS = (() => {
@@ -170,6 +173,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (mobileProcTrigger && mobileProcPanel) {
           mobileCloseSub();
         }
+        if (mobileLocTrigger && mobileLocPanel) {
+          mobileCloseLocSub();
+        }
       }
     });
 
@@ -179,9 +185,8 @@ document.addEventListener('DOMContentLoaded', () => {
         panel.classList.remove('open');
         panel.setAttribute('aria-hidden', 'true');
         toggle.setAttribute('aria-expanded', 'false');
-        if (mobileProcTrigger && mobileProcPanel) {
-          mobileCloseSub();
-        }
+        if (mobileProcTrigger && mobileProcPanel) { mobileCloseSub(); }
+        if (mobileLocTrigger && mobileLocPanel) { mobileCloseLocSub(); }
       });
     }
   }
@@ -192,6 +197,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const allNavLinks = document.querySelectorAll('nav a, #mobile-menu a');
   const proceduresTrigger = document.getElementById('procedures-trigger');
   const proceduresMenu = document.getElementById('procedures-menu');
+  // Desktop Locations dropdown refs
+  const locationsTrigger = document.getElementById('locations-trigger');
+  const locationsMenu = document.getElementById('locations-menu');
 
   // Clicking the brand logo to go to top should clear any active nav state
   const brandLinks = document.querySelectorAll('a.brand');
@@ -203,8 +211,9 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         // Clear active state from all nav links
         allNavLinks.forEach(a => a.removeAttribute('aria-current'));
-        // Close Procedures dropdown if open
+        // Close dropdowns if open
         if (typeof closeProceduresMenu === 'function') closeProceduresMenu();
+        if (typeof closeLocationsMenu === 'function') closeLocationsMenu();
         // Close mobile menu if open
         if (panel && panel.classList.contains('open')) {
           panel.classList.remove('open');
@@ -262,11 +271,36 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  // Locations dropdown helpers
+  const openLocationsMenu = () => {
+    if (!locationsMenu) return;
+    locationsMenu.classList.remove('closing');
+    locationsMenu.classList.add('open');
+    locationsMenu.setAttribute('aria-hidden', 'false');
+    if (locationsTrigger) locationsTrigger.setAttribute('aria-expanded', 'true');
+  };
+
+  const closeLocationsMenu = () => {
+    if (!locationsMenu) return;
+    if (locationsMenu.classList.contains('open')) {
+      // Start closing animation
+      locationsMenu.classList.add('closing');
+      locationsMenu.classList.remove('open');
+      locationsMenu.setAttribute('aria-hidden', 'true');
+      if (locationsTrigger) locationsTrigger.setAttribute('aria-expanded', 'false');
+      const cleanup = () => locationsMenu.classList.remove('closing');
+      locationsMenu.addEventListener('transitionend', cleanup, { once: true });
+      setTimeout(cleanup, 300);
+    }
+  };
+
   // Toggle “Procedures” dropdown on click
   if (proceduresTrigger && proceduresMenu) {
     proceduresTrigger.addEventListener('click', e => {
       e.preventDefault();
       const isOpen = proceduresMenu.classList.contains('open');
+      // Ensure Locations is closed when opening Procedures
+      if (typeof closeLocationsMenu === 'function') closeLocationsMenu();
       if (isOpen) {
         closeProceduresMenu();
       } else {
@@ -289,6 +323,38 @@ document.addEventListener('DOMContentLoaded', () => {
     // Close on Escape
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') closeProceduresMenu();
+    });
+  }
+
+  // Toggle “Locations” dropdown on click
+  if (locationsTrigger && locationsMenu) {
+    locationsTrigger.addEventListener('click', e => {
+      e.preventDefault();
+      // Ensure Procedures is closed when opening Locations
+      if (typeof closeProceduresMenu === 'function') closeProceduresMenu();
+      const isOpen = locationsMenu.classList.contains('open');
+      if (isOpen) {
+        closeLocationsMenu();
+      } else {
+        openLocationsMenu();
+      }
+      // Mark as active in nav
+      allNavLinks.forEach(a => a.removeAttribute('aria-current'));
+      locationsTrigger.setAttribute('aria-current', 'page');
+    });
+
+    // Close on outside click
+    document.addEventListener('click', e => {
+      if (!locationsMenu.classList.contains('open')) return;
+      const target = e.target;
+      if (target !== locationsTrigger && !locationsMenu.contains(target)) {
+        closeLocationsMenu();
+      }
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeLocationsMenu();
     });
   }
 
@@ -322,8 +388,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const targetId = href.slice(1);
       const targetEl = document.getElementById(targetId);
 
-      // Let the dedicated handler manage Procedures
+      // Let the dedicated handlers manage dropdown triggers
       if (targetId === 'procedures' && link === proceduresTrigger) {
+        e.preventDefault();
+        return;
+      }
+      if (targetId === 'locations' && link === locationsTrigger) {
         e.preventDefault();
         return;
       }
@@ -344,14 +414,12 @@ document.addEventListener('DOMContentLoaded', () => {
           panel.setAttribute('aria-hidden', 'true');
           toggle.setAttribute('aria-expanded', 'false');
         }
-        // Close procedures menu if navigating elsewhere
-        if (targetId !== 'procedures') {
-          closeProceduresMenu();
-        }
+        // Close dropdown menus if navigating elsewhere
+        if (typeof closeProceduresMenu === 'function' && targetId !== 'procedures') closeProceduresMenu();
+        if (typeof closeLocationsMenu === 'function' && targetId !== 'locations') closeLocationsMenu();
         // Close mobile submenu when navigating
-        if (mobileProcTrigger && mobileProcPanel) {
-          mobileCloseSub();
-        }
+        if (mobileProcTrigger && mobileProcPanel) { mobileCloseSub(); }
+        if (mobileLocTrigger && mobileLocPanel) { mobileCloseLocSub(); }
       }
       // If no target on this page, do not preventDefault and let browser handle
     }, { capture: true });
@@ -366,10 +434,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Map top nav links to on-page section elements
     const topNavLinks = Array.from(document.querySelectorAll('header nav a[href^="#"]'))
-      // Exclude items that are not real sections (e.g. procedures dropdown)
+      // Exclude items that are not real sections (dropdown triggers)
       .filter(a => {
         const href = a.getAttribute('href') || '';
-        return href.length > 1 && href !== '#procedures';
+        return href.length > 1 && href !== '#procedures' && href !== '#locations';
       });
 
     const sections = topNavLinks
@@ -474,6 +542,44 @@ document.addEventListener('DOMContentLoaded', () => {
         mobileCloseSub();
       } else {
         mobileOpenSub();
+      }
+    });
+  }
+
+  /* --------------------------
+     Mobile Locations submenu
+  -------------------------- */
+  function mobileOpenLocSub() {
+    if (!mobileLocTrigger || !mobileLocPanel) return;
+    mobileLocPanel.hidden = false;
+    mobileLocPanel.classList.add('open');
+    mobileLocPanel.style.maxHeight = mobileLocPanel.scrollHeight + 'px';
+    mobileLocPanel.style.opacity = '1';
+    mobileLocTrigger.setAttribute('aria-expanded', 'true');
+  }
+  function mobileCloseLocSub() {
+    if (!mobileLocTrigger || !mobileLocPanel) return;
+    mobileLocPanel.style.maxHeight = '0px';
+    mobileLocPanel.style.opacity = '0';
+    mobileLocTrigger.setAttribute('aria-expanded', 'false');
+    const onEnd = () => {
+      mobileLocPanel.classList.remove('open');
+      mobileLocPanel.hidden = true;
+      mobileLocPanel.removeEventListener('transitionend', onEnd);
+    };
+    mobileLocPanel.addEventListener('transitionend', onEnd);
+    setTimeout(onEnd, 350);
+  }
+  if (mobileLocTrigger && mobileLocPanel) {
+    mobileLocTrigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      const expanded = mobileLocTrigger.getAttribute('aria-expanded') === 'true';
+      if (expanded) {
+        mobileCloseLocSub();
+      } else {
+        // Close the other mobile submenu if open
+        if (mobileProcTrigger && mobileProcPanel) mobileCloseSub();
+        mobileOpenLocSub();
       }
     });
   }
@@ -867,3 +973,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 });
+
+function loadGoogleAnalytics(id) {
+  const gtagScript = document.createElement("script");
+  gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
+  gtagScript.async = true;
+  document.head.appendChild(gtagScript);
+
+  gtagScript.onload = () => {
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', id);
+  };
+}
+
+loadGoogleAnalytics("G-1PHVDX2CCK");
