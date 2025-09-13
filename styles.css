@@ -417,6 +417,14 @@ section{padding:clamp(2rem,5vw,4rem) 0}
 .section-head h2{font-size:clamp(1.4rem,3.2vw,2rem);line-height:1.2;margin:0}
 .kicker{letter-spacing:.08em;text-transform:uppercase;font-weight:700;font-size:.75rem;color:var(--brand)}
 
+/* Procedure pages: use default flex row so button stays right on mobile */
+@media (max-width: 860px){
+  body.procedure .section-head .btn{
+    justify-content: center; /* center label inside the button */
+    text-align: center;
+  }
+}
+
 /* Services section with muted brand tint */
 #services{background: #2e429b; scroll-margin-top: 30px}
 
@@ -494,29 +502,48 @@ section{padding:clamp(2rem,5vw,4rem) 0}
 .mega-panel{position:absolute;left:0;right:0;top:100%;z-index:60;background:#fff;border:1px solid rgba(13,27,42,.08);border-radius:14px;box-shadow:0 10px 30px rgba(13,27,42,.12);padding:1rem;margin-top:.5rem;opacity:0;transform:translateY(-8px) scaleY(.98);transform-origin:top;visibility:hidden;pointer-events:none;transition:opacity .22s ease,transform .22s ease}
 .mega-panel.open{opacity:1;transform:translateY(0) scaleY(1);visibility:visible;pointer-events:auto}
 .mega-panel.closing{visibility:visible;pointer-events:none}
-  .mega-content{display:grid;grid-template-columns:1fr 1fr;gap:.5rem 2rem;align-items:start;grid-auto-flow:row dense}
-.mega-content h3{margin:0;font-size:1.05rem}
-.mega-content h3 a{ text-decoration: none; color: inherit; }
-.mega-list{list-style:none;margin:.25rem 0 0;padding:0;display:flex;flex-direction:column;gap:.35rem}
-.mega-list a,.mobile-sublist a{text-decoration:none;color:inherit;display:block}
-.mega-list li{transition:color .15s ease}
+  .mega-content{display:grid;grid-template-columns:1fr 1fr;gap:0 2rem;align-items:start;grid-auto-flow:row}
+  .mega-content h3{margin:0 0 .2rem 0;font-size:1.05rem}
+  .mega-content h3 a{ text-decoration: none; color: inherit; }
+  .mega-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.35rem}
+  .mega-list a,.mobile-sublist a{text-decoration:none;color:inherit;display:block}
+  .mega-list li{transition:color .15s ease}
 .mega-list li:hover{color:#2e429b}
 .mega-list a:hover,.mega-list a:focus-visible{color:#2e429b}
 .mobile-sublist a:active,.mobile-sublist a:focus-visible{color:#2e429b}
 
-/* Arrange mega menu columns: left = Podiatry + Chiropody, right = Physiotherapy */
+/* Two-column layout */
+.mega-content{ grid-auto-flow: row; }
+/* Default mapping: first four items to left column, remainder to right */
 .mega-content > :nth-child(1),
 .mega-content > :nth-child(2),
 .mega-content > :nth-child(3),
-.mega-content > :nth-child(4){grid-column:1}
-.mega-content > :nth-child(5),
-.mega-content > :nth-child(6){grid-column:2}
+.mega-content > :nth-child(4){ grid-column: 1; }
+.mega-content > :nth-child(n+5){ grid-column: 2; }
+/* Ensure sections align to top, with consistent inner spacing */
+.mega-section{ align-self: start; }
+
+/* Index mega menu: place Chiropody and Physiotherapy on the right */
+#procedures-menu .mega-content > .mega-section:nth-child(1),
+#procedures-menu .mega-content > .mega-section:nth-child(2){ grid-column: 1; }
+#procedures-menu .mega-content > .mega-section:nth-child(3),
+#procedures-menu .mega-content > .mega-section:nth-child(4){ grid-column: 2; }
+
+/* Pin rows on index dropdown so right column starts at the top */
+#procedures-menu .mega-content > .mega-section:nth-child(1){ grid-row: 1; }
+#procedures-menu .mega-content > .mega-section:nth-child(2){ grid-row: 2; }
+#procedures-menu .mega-content > .mega-section:nth-child(3){ grid-row: 1; }
+#procedures-menu .mega-content > .mega-section:nth-child(4){ grid-row: 2; }
 
 /* Ensure items align to the top of each column */
 .mega-content > *{align-self:start}
 
-/* Slightly reduce gap between Podiatry and Chiropody */
-.mega-content > :nth-child(3){margin-top:-2rem}
+/* Tight, consistent spacing between headings and their lists */
+  .mega-content h3 + .mega-list{ margin-top: .1rem; }
+  /* Avoid gaps when headings appear back-to-back (e.g., right column intro heading) */
+  .mega-content h3 + h3 { margin-top: .2rem; }
+  /* Add separation between a list and the next section heading */
+  .mega-content .mega-list + h3 { margin-top: .3rem; }
 .quote{scroll-snap-align:start;flex:0 0 min(390px, 90%);background:#fff;border:1px solid rgba(13,27,42,.08);border-radius:18px;padding:1rem;transition:background-color .25s ease,border-color .25s ease}
 .stars{letter-spacing:.08em}
 .quote p{color:var(--muted)}
