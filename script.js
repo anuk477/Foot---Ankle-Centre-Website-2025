@@ -194,7 +194,9 @@ document.addEventListener('DOMContentLoaded', () => {
   /* --------------------------
      Smooth scroll for nav links
   -------------------------- */
-  const allNavLinks = document.querySelectorAll('nav a, #mobile-menu a');
+  // Include links inside the desktop mega panels so their relative hrefs
+  // resolve correctly from any subpage (e.g., procedures/*)
+  const allNavLinks = document.querySelectorAll('nav a, #mobile-menu a, #procedures-menu a, #locations-menu a');
   const proceduresTrigger = document.getElementById('procedures-trigger');
   const proceduresMenu = document.getElementById('procedures-menu');
   // Desktop Locations dropdown refs
@@ -324,6 +326,55 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') closeProceduresMenu();
     });
+
+
+    // Desktop hover: open on hover, close on leave (keep mobile click intact)
+    try {
+      const supportsHover = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      if (supportsHover) {
+        let closeTimer = null;
+        const cancelClose = () => { if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; } };
+        const scheduleClose = () => {
+          cancelClose();
+          closeTimer = setTimeout(() => { closeProceduresMenu(); }, 120);
+        };
+
+        // Open when hovering trigger or menu; also close Locations if open
+        ['mouseenter','mousemove','mouseover','focusin'].forEach(evt => {
+          proceduresTrigger.addEventListener(evt, () => {
+            cancelClose();
+            if (typeof closeLocationsMenu === 'function') closeLocationsMenu();
+            openProceduresMenu();
+          }, { passive: true });
+          proceduresMenu.addEventListener(evt, () => {
+            cancelClose();
+            openProceduresMenu();
+          }, { passive: true });
+        });
+
+        // Close when pointer leaves both trigger and panel
+        ['mouseleave','mouseout'].forEach(evt => {
+          proceduresTrigger.addEventListener(evt, scheduleClose, { passive: true });
+          proceduresMenu.addEventListener(evt, scheduleClose, { passive: true });
+        });
+
+        // Keyboard: keep open while focus is within; close when it leaves
+        document.addEventListener('focusin', (e) => {
+          if (proceduresTrigger.contains(e.target) || proceduresMenu.contains(e.target)) {
+            cancelClose();
+            openProceduresMenu();
+          }
+        });
+        document.addEventListener('focusout', () => {
+          setTimeout(() => {
+            const a = document.activeElement;
+            if (!proceduresTrigger.contains(a) && !proceduresMenu.contains(a)) {
+              scheduleClose();
+            }
+          }, 0);
+        });
+      }
+    } catch {}
   }
 
   // Toggle “Locations” dropdown on click
@@ -356,6 +407,51 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') closeLocationsMenu();
     });
+
+    // Desktop hover: open on hover, close on leave (keep mobile click intact)
+    try {
+      const supportsHover = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      if (supportsHover) {
+        let closeTimer = null;
+        const cancelClose = () => { if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; } };
+        const scheduleClose = () => {
+          cancelClose();
+          closeTimer = setTimeout(() => { closeLocationsMenu(); }, 120);
+        };
+
+        ['mouseenter','mousemove','mouseover','focusin'].forEach(evt => {
+          locationsTrigger.addEventListener(evt, () => {
+            cancelClose();
+            if (typeof closeProceduresMenu === 'function') closeProceduresMenu();
+            openLocationsMenu();
+          }, { passive: true });
+          locationsMenu.addEventListener(evt, () => {
+            cancelClose();
+            openLocationsMenu();
+          }, { passive: true });
+        });
+
+        ['mouseleave','mouseout'].forEach(evt => {
+          locationsTrigger.addEventListener(evt, scheduleClose, { passive: true });
+          locationsMenu.addEventListener(evt, scheduleClose, { passive: true });
+        });
+
+        document.addEventListener('focusin', (e) => {
+          if (locationsTrigger.contains(e.target) || locationsMenu.contains(e.target)) {
+            cancelClose();
+            openLocationsMenu();
+          }
+        });
+        document.addEventListener('focusout', () => {
+          setTimeout(() => {
+            const a = document.activeElement;
+            if (!locationsTrigger.contains(a) && !locationsMenu.contains(a)) {
+              scheduleClose();
+            }
+          }, 0);
+        });
+      }
+    } catch {}
   }
 
   allNavLinks.forEach(link => {
@@ -367,8 +463,17 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!isHashOnly) {
         if (!link.target && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey) {
           e.preventDefault();
+          const resolveHref = (url) => {
+            try {
+              // Absolute URLs and root-relative paths: use as-is
+              if (/^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//.test(url) || url.startsWith('/')) return url;
+              // Normalize any other relative path against site root
+              return new URL(url, window.location.href).toString();
+            } catch { return url; }
+          };
           const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-          const go = () => { window.location.href = href; };
+          const targetUrl = resolveHref(href);
+          const go = () => { window.location.href = targetUrl; };
           if (prefersReduced) { go(); return; }
           // Trigger fade-out animation (content-only on booking page)
           const fadeEl = contentFadeEl || document.body;
@@ -975,12 +1080,15 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function loadGoogleAnalytics(id) {
-  const gtagScript = document.createElement("script");
-  gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
-  gtagScript.async = true;
-  document.head.appendChild(gtagScript);
+  if (window.__gaLoaded) return;        // guard
+  window.__gaLoaded = true;
 
-  gtagScript.onload = () => {
+  const s = document.createElement("script");
+  s.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
+  s.async = true;
+  document.head.appendChild(s);
+
+  s.onload = () => {
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     window.gtag = gtag;

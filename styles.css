@@ -150,9 +150,14 @@ header{position:sticky;top:0;background:rgba(255,255,255,.8);backdrop-filter:sat
 nav ul{list-style:none;display:flex;gap:1.2rem;margin:0;padding:0}
 nav a{opacity:.9;text-decoration:none;transition:color .5s ease, opacity .5s ease;font-weight:600}
 nav a[aria-current="page"]{color:var(--brand);opacity:1}
-.topbar #procedures-trigger{display:inline-flex;align-items:center;gap:.4rem}
-.topbar #procedures-trigger::after{content:"";display:inline-block;width:.45em;height:.45em;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);transition:transform .2s ease}
-.topbar #procedures-trigger[aria-expanded="true"]::after{transform:rotate(-135deg)}
+.topbar #procedures-trigger,
+.topbar #locations-trigger{display:inline-flex;align-items:center;gap:.4rem}
+.topbar #procedures-trigger::after,
+.topbar #locations-trigger::after{content:"";display:inline-block;width:.45em;height:.45em;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);transition:transform .2s ease}
+.topbar #procedures-trigger[aria-expanded="true"]::after,
+.topbar #locations-trigger[aria-expanded="true"]::after{transform:rotate(-135deg)}
+.topbar #procedures-trigger[aria-expanded="true"]{color:var(--brand);opacity:1}
+.topbar #locations-trigger[aria-expanded="true"]{color:var(--brand);opacity:1}
 .nav-actions{display:flex;align-items:center;gap:.6rem}
 /* Header brand logo image */
 .brand-logo{inline-size:48px;block-size:48px;object-fit:contain;border-radius:10px}
@@ -507,6 +512,13 @@ section{padding:clamp(2rem,5vw,4rem) 0}
   .mega-content h3 a{ text-decoration: none; color: inherit; }
   .mega-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.35rem}
   .mega-list a,.mobile-sublist a{text-decoration:none;color:inherit;display:block}
+  #locations-menu .mega-list a{font-size:1.18rem;}
+  #locations-menu .location-link{display:flex;align-items:center;gap:.6rem;line-height:1.1;}
+  #locations-menu .location-icon{display:block;width:1rem;height:1.4rem;flex-shrink:0;color:var(--brand);}
+  #locations-menu .location-icon .marker-body{fill:currentColor;}
+  #locations-menu .location-icon .marker-hole{fill:#fff;}
+  #locations-menu .location-meta{font-size:.85rem;color:rgba(13,27,42,.7);margin-top:.1rem;padding-left:1.6rem;}
+  
   .mega-list li{transition:color .15s ease}
 .mega-list li:hover{color:#2e429b}
 .mega-list a:hover,.mega-list a:focus-visible{color:#2e429b}
@@ -544,6 +556,12 @@ section{padding:clamp(2rem,5vw,4rem) 0}
   .mega-content h3 + h3 { margin-top: .2rem; }
   /* Add separation between a list and the next section heading */
   .mega-content .mega-list + h3 { margin-top: .3rem; }
+
+/* Add vertical gaps between sections in Procedures dropdown */
+/* Gap between Surgery list and Podiatry (left column) */
+#procedures-menu .mega-content > .mega-section:nth-child(2) { margin-top: 0.6rem; }
+/* Gap between Chiropody list and Physiotherapy (right column) */
+#procedures-menu .mega-content > .mega-section:nth-child(4) { margin-top: 0.6rem; }
 .quote{scroll-snap-align:start;flex:0 0 min(390px, 90%);background:#fff;border:1px solid rgba(13,27,42,.08);border-radius:18px;padding:1rem;transition:background-color .25s ease,border-color .25s ease}
 .stars{letter-spacing:.08em}
 .quote p{color:var(--muted)}
@@ -704,3 +722,12 @@ body.fade-transition.leaving{opacity:0;transition:opacity .25s ease;pointer-even
 
 /* Anchor offset for Contact section */
 #contact{scroll-margin-top:60px}
+
+
+
+
+  .footer-social{display:flex;gap:.75rem;margin-top:1rem}
+  .footer-social .social-link{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);transition:background .2s ease, transform .2s ease}
+  .footer-social .social-link:hover,.footer-social .social-link:focus-visible{background:rgba(255,255,255,.16);transform:translateY(-2px)}
+  .footer-social svg{width:18px;height:18px;fill:currentColor}
+
