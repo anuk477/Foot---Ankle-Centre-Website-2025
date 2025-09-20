@@ -907,6 +907,157 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* --------------------------
+     Vimazi carousel
+  -------------------------- */
+  const vimaziGallery = document.querySelector('.vimazi-gallery');
+  if (vimaziGallery) {
+    const vimaziTrack = vimaziGallery.querySelector('.vimazi-track');
+    const vimaziSlides = vimaziTrack ? Array.from(vimaziTrack.children) : [];
+    const vimaziPrev = vimaziGallery.querySelector('.vimazi-prev');
+    const vimaziNext = vimaziGallery.querySelector('.vimazi-next');
+    const totalSlides = vimaziSlides.length;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const getSlidesPerView = () => {
+      const width = window.innerWidth || document.documentElement.clientWidth || 0;
+      if (width <= 620) return Math.min(1, totalSlides || 1);
+      if (width <= 960) return Math.min(2, totalSlides || 1);
+      return Math.min(3, totalSlides || 1);
+    };
+
+    if (!vimaziTrack || totalSlides === 0) {
+      vimaziGallery.classList.add('vimazi-static');
+    } else {
+      let slideWidthPx = 0;
+      let slideGapPx = 0;
+      let galleryWidth = 0;
+      let slidesPerView = getSlidesPerView();
+      let currentSlide = 0;
+      let autoplayId = null;
+
+      const measure = () => {
+        const first = vimaziSlides[0];
+        if (!first) return;
+        const rect = first.getBoundingClientRect();
+        slideWidthPx = rect.width;
+        const styles = getComputedStyle(vimaziTrack);
+        const gapRaw = styles.gap || styles.columnGap || '0';
+        const gapValue = parseFloat(gapRaw);
+        slideGapPx = Number.isNaN(gapValue) ? 0 : gapValue;
+        const galleryRect = vimaziGallery.getBoundingClientRect();
+        galleryWidth = galleryRect.width;
+      };
+
+      const applyLayout = () => {
+        slidesPerView = getSlidesPerView();
+        const percent = 100 / slidesPerView;
+        vimaziSlides.forEach(slide => {
+          slide.style.flex = `0 0 ${percent}%`;
+          slide.style.maxWidth = `${percent}%`;
+        });
+        measure();
+      };
+
+      const offsetFor = index => {
+        const spacing = slideWidthPx + slideGapPx;
+        if (!slideWidthPx || !galleryWidth) return spacing * index;
+        const slideCenter = spacing * index + slideWidthPx / 2;
+        const galleryCenter = galleryWidth / 2;
+        return slideCenter - galleryCenter;
+      };
+
+      const maxStartIndex = () => Math.max(0, totalSlides - 1);
+
+      const setSlide = (target, options = {}) => {
+        const { animate = true, allowWrap = true } = options;
+        if (!slideWidthPx || !galleryWidth) measure();
+
+        let next = target;
+        const maxStart = maxStartIndex();
+
+        if (allowWrap) {
+          if (next > maxStart) next = 0;
+          if (next < 0) next = maxStart;
+        } else {
+          next = Math.min(Math.max(next, 0), maxStart);
+        }
+
+        if (!animate) vimaziTrack.style.transition = 'none';
+
+        currentSlide = next;
+        const offsetPx = offsetFor(currentSlide);
+        vimaziTrack.style.transform = `translateX(-${offsetPx}px)`;
+
+        if (!animate) {
+          void vimaziTrack.offsetWidth;
+          vimaziTrack.style.transition = '';
+        }
+      };
+
+      const goNext = () => setSlide(currentSlide + 1);
+      const goPrev = () => setSlide(currentSlide - 1);
+
+      const stopAutoplay = () => {
+        if (autoplayId) {
+          clearInterval(autoplayId);
+          autoplayId = null;
+        }
+      };
+
+      const startAutoplay = () => {
+        stopAutoplay();
+        if (reduceMotion || totalSlides <= 1) return;
+        autoplayId = setInterval(goNext, 4500);
+      };
+
+      const restartAutoplay = () => {
+        if (reduceMotion) return;
+        stopAutoplay();
+        startAutoplay();
+      };
+
+      if (vimaziPrev) {
+        vimaziPrev.addEventListener('click', () => {
+          stopAutoplay();
+          goPrev();
+          restartAutoplay();
+        });
+      }
+
+      if (vimaziNext) {
+        vimaziNext.addEventListener('click', () => {
+          stopAutoplay();
+          goNext();
+          restartAutoplay();
+        });
+      }
+
+      const handleResize = () => {
+        applyLayout();
+        setSlide(currentSlide, { animate: false, allowWrap: false });
+        startAutoplay();
+      };
+
+      window.addEventListener('resize', handleResize);
+      window.addEventListener('load', handleResize);
+
+      vimaziGallery.addEventListener('mouseenter', stopAutoplay);
+      vimaziGallery.addEventListener('mouseleave', startAutoplay);
+      vimaziGallery.addEventListener('focusin', stopAutoplay);
+      vimaziGallery.addEventListener('focusout', startAutoplay);
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) stopAutoplay();
+        else startAutoplay();
+      });
+
+      applyLayout();
+      setSlide(0, { animate: false, allowWrap: false });
+      startAutoplay();
+    }
+  }
+
+  /* --------------------------
      Contact form alert (demo only)
      - Do NOT block forms that post to a real endpoint (e.g., FormSubmit)
   -------------------------- */
@@ -1098,3 +1249,12 @@ function loadGoogleAnalytics(id) {
 }
 
 loadGoogleAnalytics("G-1PHVDX2CCK");
+
+
+
+
+
+
+
+
+
