@@ -4,17 +4,24 @@ document.addEventListener('DOMContentLoaded', () => {
   // Works on initial load; avoid for file:// protocol to prevent oddities
   try {
     const { protocol, pathname, search, hash } = window.location;
+    let didClean = false;
     if (protocol === 'http:' || protocol === 'https:') {
       // Strip trailing '/index.html' to '/'
       if (/\/index\.html$/i.test(pathname)) {
         const clean = pathname.replace(/index\.html$/i, '');
         history.replaceState(null, '', clean + search + hash);
+        didClean = true;
       }
       // Strip '.html' at end of path (e.g., procedures/toe-shortening.html)
       else if (/\.html$/i.test(pathname)) {
         const clean = pathname.replace(/\.html$/i, '');
         history.replaceState(null, '', clean + search + hash);
+        didClean = true;
       }
+    }
+    // If we changed the URL before the SPA hooks were installed, request a manual page_view.
+    if (didClean) {
+      trackPageView();
     }
   } catch {}
 
@@ -326,7 +333,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') closeProceduresMenu();
     });
-
 
     // Desktop hover: open on hover, close on leave (keep mobile click intact)
     try {
@@ -1297,6 +1303,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
+/* ======================================
+   GA4 helpers: manual page_view tracking
+   ====================================== */
+function trackPageView() {
+  if (typeof window.gtag !== 'function') return; // if GA not ready, do nothing
+  const page_location = window.location.href;
+  const page_path = window.location.pathname + window.location.search + window.location.hash;
+  const page_title = document.title;
+  window.gtag('event', 'page_view', {
+    page_location,
+    page_path,
+    page_title
+  });
+}
+
+(function hookSpaNavigation() {
+  const fire = () => {
+    // If you want to ignore pure hash changes, you could guard here.
+    // Example: if (location.hash) return;
+    setTimeout(trackPageView, 0);
+  };
+
+  ['pushState', 'replaceState'].forEach((method) => {
+    const orig = history[method];
+    history[method] = function () {
+      const ret = orig.apply(this, arguments);
+      fire();
+      return ret;
+    };
+  });
+
+  window.addEventListener('popstate', fire);
+})();
+
 function loadGoogleAnalytics(id) {
   if (window.__gaLoaded) return;        // guard
   window.__gaLoaded = true;
@@ -1308,32 +1348,15 @@ function loadGoogleAnalytics(id) {
 
   s.onload = () => {
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag(){dataLayer.push(arguments);} // function declaration for hoisting
     window.gtag = gtag;
     gtag('js', new Date());
-    gtag('config', id);
+    // Disable automatic page_view; we will send them manually
+    gtag('config', id, { send_page_view: false });
+    // Send initial page_view once GA is ready
+    trackPageView();
   };
 }
 
+// TODO: Replace with your GA4 Measurement ID if needed
 loadGoogleAnalytics('G-1PHVDX2CCK');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
