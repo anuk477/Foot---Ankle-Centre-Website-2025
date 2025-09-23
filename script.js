@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // iOS Safari: keep native date input visible; show non-blocking dd/mm/yyyy hint
   if (isIOS) {
-    const inputs = document.querySelectorAll('label.date-field > input[type="date"].date-native');
+    const inputs = document.querySelectorAll("label.date-field > input[type='date'].date-native");
     inputs.forEach(input => {
       const label = input.closest('label.date-field');
       if (!label) return;
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Close via "X" button
+    // Close via 'X' button
     if (closeBtn) {
       closeBtn.addEventListener('click', () => {
         panel.classList.remove('open');
@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
   brandLinks.forEach(brand => {
     brand.addEventListener('click', (e) => {
       const href = brand.getAttribute('href') || '';
-      // Only intercept same-page top jump (href="#")
+      // Only intercept same-page top jump (href='#')
       if (href === '#') {
         e.preventDefault();
         // Clear active state from all nav links
@@ -235,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!hash) return;
     const targetId = hash.slice(1);
     const targetEl = document.getElementById(targetId);
-    const topNavMatch = document.querySelector(`nav a[href="${hash}"]`);
+    const topNavMatch = document.querySelector(`nav a[href='${hash}']`);
     if (topNavMatch) {
       allNavLinks.forEach(a => a.removeAttribute('aria-current'));
       topNavMatch.setAttribute('aria-current', 'page');
@@ -510,7 +510,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update active state: turn clicked link blue
         allNavLinks.forEach(a => a.removeAttribute('aria-current'));
         // Prefer setting on top nav, fall back to the clicked element
-        const topNavMatch = document.querySelector(`nav a[href="#${targetId}"]`);
+        const topNavMatch = document.querySelector(`nav a[href='#${targetId}']`);
         (topNavMatch || link).setAttribute('aria-current', 'page');
 
         // Close mobile menu if open
@@ -538,7 +538,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const headerOffset = () => (headerEl ? headerEl.offsetHeight : 0) + 8; // small buffer
 
     // Map top nav links to on-page section elements
-    const topNavLinks = Array.from(document.querySelectorAll('header nav a[href^="#"]'))
+    const topNavLinks = Array.from(document.querySelectorAll("header nav a[href^='#']"))
       // Exclude items that are not real sections (dropdown triggers)
       .filter(a => {
         const href = a.getAttribute('href') || '';
@@ -576,7 +576,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (id === lastActiveId) return;
       // Clear only when changing to a new section to avoid flicker
       allNavLinks.forEach(a => a.removeAttribute('aria-current'));
-      const top = document.querySelector(`header nav a[href="#${id}"]`);
+      const top = document.querySelector(`header nav a[href='#${id}']`);
       if (top) top.setAttribute('aria-current', 'page');
       lastActiveId = id;
     };
@@ -692,7 +692,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* --------------------------
      Animated clinic locations in hero
   -------------------------- */
-  const locations = ["Chingford", "Wanstead", "Westcliff-on-sea"];
+  const locations = ['Chingford', 'Wanstead', 'Westcliff-on-sea'];
   const locationEl = document.getElementById('clinic-location');
   let locIndex = 0;
 
@@ -932,14 +932,13 @@ document.addEventListener('DOMContentLoaded', () => {
       let slideGapPx = 0;
       let galleryWidth = 0;
       let slidesPerView = getSlidesPerView();
-      let currentSlide = 0;
       let autoplayId = null;
+      let isAnimating = false;
 
       const measure = () => {
         const first = vimaziSlides[0];
         if (!first) return;
-        const rect = first.getBoundingClientRect();
-        slideWidthPx = rect.width;
+        slideWidthPx = first.offsetWidth;
         const styles = getComputedStyle(vimaziTrack);
         const gapRaw = styles.gap || styles.columnGap || '0';
         const gapValue = parseFloat(gapRaw);
@@ -951,51 +950,118 @@ document.addEventListener('DOMContentLoaded', () => {
       const applyLayout = () => {
         slidesPerView = getSlidesPerView();
         const percent = 100 / slidesPerView;
-        vimaziSlides.forEach(slide => {
+        Array.from(vimaziTrack.children).forEach(slide => {
           slide.style.flex = `0 0 ${percent}%`;
           slide.style.maxWidth = `${percent}%`;
         });
         measure();
       };
 
-      const offsetFor = index => {
+      const offsetForIndex = index => {
+        if (!galleryWidth) measure();
+        const slide = vimaziTrack.children[index];
+        if (slide) {
+          const layoutCenter = slide.offsetLeft + slide.offsetWidth / 2;
+          const galleryCenter = galleryWidth / 2;
+          return layoutCenter - galleryCenter;
+        }
         const spacing = slideWidthPx + slideGapPx;
-        if (!slideWidthPx || !galleryWidth) return spacing * index;
-        const slideCenter = spacing * index + slideWidthPx / 2;
-        const galleryCenter = galleryWidth / 2;
-        return slideCenter - galleryCenter;
+        return spacing * index;
       };
 
-      const maxStartIndex = () => Math.max(0, totalSlides - 1);
+      const cloneSlide = original => {
+        const clone = original.cloneNode(true);
+        clone.classList.add('vimazi-clone');
+        clone.setAttribute('aria-hidden', 'true');
+        return clone;
+      };
 
-      const setSlide = (target, options = {}) => {
-        const { animate = true, allowWrap = true } = options;
+      const hasLoop = totalSlides > 1;
+      if (hasLoop && !vimaziTrack.dataset.loopReady) {
+        const beforeClones = vimaziSlides.slice().reverse().map(cloneSlide);
+        beforeClones.forEach(clone => {
+          vimaziTrack.insertBefore(clone, vimaziTrack.firstChild);
+        });
+        const afterClones = vimaziSlides.map(cloneSlide);
+        afterClones.forEach(clone => {
+          vimaziTrack.appendChild(clone);
+        });
+        vimaziTrack.dataset.loopReady = 'true';
+      }
+
+      const beforeCloneCount = hasLoop ? totalSlides : 0;
+      const firstOriginalIndex = beforeCloneCount;
+      const lastOriginalIndex = firstOriginalIndex + totalSlides - 1;
+      let currentIndex = firstOriginalIndex;
+
+      const getLogicalIndex = () => {
+        if (!totalSlides) return 0;
+        const raw = currentIndex - firstOriginalIndex;
+        const mod = raw % totalSlides;
+        return mod < 0 ? mod + totalSlides : mod;
+      };
+
+      const clampIndex = () => {
+        if (!hasLoop || !totalSlides) return;
+        if (currentIndex > lastOriginalIndex) {
+          currentIndex -= totalSlides;
+        } else if (currentIndex < firstOriginalIndex) {
+          currentIndex += totalSlides;
+        } else {
+          return;
+        }
+        vimaziTrack.style.transition = 'none';
+        const offsetPx = offsetForIndex(currentIndex);
+        vimaziTrack.style.transform = `translateX(-${offsetPx}px)`;
+        void vimaziTrack.offsetWidth;
+        vimaziTrack.style.transition = '';
+      };
+
+      const setIndex = (target, options = {}) => {
+        const { animate = true } = options;
+        if (animate && isAnimating) return;
+
         if (!slideWidthPx || !galleryWidth) measure();
 
-        let next = target;
-        const maxStart = maxStartIndex();
-
-        if (allowWrap) {
-          if (next > maxStart) next = 0;
-          if (next < 0) next = maxStart;
+        if (!animate) {
+          vimaziTrack.style.transition = 'none';
         } else {
-          next = Math.min(Math.max(next, 0), maxStart);
+          isAnimating = true;
         }
 
-        if (!animate) vimaziTrack.style.transition = 'none';
-
-        currentSlide = next;
-        const offsetPx = offsetFor(currentSlide);
+        currentIndex = target;
+        const offsetPx = offsetForIndex(currentIndex);
         vimaziTrack.style.transform = `translateX(-${offsetPx}px)`;
 
         if (!animate) {
           void vimaziTrack.offsetWidth;
           vimaziTrack.style.transition = '';
+          return;
         }
+
+        let finished = false;
+        const finalize = event => {
+          if (event && (event.target !== vimaziTrack || (event.propertyName && event.propertyName !== 'transform'))) return;
+          if (finished) return;
+          finished = true;
+          vimaziTrack.removeEventListener('transitionend', finalize);
+          isAnimating = false;
+          clampIndex();
+        };
+
+        vimaziTrack.addEventListener('transitionend', finalize);
+        setTimeout(finalize, 520);
       };
 
-      const goNext = () => setSlide(currentSlide + 1);
-      const goPrev = () => setSlide(currentSlide - 1);
+      const setLogical = (target, options = {}) => {
+        if (!totalSlides) return;
+        const normalized = ((target % totalSlides) + totalSlides) % totalSlides;
+        const base = hasLoop ? firstOriginalIndex + normalized : normalized;
+        setIndex(base, options);
+      };
+
+      const goNext = () => setIndex(currentIndex + 1);
+      const goPrev = () => setIndex(currentIndex - 1);
 
       const stopAutoplay = () => {
         if (autoplayId) {
@@ -1033,8 +1099,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const handleResize = () => {
+        const preserve = getLogicalIndex();
         applyLayout();
-        setSlide(currentSlide, { animate: false, allowWrap: false });
+        setLogical(preserve, { animate: false });
         startAutoplay();
       };
 
@@ -1052,7 +1119,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       applyLayout();
-      setSlide(0, { animate: false, allowWrap: false });
+      setLogical(0, { animate: false });
       startAutoplay();
     }
   }
@@ -1080,7 +1147,7 @@ document.addEventListener('DOMContentLoaded', () => {
         form.setAttribute('method', 'POST');
       }
 
-      const nextInput = form.querySelector('input[name="_next"]');
+      const nextInput = form.querySelector("input[name='_next']");
       if (nextInput) {
         try {
           // Only convert if running under http(s); file:// cannot be redirected to
@@ -1234,7 +1301,7 @@ function loadGoogleAnalytics(id) {
   if (window.__gaLoaded) return;        // guard
   window.__gaLoaded = true;
 
-  const s = document.createElement("script");
+  const s = document.createElement('script');
   s.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
   s.async = true;
   document.head.appendChild(s);
@@ -1248,7 +1315,19 @@ function loadGoogleAnalytics(id) {
   };
 }
 
-loadGoogleAnalytics("G-1PHVDX2CCK");
+loadGoogleAnalytics('G-1PHVDX2CCK');
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
