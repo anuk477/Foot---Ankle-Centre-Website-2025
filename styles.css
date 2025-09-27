@@ -203,12 +203,12 @@ nav[aria-label="Main"] {
     z-index: 9999;             /* sit above all content */
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    padding: 0;                /* remove default padding */
+    padding: 5.5rem 1.5rem 2rem;  /* space from top/edges */
     display: flex;
     flex-direction: column;
-    justify-content: center;    /* center vertically */
-    align-items: center;        /* center horizontally */
-    text-align: center;
+    justify-content: flex-start;   /* anchor content near top */
+    align-items: flex-start;      /* align items left */
+    text-align: left;
     transition: transform 0.3s ease-in-out;
     transform: translateY(-100%); /* slide down effect */
   }
@@ -238,8 +238,10 @@ nav[aria-label="Main"] {
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 2rem;                /* space between buttons */
-    align-items: center;
+    gap: 1.5rem;              /* space between buttons */
+    align-items: flex-start;
+    width: 100%;
+    max-width: 720px;
   }
 
   /* Each list item and links */
@@ -270,7 +272,7 @@ nav[aria-label="Main"] {
     font-weight: 700;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: .5rem;             /* even spacing between text and chevron */
     line-height: 1;          /* normalize vertical alignment */
     cursor: pointer;
@@ -292,9 +294,16 @@ nav[aria-label="Main"] {
     max-height: 0;
     opacity: 0;
     transition: max-height .25s ease, opacity .25s ease;
+    margin-top: .5rem;
   }
-  .mobile-subpanel.open { opacity: 1; }
-  .mobile-subcontent { display: flex; flex-direction: column; gap: .5rem; padding-top: .25rem; }
+  .mobile-subpanel.open { opacity: 1; max-height: 60vh; }
+  .mobile-subcontent {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    padding-top: .25rem;
+    padding-left: .6rem;
+  }
   /* Make Procedures submenu scrollable within the mobile dropdown */
   .mobile-subpanel.open .mobile-subcontent {
     max-height: 60vh;
@@ -350,15 +359,38 @@ nav[aria-label="Main"] {
     transition: transform .05s linear; /* snappier updates on iOS */
   }
   .mobile-subcontent h3 { margin: 0; font-size: 1.05rem; font-weight: 700; }
-  .mobile-subcontent h3 a { text-decoration: none; color: inherit; display: block; padding: .25rem 0; }
+  .mobile-subcontent h3 a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    padding: .25rem .75rem;
+    border-radius: 8px;
+    transition: background-color .2s ease, color .2s ease;
+  }
+  .mobile-subcontent h3 a:hover, .mobile-subcontent h3 a:focus-visible {
+    color: var(--brand);
+    background: rgba(46,66,155,0.12);
+  }
+  .mobile-sublist a:hover, .mobile-sublist a:focus-visible {
+    color: var(--brand);
+    background: rgba(46,66,155,0.12);
+  }
+
   .mobile-sublist { list-style: none; margin: .25rem 0 0; padding: 0; display: flex; flex-direction: column; gap: .35rem; font-weight: 500; }
   /* Submenu item text: smaller and not bold */
-  .mobile-sublist a { font-size: 1rem; font-weight: 400; padding: .5rem 0; }
-  #mobile-locations-menu .location-link{display:flex;flex-direction:column;align-items:center;gap:.25rem;}
+  .mobile-sublist a {
+    font-size: 1rem;
+    font-weight: 400;
+    padding: .5rem .75rem;
+    border-radius: 8px;
+    display: block;
+    transition: background-color .2s ease, color .2s ease;
+  }
+  #mobile-locations-menu .location-link{display:flex;flex-direction:column;align-items:flex-start;gap:.25rem;padding-left:.6rem;}
   #mobile-locations-menu .location-icon{display:none;}
-  #mobile-locations-menu .location-text{display:flex;flex-direction:column;gap:.2rem;align-items:center;text-align:center;}
-  #mobile-locations-menu .location-name{font-weight:600;text-align:center;}
-  #mobile-locations-menu .location-meta{font-size:.85rem;line-height:1.35;color:rgba(13,27,42,.7);text-align:center;}
+  #mobile-locations-menu .location-text{display:flex;flex-direction:column;gap:.2rem;align-items:flex-start;text-align:left;padding-left:0;}
+  #mobile-locations-menu .location-name{font-weight:600;text-align:left;}
+  #mobile-locations-menu .location-meta{font-size:.85rem;line-height:1.35;color:rgba(13,27,42,.7);text-align:left;}
   /* Extra spacing between last item of a section and next title */
   .mobile-subcontent .mobile-sublist + h3 { margin-top: .5rem; }
 
@@ -459,13 +491,14 @@ nav[aria-label="Main"] {
 section{padding:clamp(2rem,5vw,4rem) 0}
 .section-head{display:flex;align-items:end;justify-content:space-between;gap:1rem;margin-bottom:1.6rem}
 .section-head h2{font-size:clamp(1.4rem,3.2vw,2rem);line-height:1.2;margin:0}
-.kicker{letter-spacing:.08em;text-transform:uppercase;font-weight:700;font-size:.75rem;color:var(--brand)}
+.section-head h1{font-size:clamp(1.4rem,3.2vw,2rem);line-height:1.2;margin:0}
+.kicker{letter-spacing:.08em;text-transform:uppercase;font-weight:700;font-size:.75rem;color:var(--brand);display:block;margin-bottom:.35rem}
 
 /* Procedure pages: use default flex row so button stays right on mobile */
 @media (max-width: 860px){
   body.procedure .section-head .btn{
     justify-content: center; /* center label inside the button */
-    text-align: center;
+    text-align: left;
   }
 }
 
@@ -787,61 +820,79 @@ body.fade-transition.leaving{opacity:0;transition:opacity .25s ease;pointer-even
 
 
 
+}
+.insurance-subheading{
+  margin-top:0.75rem;
+  font-size:clamp(1.4rem,3.2vw,2rem);
+  line-height:1.2;
+  font-weight:600;
+  color:var(--ink);
+}
 
+/* Insurance logos */
+.insurer-grid{
+  display:flex;
+  flex-wrap:wrap;
+  gap:1.5rem;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  margin-top:1.25rem;
+}
+.insurer-grid .insurer-link{
+  flex:1 1 clamp(84px,10.8%,132px);
+  max-width:132px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0.5rem;
+  border-radius:12px;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.insurer-grid .insurer-link:hover,
+.insurer-grid .insurer-link:focus-visible{
+  transform:translateY(-2px);
+  box-shadow:0 8px 18px rgba(13,27,42,0.12);
+}
+.insurer-grid img{
+  width:100%;
+  height:auto;
+  object-fit:contain;
+}
+.insurer-note{
+  margin-top:1rem;
+  width:100%;
+}
 
+@media (max-width:700px){
+  .insurer-grid{justify-content:center;}
+}
 
+.insurer-section{
+  max-width:70ch;
+  color:var(--ink);
+  margin-top:1.5rem;
+}
+.insurer-section h2{
+  color:var(--ink);
+  margin:0 0 .5rem;
+}
+.insurer-section p{
+  color:var(--ink);
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ul.insurer-list{
+  list-style:disc;
+}
+ol.insurer-list{
+  list-style:decimal;
+}
+.insurer-list{
+  margin:0;
+  padding-left:1.25rem;
+  color:var(--ink);
+}
+.insurer-list li{
+  color:var(--ink);
+  margin-bottom:0.5rem;
+}
