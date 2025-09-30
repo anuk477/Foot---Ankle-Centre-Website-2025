@@ -1054,3 +1054,9 @@ body.fade-transition.leaving{opacity:0;transition:opacity .25s ease;pointer-even
 
 
 
+
+.procedure-gallery.single{
+  grid-template-columns:repeat(auto-fit,minmax(180px,260px));
+  justify-content:center;
+}
+
