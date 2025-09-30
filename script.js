@@ -621,12 +621,20 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!mobileProcTrigger || !mobileProcPanel) return;
     mobileProcPanel.hidden = false;
     mobileProcPanel.classList.add('open');
-    // Animate to content height
-    mobileProcPanel.style.maxHeight = mobileProcPanel.scrollHeight + 'px';
-    mobileProcPanel.style.opacity = '1';
+    // Reset starting point so the transition always plays
+    mobileProcPanel.style.maxHeight = '0px';
+    mobileProcPanel.style.opacity = '0';
+    // Force reflow before expanding
+    void mobileProcPanel.offsetHeight;
+    const targetHeight = mobileProcPanel.scrollHeight;
+    requestAnimationFrame(() => {
+      if (!mobileProcPanel.classList.contains('open')) return;
+      mobileProcPanel.style.maxHeight = targetHeight + 'px';
+      mobileProcPanel.style.opacity = '1';
+      // iOS: initialize custom moving scrollbar once height is set
+      ensureIOSScrollbar();
+    });
     mobileProcTrigger.setAttribute('aria-expanded', 'true');
-    // iOS: initialize custom moving scrollbar
-    ensureIOSScrollbar();
   }
   function mobileCloseSub() {
     if (!mobileProcTrigger || !mobileProcPanel) return;
@@ -634,10 +642,15 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileProcPanel.style.maxHeight = '0px';
     mobileProcPanel.style.opacity = '0';
     mobileProcTrigger.setAttribute('aria-expanded', 'false');
+    let cleaned = false;
     const onEnd = () => {
+      if (cleaned) return;
+      cleaned = true;
+      mobileProcPanel.removeEventListener('transitionend', onEnd);
       mobileProcPanel.classList.remove('open');
       mobileProcPanel.hidden = true;
-      mobileProcPanel.removeEventListener('transitionend', onEnd);
+      mobileProcPanel.style.maxHeight = '';
+      mobileProcPanel.style.opacity = '';
       // iOS: remove custom scrollbar
       destroyIOSScrollbar();
     };
@@ -664,8 +677,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!mobileLocTrigger || !mobileLocPanel) return;
     mobileLocPanel.hidden = false;
     mobileLocPanel.classList.add('open');
-    mobileLocPanel.style.maxHeight = mobileLocPanel.scrollHeight + 'px';
-    mobileLocPanel.style.opacity = '1';
+    mobileLocPanel.style.maxHeight = '0px';
+    mobileLocPanel.style.opacity = '0';
+    void mobileLocPanel.offsetHeight;
+    const targetHeight = mobileLocPanel.scrollHeight;
+    requestAnimationFrame(() => {
+      if (!mobileLocPanel.classList.contains('open')) return;
+      mobileLocPanel.style.maxHeight = targetHeight + 'px';
+      mobileLocPanel.style.opacity = '1';
+    });
     mobileLocTrigger.setAttribute('aria-expanded', 'true');
   }
   function mobileCloseLocSub() {
@@ -673,10 +693,15 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileLocPanel.style.maxHeight = '0px';
     mobileLocPanel.style.opacity = '0';
     mobileLocTrigger.setAttribute('aria-expanded', 'false');
+    let cleaned = false;
     const onEnd = () => {
+      if (cleaned) return;
+      cleaned = true;
+      mobileLocPanel.removeEventListener('transitionend', onEnd);
       mobileLocPanel.classList.remove('open');
       mobileLocPanel.hidden = true;
-      mobileLocPanel.removeEventListener('transitionend', onEnd);
+      mobileLocPanel.style.maxHeight = '';
+      mobileLocPanel.style.opacity = '';
     };
     mobileLocPanel.addEventListener('transitionend', onEnd);
     setTimeout(onEnd, 350);
@@ -1360,3 +1385,9 @@ function loadGoogleAnalytics(id) {
 
 // TODO: Replace with your GA4 Measurement ID if needed
 loadGoogleAnalytics('G-1PHVDX2CCK');
+
+
+
+
+
+
