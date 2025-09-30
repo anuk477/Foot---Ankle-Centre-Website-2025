@@ -1005,3 +1005,25 @@ body.fade-transition.leaving{opacity:0;transition:opacity .25s ease;pointer-even
   }
 }
 
+
+.procedure-gallery{
+  margin-top:1.5rem;
+  display:grid;
+  gap:1rem;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+}
+
+.procedure-gallery img{
+  width:100%;
+  height:auto;
+  border-radius:14px;
+  box-shadow:0 10px 24px rgba(13,27,42,0.12);
+  object-fit:cover;
+}
+
+@media (max-width:520px){
+  .procedure-gallery{
+    grid-template-columns:1fr;
+  }
+}
+
