@@ -169,6 +169,37 @@ nav a[aria-current="page"]{color:var(--brand);opacity:1}
 nav[aria-label="Main"] {
   display: flex;
 }
+.menu-toggle{
+  gap:0.3rem;
+  padding:0.5rem 0.75rem;
+  min-height:2.25rem;
+  min-width:2.75rem;
+}
+.menu-toggle .menu-icon{
+  position:relative;
+  display:block;
+  width:20px;
+  height:2px;
+  background:currentColor;
+  border-radius:999px;
+  transition:background .2s ease;
+}
+.menu-toggle .menu-icon::before,
+.menu-toggle .menu-icon::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  height:2px;
+  background:currentColor;
+  border-radius:999px;
+  transition:transform .2s ease;
+  transform-origin:center;
+}
+.menu-toggle .menu-icon::before{transform:translateY(-6px);}
+.menu-toggle .menu-icon::after{transform:translateY(6px);}
+.menu-toggle[aria-expanded='true'] .menu-icon{background:transparent;}
+.menu-toggle[aria-expanded='true'] .menu-icon::before{transform:rotate(45deg);}
+.menu-toggle[aria-expanded='true'] .menu-icon::after{transform:rotate(-45deg);}
 .menu-toggle {
   display: none; /* hide hamburger on desktop */
 }
@@ -1006,13 +1037,6 @@ ol.insurer-list{
   margin-right:auto !important;
   display:block;
 }
-
-
-
-
-
-
-
 
 
 
