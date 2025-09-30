@@ -534,7 +534,7 @@ section{padding:clamp(2rem,5vw,4rem) 0}
 @media (max-width: 860px){
   body.procedure .section-head .btn{
     justify-content: center; /* center label inside the button */
-    text-align: left;
+    text-align: center;
   }
 }
 
@@ -1026,4 +1026,31 @@ body.fade-transition.leaving{opacity:0;transition:opacity .25s ease;pointer-even
     grid-template-columns:1fr;
   }
 }
+
+
+
+.procedure-gallery figure{
+  margin:0;
+  display:flex;
+  flex-direction:column;
+  gap:.6rem;
+  align-items:center;
+  text-align:center;
+}
+
+
+
+
+.procedure-gallery .image-labels{
+  width:100%;
+  margin-top:.25rem;
+}
+
+
+
+
+
+
+
+
 
