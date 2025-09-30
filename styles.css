@@ -937,12 +937,15 @@ body.fade-transition.leaving{opacity:0;transition:opacity .25s ease;pointer-even
   justify-content:center;
   padding:0.5rem;
   border-radius:12px;
-  transition:transform .2s ease, box-shadow .2s ease;
+  border:1px solid rgba(13,27,42,0.1);
+  box-shadow:0 6px 16px rgba(13,27,42,0.12);
+  background:white;
+  transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
 }
 .insurer-grid .insurer-link:hover,
-.insurer-grid .insurer-link:focus-visible{
   transform:translateY(-2px);
-  box-shadow:0 8px 18px rgba(13,27,42,0.12);
+  box-shadow:0 12px 24px rgba(13,27,42,0.16);
+  border-color:rgba(13,27,42,0.18);
 }
 .insurer-grid img{
   width:100%;
@@ -1038,5 +1041,15 @@ ol.insurer-list{
   display:block;
 }
 
+
+
+
+
+@media (max-width:700px){
+  .insurer-grid .insurer-link{
+    box-shadow:0 14px 28px rgba(13,27,42,0.16);
+    border-color:rgba(13,27,42,0.14);
+  }
+}
 
 
