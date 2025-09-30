@@ -1060,3 +1060,12 @@ body.fade-transition.leaving{opacity:0;transition:opacity .25s ease;pointer-even
   justify-content:center;
 }
 
+
+@media (max-width: 860px){
+  #services,
+  #team,
+  #contact{
+    scroll-margin-top:110px;
+  }
+}
+
