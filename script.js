@@ -510,31 +510,63 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         return;
       }
-
       if (targetEl) {
         e.preventDefault();
-        targetEl.scrollIntoView({ behavior: 'smooth' });
+
+        const headerEl = document.querySelector('header');
+        const anchorSelector = targetEl.dataset.scrollAnchor || null;
+        const anchorNode = anchorSelector ? targetEl.querySelector(anchorSelector) : null;
+        const scrollNode = anchorNode || targetEl;
+        const scrollToSection = () => {
+          const baseHeader = headerEl ? headerEl.offsetHeight : 0;
+          const offset = baseHeader + 16;
+          const rect = scrollNode.getBoundingClientRect();
+          const targetTop = rect.top + window.pageYOffset - offset;
+          const finalTop = targetTop < 0 ? 0 : targetTop;
+          try { window.scrollTo({ top: finalTop, behavior: 'smooth' }); }
+          catch { window.scrollTo(0, finalTop); }
+        };
 
         // Update active state: turn clicked link blue
         allNavLinks.forEach(a => a.removeAttribute('aria-current'));
-        // Prefer setting on top nav, fall back to the clicked element
-        const topNavMatch = document.querySelector(`nav a[href='#${targetId}']`);
+        const topNavMatch = document.querySelector("nav a[href='#" + targetId + "']");
         (topNavMatch || link).setAttribute('aria-current', 'page');
 
-        // Close mobile menu if open
-        if (panel && panel.classList.contains('open')) {
+        const wasMobileMenuOpen = panel && panel.classList.contains('open');
+        if (wasMobileMenuOpen) {
           panel.classList.remove('open');
           panel.setAttribute('aria-hidden', 'true');
-          toggle.setAttribute('aria-expanded', 'false');
+          if (toggle) toggle.setAttribute('aria-expanded', 'false');
         }
-        // Close dropdown menus if navigating elsewhere
         if (typeof closeProceduresMenu === 'function' && targetId !== 'procedures') closeProceduresMenu();
         if (typeof closeLocationsMenu === 'function' && targetId !== 'locations') closeLocationsMenu();
-        // Close mobile submenu when navigating
         if (mobileProcTrigger && mobileProcPanel) { mobileCloseSub(); }
         if (mobileLocTrigger && mobileLocPanel) { mobileCloseLocSub(); }
-      }
-      // If no target on this page, do not preventDefault and let browser handle
+
+        const triggerScroll = () => {
+          requestAnimationFrame(() => {
+            scrollToSection();
+            setTimeout(scrollToSection, 160);
+            setTimeout(scrollToSection, 360);
+          });
+        };
+        if (wasMobileMenuOpen) {
+          const onPanelTransition = (event) => {
+            if (event && event.target !== panel) return;
+            if (panel) panel.removeEventListener('transitionend', onPanelTransition);
+            triggerScroll();
+          };
+          if (panel) {
+            panel.addEventListener('transitionend', onPanelTransition);
+          }
+          setTimeout(() => {
+            if (panel) panel.removeEventListener('transitionend', onPanelTransition);
+            triggerScroll();
+          }, 320);
+        } else {
+          triggerScroll();
+        }
+      }      // If no target on this page, do not preventDefault and let browser handle
     }, { capture: true });
   });
 
@@ -1508,6 +1540,13 @@ function loadGoogleAnalytics(id) {
 
 // TODO: Replace with your GA4 Measurement ID if needed
 loadGoogleAnalytics('G-1PHVDX2CCK');
+
+
+
+
+
+
+
 
 
 
