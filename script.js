@@ -521,8 +521,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const baseHeader = headerEl ? headerEl.offsetHeight : 0;
           const offset = baseHeader + 16;
           const rect = scrollNode.getBoundingClientRect();
-          const targetTop = rect.top + window.pageYOffset - offset;
-          const finalTop = targetTop < 0 ? 0 : targetTop;
+          const finalTop = Math.max(0, rect.top + window.pageYOffset - offset);
           try { window.scrollTo({ top: finalTop, behavior: 'smooth' }); }
           catch { window.scrollTo(0, finalTop); }
         };
@@ -543,12 +542,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (mobileProcTrigger && mobileProcPanel) { mobileCloseSub(); }
         if (mobileLocTrigger && mobileLocPanel) { mobileCloseLocSub(); }
 
+        let scrolled = false;
         const triggerScroll = () => {
-          requestAnimationFrame(() => {
-            scrollToSection();
-            setTimeout(scrollToSection, 160);
-            setTimeout(scrollToSection, 360);
-          });
+          if (scrolled) return;
+          scrolled = true;
+          requestAnimationFrame(scrollToSection);
         };
         if (wasMobileMenuOpen) {
           const onPanelTransition = (event) => {
@@ -1540,6 +1538,9 @@ function loadGoogleAnalytics(id) {
 
 // TODO: Replace with your GA4 Measurement ID if needed
 loadGoogleAnalytics('G-1PHVDX2CCK');
+
+
+
 
 
 
