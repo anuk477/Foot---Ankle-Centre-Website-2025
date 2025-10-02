@@ -518,12 +518,30 @@ document.addEventListener('DOMContentLoaded', () => {
         const anchorNode = anchorSelector ? targetEl.querySelector(anchorSelector) : null;
         const scrollNode = anchorNode || targetEl;
         const scrollToSection = () => {
-          const baseHeader = headerEl ? headerEl.offsetHeight : 0;
-          const offset = baseHeader + 16;
-          const rect = scrollNode.getBoundingClientRect();
-          const finalTop = Math.max(0, rect.top + window.pageYOffset - offset);
-          try { window.scrollTo({ top: finalTop, behavior: 'smooth' }); }
-          catch { window.scrollTo(0, finalTop); }
+          const previousMargin = scrollNode.style.scrollMarginTop;
+          const getOffset = () => (headerEl ? headerEl.offsetHeight : 0) + 16;
+          const restoreMargin = () => {
+            if (previousMargin) scrollNode.style.scrollMarginTop = previousMargin;
+            else scrollNode.style.removeProperty('scroll-margin-top');
+          };
+          const doScroll = () => {
+            const offset = getOffset();
+            scrollNode.style.scrollMarginTop = `${offset}px`;
+            if (typeof scrollNode.scrollIntoView === 'function') {
+              try {
+                scrollNode.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                return;
+              } catch (err) { /* fall back */ }
+            }
+            const rect = scrollNode.getBoundingClientRect();
+            const finalTop = Math.max(0, rect.top + window.pageYOffset - offset);
+            try { window.scrollTo({ top: finalTop, behavior: 'smooth' }); }
+            catch { window.scrollTo(0, finalTop); }
+          };
+          requestAnimationFrame(() => {
+            doScroll();
+            setTimeout(restoreMargin, 650);
+          });
         };
 
         // Update active state: turn clicked link blue
@@ -546,7 +564,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const triggerScroll = () => {
           if (scrolled) return;
           scrolled = true;
-          requestAnimationFrame(scrollToSection);
+          scrollToSection();
         };
         if (wasMobileMenuOpen) {
           const onPanelTransition = (event) => {
@@ -1473,8 +1491,8 @@ document.addEventListener('DOMContentLoaded', () => {
         baTrack.addEventListener('transitionend', onEnd);
         setTimeout(onEnd, 420);
       });
-    };
 
+    };
     baNext.addEventListener('click', goNext);
     baPrev.addEventListener('click', goPrev);
   }
