@@ -515,33 +515,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const headerEl = document.querySelector('header');
         const anchorSelector = targetEl.dataset.scrollAnchor || null;
-        const anchorNode = anchorSelector ? targetEl.querySelector(anchorSelector) : null;
-        const scrollNode = anchorNode || targetEl;
-        const scrollToSection = () => {
-          const previousMargin = scrollNode.style.scrollMarginTop;
-          const getOffset = () => (headerEl ? headerEl.offsetHeight : 0) + 16;
-          const restoreMargin = () => {
-            if (previousMargin) scrollNode.style.scrollMarginTop = previousMargin;
-            else scrollNode.style.removeProperty('scroll-margin-top');
-          };
-          const doScroll = () => {
-            const offset = getOffset();
-            scrollNode.style.scrollMarginTop = `${offset}px`;
-            if (typeof scrollNode.scrollIntoView === 'function') {
-              try {
-                scrollNode.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                return;
-              } catch (err) { /* fall back */ }
-            }
-            const rect = scrollNode.getBoundingClientRect();
-            const finalTop = Math.max(0, rect.top + window.pageYOffset - offset);
-            try { window.scrollTo({ top: finalTop, behavior: 'smooth' }); }
-            catch { window.scrollTo(0, finalTop); }
-          };
-          requestAnimationFrame(() => {
-            doScroll();
-            setTimeout(restoreMargin, 650);
-          });
+        let scrollNode = anchorSelector ? targetEl.querySelector(anchorSelector) : null;
+        if (!scrollNode) scrollNode = targetEl;
+        const computeTop = () => {
+          const headerHeight = headerEl ? headerEl.offsetHeight : 0;
+          const offset = headerHeight + 16;
+          const rect = scrollNode.getBoundingClientRect();
+          return Math.max(0, window.pageYOffset + rect.top - offset);
+        };
+        const performScroll = () => {
+          const top = computeTop();
+          try { window.scrollTo({ top, behavior: 'smooth' }); }
+          catch { window.scrollTo(0, top); }
         };
 
         // Update active state: turn clicked link blue
@@ -564,25 +549,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const triggerScroll = () => {
           if (scrolled) return;
           scrolled = true;
-          scrollToSection();
+          requestAnimationFrame(() => {
+            performScroll();
+            setTimeout(performScroll, 220);
+          });
         };
         if (wasMobileMenuOpen) {
           const onPanelTransition = (event) => {
             if (event && event.target !== panel) return;
-            if (panel) panel.removeEventListener('transitionend', onPanelTransition);
             triggerScroll();
           };
-          if (panel) {
-            panel.addEventListener('transitionend', onPanelTransition);
-          }
-          setTimeout(() => {
-            if (panel) panel.removeEventListener('transitionend', onPanelTransition);
-            triggerScroll();
-          }, 320);
+          if (panel) panel.addEventListener('transitionend', onPanelTransition, { once: true });
+          setTimeout(triggerScroll, 280);
         } else {
           triggerScroll();
         }
-      }      // If no target on this page, do not preventDefault and let browser handle
+      }
+      // If no target on this page, do not preventDefault and let browser handle
     }, { capture: true });
   });
 
@@ -1556,6 +1539,7 @@ function loadGoogleAnalytics(id) {
 
 // TODO: Replace with your GA4 Measurement ID if needed
 loadGoogleAnalytics('G-1PHVDX2CCK');
+
 
 
 
