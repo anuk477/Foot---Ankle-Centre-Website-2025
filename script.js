@@ -248,11 +248,13 @@ document.addEventListener('DOMContentLoaded', () => {
       topNavMatch.setAttribute('aria-current', 'page');
     }
     if (targetEl) {
-      // Give layout a tick, then scroll honoring scroll-margin-top
-      setTimeout(() => {
+      const scrollToTarget = () => {
         try { targetEl.scrollIntoView({ behavior: 'auto', block: 'start' }); }
         catch { targetEl.scrollIntoView(true); }
-      }, 0);
+      };
+      requestAnimationFrame(scrollToTarget);
+      setTimeout(scrollToTarget, 150);
+      setTimeout(scrollToTarget, 350);
     }
   })();
 
@@ -743,6 +745,155 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => locationEl.classList.remove('fade-in'), 500);
       }, 500);
     }, 3000); // change every 3 seconds
+  }
+
+  /* --------------------------
+     Team image rotator
+  -------------------------- */
+  const teamFigure = document.querySelector('.team-rotator');
+  if (teamFigure) {
+    const teamImg = teamFigure.querySelector('.team-image');
+    const teamCaption = teamFigure.querySelector('.team-caption');
+    const attrValue = (teamFigure.dataset.teamImages || '').split(',').map(name => name.trim()).filter(Boolean);
+    const captionsAttr = teamFigure.dataset.teamCaptions || '';
+    const currentSrc = teamImg ? (teamImg.getAttribute('src') || '').replace(/\\/g, '/').split('/').pop() : '';
+    if (currentSrc && !attrValue.includes(currentSrc)) {
+      attrValue.unshift(currentSrc);
+    }
+
+    const seenFiles = new Set();
+    const normalizeName = (input) => {
+      if (!input) return '';
+      return input.replace(/\\/g, '/').split('/').pop() || '';
+    };
+    const toLabel = (file) => {
+      const base = file.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').trim();
+      if (!base) return 'Team member';
+      return base.split(' ').filter(Boolean).map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
+    };
+
+    const buildCaptionMap = (input) => {
+      const map = new Map();
+      if (!input) return map;
+      input.split(';').forEach((pair) => {
+        const trimmed = pair.trim();
+        if (!trimmed) return;
+        const idx = trimmed.indexOf(':');
+        if (idx === -1) return;
+        const keyRaw = trimmed.slice(0, idx).trim();
+        const value = trimmed.slice(idx + 1).trim();
+        if (!keyRaw || !value) return;
+        const normalized = normalizeName(keyRaw);
+        if (!normalized) return;
+        map.set(normalized, value);
+        const bare = normalized.replace(/\.[^.]+$/, '');
+        if (bare && !map.has(bare)) map.set(bare, value);
+      });
+      return map;
+    };
+
+    const captionsMap = buildCaptionMap(captionsAttr);
+
+    const files = [];
+    attrValue.forEach((entry) => {
+      const file = normalizeName(entry);
+      if (!file || seenFiles.has(file)) return;
+      seenFiles.add(file);
+      files.push(file);
+    });
+
+    if (!files.length && currentSrc) {
+      files.push(currentSrc);
+    }
+
+    if (teamImg && files.length) {
+      const items = files.map((file) => {
+        const key = normalizeName(file);
+        const bare = key.replace(/\.[^.]+$/, '');
+        const caption = captionsMap.get(key) || captionsMap.get(bare) || toLabel(file);
+        return {
+          src: 'images/team/' + file,
+          caption,
+          alt: caption + ' - Foot & Ankle Centre team'
+        };
+      });
+
+      const applyItem = (item, immediate) => {
+        teamImg.src = item.src;
+        teamImg.alt = item.alt;
+        if (teamCaption) {
+          teamCaption.textContent = item.caption;
+        }
+        if (immediate) {
+          teamImg.classList.remove('is-hidden');
+          if (teamCaption) teamCaption.classList.remove('is-hidden');
+        }
+      };
+
+      applyItem(items[0], true);
+      let teamIndex = 0;
+
+      if (items.length > 1) {
+        const fadeDuration = 800;
+        const holdDuration = 5000;
+        let animating = false;
+        let fallbackTimer = null;
+
+        const clearFallback = () => {
+          if (fallbackTimer) {
+            clearTimeout(fallbackTimer);
+            fallbackTimer = null;
+          }
+        };
+
+        const swapTo = (nextIndex) => {
+          if (animating) return;
+          animating = true;
+          let started = false;
+          let finished = false;
+          const nextItem = items[nextIndex];
+          const loader = new Image();
+
+          const finishFadeOut = () => {
+            if (finished) return;
+            finished = true;
+            teamImg.removeEventListener('transitionend', finishFadeOut);
+            clearFallback();
+            applyItem(nextItem);
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                teamImg.classList.remove('is-hidden');
+                if (teamCaption) teamCaption.classList.remove('is-hidden');
+                setTimeout(() => {
+                  animating = false;
+                }, fadeDuration);
+              });
+            });
+          };
+
+          const startFade = () => {
+            if (started) return;
+            started = true;
+            loader.removeEventListener('load', startFade);
+            loader.removeEventListener('error', startFade);
+            teamImg.addEventListener('transitionend', finishFadeOut, { once: true });
+            teamImg.classList.add('is-hidden');
+            if (teamCaption) teamCaption.classList.add('is-hidden');
+            fallbackTimer = setTimeout(finishFadeOut, fadeDuration + 120);
+          };
+
+          loader.addEventListener('load', startFade, { once: true });
+          loader.addEventListener('error', startFade, { once: true });
+          loader.src = nextItem.src;
+          if (loader.complete) startFade();
+        };
+
+        setInterval(() => {
+          teamIndex = (teamIndex + 1) % items.length;
+          swapTo(teamIndex);
+        }, holdDuration);
+      }
+    }
   }
 
   /* --------------------------
@@ -1385,9 +1536,6 @@ function loadGoogleAnalytics(id) {
 
 // TODO: Replace with your GA4 Measurement ID if needed
 loadGoogleAnalytics('G-1PHVDX2CCK');
-
-
-
 
 
 
