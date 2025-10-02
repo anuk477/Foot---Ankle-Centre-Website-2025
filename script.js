@@ -837,61 +837,33 @@ document.addEventListener('DOMContentLoaded', () => {
         const fadeDuration = 800;
         const holdDuration = 5000;
         let animating = false;
-        let fallbackTimer = null;
 
-        const clearFallback = () => {
-          if (fallbackTimer) {
-            clearTimeout(fallbackTimer);
-            fallbackTimer = null;
-          }
-        };
+        // Preload remaining images so swaps are instant on slower connections
+        items.slice(1).forEach((item) => {
+          const preloadImg = new Image();
+          preloadImg.src = item.src;
+        });
 
-        const swapTo = (nextIndex) => {
+        const goNext = () => {
           if (animating) return;
           animating = true;
-          let started = false;
-          let finished = false;
-          const nextItem = items[nextIndex];
-          const loader = new Image();
+          const nextIndex = (teamIndex + 1) % items.length;
 
-          const finishFadeOut = () => {
-            if (finished) return;
-            finished = true;
-            teamImg.removeEventListener('transitionend', finishFadeOut);
-            clearFallback();
-            applyItem(nextItem);
+          teamImg.classList.add('is-hidden');
+          if (teamCaption) teamCaption.classList.add('is-hidden');
+
+          setTimeout(() => {
+            teamIndex = nextIndex;
+            applyItem(items[teamIndex]);
             requestAnimationFrame(() => {
-              requestAnimationFrame(() => {
-                teamImg.classList.remove('is-hidden');
-                if (teamCaption) teamCaption.classList.remove('is-hidden');
-                setTimeout(() => {
-                  animating = false;
-                }, fadeDuration);
-              });
+              teamImg.classList.remove('is-hidden');
+              if (teamCaption) teamCaption.classList.remove('is-hidden');
             });
-          };
-
-          const startFade = () => {
-            if (started) return;
-            started = true;
-            loader.removeEventListener('load', startFade);
-            loader.removeEventListener('error', startFade);
-            teamImg.addEventListener('transitionend', finishFadeOut, { once: true });
-            teamImg.classList.add('is-hidden');
-            if (teamCaption) teamCaption.classList.add('is-hidden');
-            fallbackTimer = setTimeout(finishFadeOut, fadeDuration + 120);
-          };
-
-          loader.addEventListener('load', startFade, { once: true });
-          loader.addEventListener('error', startFade, { once: true });
-          loader.src = nextItem.src;
-          if (loader.complete) startFade();
+            animating = false;
+          }, fadeDuration);
         };
 
-        setInterval(() => {
-          teamIndex = (teamIndex + 1) % items.length;
-          swapTo(teamIndex);
-        }, holdDuration);
+        setInterval(goNext, holdDuration);
       }
     }
   }
