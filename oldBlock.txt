@@ -1,532 +1,35 @@
-document.addEventListener('DOMContentLoaded', () => {
-
-  // Clean URLs in address bar: hide .html when pages are served
-  // Works on initial load; avoid for file:// protocol to prevent oddities
-  try {
-    const { protocol, pathname, search, hash } = window.location;
-    let didClean = false;
-    if (protocol === 'http:' || protocol === 'https:') {
-      // Strip trailing '/index.html' to '/'
-      if (/\/index\.html$/i.test(pathname)) {
-        const clean = pathname.replace(/index\.html$/i, '');
-        history.replaceState(null, '', clean + search + hash);
-        didClean = true;
-      }
-      // Strip '.html' at end of path (e.g., procedures/toe-shortening.html)
-      else if (/\.html$/i.test(pathname)) {
-        const clean = pathname.replace(/\.html$/i, '');
-        history.replaceState(null, '', clean + search + hash);
-        didClean = true;
-      }
-    }
-    // If we changed the URL before the SPA hooks were installed, request a manual page_view.
-    if (didClean) {
-      trackPageView();
-    }
-  } catch {}
-
-  /* --------------------------
-     Page fade transitions (fade-out only)
-  -------------------------- */
-  document.body.classList.add('fade-transition');
-
-  // On booking page, fade in only the main content, not the navbar
-  const isBookingPage = !!document.getElementById('b-heading');
-  const contentFadeEl = isBookingPage ? document.querySelector('main') : null;
-  if (contentFadeEl) {
-    contentFadeEl.classList.add('content-fade');
-    requestAnimationFrame(() => contentFadeEl.classList.add('ready'));
-  }
-
-  /* --------------------------
-     Mobile menu toggle
-  -------------------------- */
-  const toggle = document.querySelector('.menu-toggle');
-  const panel = document.getElementById('mobile-menu');
-  const closeBtn = document.querySelector('.mobile-panel .menu-close');
-  const mobileProcTrigger = document.getElementById('mobile-procedures-trigger');
-  const mobileProcPanel = document.getElementById('mobile-procedures-menu');
-  const mobileSubContent = document.querySelector('#mobile-procedures-menu .mobile-subcontent');
-  // Mobile Locations submenu elements
-  const mobileLocTrigger = document.getElementById('mobile-locations-trigger');
-  const mobileLocPanel = document.getElementById('mobile-locations-menu');
-
-  // Detect iOS (including iPadOS masquerading as Mac) for telemetry/class only
-  const isIOS = (() => {
-    const ua = navigator.userAgent || '';
-    const platform = navigator.platform || '';
-    const iOSDevice = /iP(hone|od|ad)/.test(platform);
-    const iPadOS = ua.includes('Mac') && 'ontouchend' in document; // iPadOS reports as Mac
-    return iOSDevice || iPadOS;
-  })();
-  if (isIOS) document.documentElement.classList.add('is-ios');
-
-  // iOS Safari: keep native date input visible; show non-blocking dd/mm/yyyy hint
-  if (isIOS) {
-    const inputs = document.querySelectorAll("label.date-field > input[type='date'].date-native");
-    inputs.forEach(input => {
-      const label = input.closest('label.date-field');
-      if (!label) return;
-      const sync = () => {
-        if (input.value) label.classList.add('has-value');
-        else label.classList.remove('has-value');
-      };
-      sync();
-      input.addEventListener('change', sync, { passive: true });
-      input.addEventListener('input', sync, { passive: true });
-      input.addEventListener('blur', sync, { passive: true });
-      input.addEventListener('focus', () => label.classList.add('has-value'), { passive: true });
-
-      // Ensure the picker opens on tap/click reliably on iOS
-      const openPicker = () => {
-        try {
-          if (typeof input.showPicker === 'function') {
-            input.showPicker();
-          } else {
-            input.focus();
-          }
-        } catch { input.focus(); }
-      };
-      // Call on various interactions to be robust
-      input.addEventListener('click', openPicker);
-      input.addEventListener('touchend', openPicker, { passive: true });
-    });
-  }
-
-  // iOS custom scrollbar elements + helpers
-  let iosScrollBar = null;
-  let iosScrollThumb = null;
-  let iosScrollHandlersBound = false;
-  let iosRAF = null;
-  const destroyIOSScrollbar = () => {
-    if (iosScrollBar && iosScrollBar.parentNode) iosScrollBar.parentNode.removeChild(iosScrollBar);
-    iosScrollBar = null;
-    iosScrollThumb = null;
-    if (iosScrollHandlersBound && mobileSubContent) {
-      mobileSubContent.removeEventListener('scroll', updateIOSScrollbar, { passive: true });
-      window.removeEventListener('resize', updateIOSScrollbar);
-    }
-    iosScrollHandlersBound = false;
-    if (iosRAF) { cancelAnimationFrame(iosRAF); iosRAF = null; }
-  };
-  const updateIOSScrollbar = () => {
-    if (!isIOS || !mobileSubContent || !iosScrollBar || !iosScrollThumb) return;
-    // Use panel height for track sizing to decouple from content
-    const panelView = mobileProcPanel ? mobileProcPanel.clientHeight : 0;
-    const contentView = mobileSubContent.clientHeight;
-    const view = panelView || contentView;
-    const scroll = mobileSubContent.scrollHeight;
-    const topPad = 8; const bottomPad = 8; // keep in sync with CSS
-    const trackHeight = Math.max(0, view - topPad - bottomPad);
-    if (scroll <= view + 1 || trackHeight <= 0) {
-      iosScrollBar.style.display = 'none';
-      return;
-    }
-    iosScrollBar.style.display = 'block';
-    // Thumb size proportional to visible area
-    const minThumb = 20; // px minimum for usability
-    const thumbHeight = Math.max(minThumb, Math.round((contentView / scroll) * trackHeight));
-    iosScrollThumb.style.height = thumbHeight + 'px';
-    // Thumb position based on scrollTop
-    const maxScroll = scroll - contentView;
-    const maxThumbTop = trackHeight - thumbHeight;
-    const ratio = maxScroll > 0 ? (mobileSubContent.scrollTop / maxScroll) : 0;
-    const thumbTop = Math.round(ratio * maxThumbTop);
-    iosScrollThumb.style.transform = `translateY(${topPad + thumbTop}px)`;
-  };
-  const ensureIOSScrollbar = () => {
-    if (!isIOS || !mobileSubContent) return;
-    if (!iosScrollBar) {
-      iosScrollBar = document.createElement('div');
-      iosScrollBar.className = 'custom-scrollbar';
-      iosScrollThumb = document.createElement('div');
-      iosScrollThumb.className = 'custom-scrollbar-thumb';
-      iosScrollBar.appendChild(iosScrollThumb);
-      // Append to non-scrolling panel so it doesn't move with content
-      mobileProcPanel.appendChild(iosScrollBar);
-    }
-    if (!iosScrollHandlersBound) {
-      iosScrollHandlersBound = true;
-      mobileSubContent.addEventListener('scroll', updateIOSScrollbar, { passive: true });
-      window.addEventListener('resize', updateIOSScrollbar);
-      // Also update on touch move for better responsiveness
-      mobileSubContent.addEventListener('touchmove', updateIOSScrollbar, { passive: true });
-      // Start a lightweight RAF loop to keep in sync during momentum scrolling
-      const tick = () => {
-        updateIOSScrollbar();
-        iosRAF = requestAnimationFrame(tick);
-      };
-      if (!iosRAF) iosRAF = requestAnimationFrame(tick);
-    }
-    // Defer update to next frame so layout is final
-    requestAnimationFrame(updateIOSScrollbar);
-  };
-
-  if (toggle && panel) {
-    // Ensure menu is hidden on load
-    panel.classList.remove('open');
-    panel.setAttribute('aria-hidden', 'true');
-    toggle.setAttribute('aria-expanded', 'false');
-
-    // Open/close via hamburger
-    toggle.addEventListener('click', () => {
-      const isOpen = panel.classList.contains('open');
-      panel.classList.toggle('open');
-      panel.setAttribute('aria-hidden', String(isOpen));
-      toggle.setAttribute('aria-expanded', String(!isOpen));
-
-      // Reset mobile submenu on close
-      if (isOpen) {
-        if (mobileProcTrigger && mobileProcPanel) {
-          mobileCloseSub();
-        }
-        if (mobileLocTrigger && mobileLocPanel) {
-          mobileCloseLocSub();
-        }
-      }
-    });
-
-    // Close via 'X' button
-    if (closeBtn) {
-      closeBtn.addEventListener('click', () => {
-        panel.classList.remove('open');
-        panel.setAttribute('aria-hidden', 'true');
-        toggle.setAttribute('aria-expanded', 'false');
-        if (mobileProcTrigger && mobileProcPanel) { mobileCloseSub(); }
-        if (mobileLocTrigger && mobileLocPanel) { mobileCloseLocSub(); }
-      });
-    }
-  }
-
-  /* --------------------------
-     Smooth scroll for nav links
-  -------------------------- */
-  // Include links inside the desktop mega panels so their relative hrefs
-  // resolve correctly from any subpage (e.g., procedures/*)
-  const allNavLinks = document.querySelectorAll('nav a, #mobile-menu a, #procedures-menu a, #locations-menu a');
-  const proceduresTrigger = document.getElementById('procedures-trigger');
-  const proceduresMenu = document.getElementById('procedures-menu');
-  // Desktop Locations dropdown refs
-  const locationsTrigger = document.getElementById('locations-trigger');
-  const locationsMenu = document.getElementById('locations-menu');
-
-  // Clicking the brand logo to go to top should clear any active nav state
-  const brandLinks = document.querySelectorAll('a.brand');
-  brandLinks.forEach(brand => {
-    brand.addEventListener('click', (e) => {
-      const href = brand.getAttribute('href') || '';
-      // Only intercept same-page top jump (href='#')
-      if (href === '#') {
-        e.preventDefault();
-        // Clear active state from all nav links
-        allNavLinks.forEach(a => a.removeAttribute('aria-current'));
-        // Close dropdowns if open
-        if (typeof closeProceduresMenu === 'function') closeProceduresMenu();
-        if (typeof closeLocationsMenu === 'function') closeLocationsMenu();
-        // Close mobile menu if open
-        if (panel && panel.classList.contains('open')) {
-          panel.classList.remove('open');
-          panel.setAttribute('aria-hidden', 'true');
-          if (toggle) toggle.setAttribute('aria-expanded', 'false');
-        }
-        // Smooth scroll to the very top
-        try { window.scrollTo({ top: 0, behavior: 'smooth' }); }
-        catch { window.scrollTo(0, 0); }
-      }
-    });
-  });
-
-  // If landing with a hash (e.g., index.html#team), highlight the nav and ensure scroll
-  (function setActiveFromHashOnLoad(){
-    const { hash } = window.location;
-    if (!hash) return;
-    const targetId = hash.slice(1);
-    const targetEl = document.getElementById(targetId);
-    const topNavMatch = document.querySelector(`nav a[href='${hash}']`);
-    if (topNavMatch) {
-      allNavLinks.forEach(a => a.removeAttribute('aria-current'));
-      topNavMatch.setAttribute('aria-current', 'page');
-    }
-    if (targetEl) {
-      const scrollToTarget = () => {
-        try { targetEl.scrollIntoView({ behavior: 'auto', block: 'start' }); }
-        catch { targetEl.scrollIntoView(true); }
-      };
-      requestAnimationFrame(scrollToTarget);
-      setTimeout(scrollToTarget, 150);
-      setTimeout(scrollToTarget, 350);
-    }
-  })();
-
-  // Helper to close the procedures dropdown
-  const openProceduresMenu = () => {
-    if (!proceduresMenu) return;
-    proceduresMenu.classList.remove('closing');
-    proceduresMenu.classList.add('open');
-    proceduresMenu.setAttribute('aria-hidden', 'false');
-    if (proceduresTrigger) proceduresTrigger.setAttribute('aria-expanded', 'true');
-  };
-
-  const closeProceduresMenu = () => {
-    if (!proceduresMenu) return;
-    if (proceduresMenu.classList.contains('open')) {
-      // Start closing animation: keep visible but transition out
-      proceduresMenu.classList.add('closing');
-      proceduresMenu.classList.remove('open');
-      proceduresMenu.setAttribute('aria-hidden', 'true');
-      if (proceduresTrigger) proceduresTrigger.setAttribute('aria-expanded', 'false');
-      const cleanup = () => proceduresMenu.classList.remove('closing');
-      proceduresMenu.addEventListener('transitionend', cleanup, { once: true });
-      // Fallback cleanup in case transitionend doesn't fire
-      setTimeout(cleanup, 300);
-    }
-  };
-
-  // Locations dropdown helpers
-  const openLocationsMenu = () => {
-    if (!locationsMenu) return;
-    locationsMenu.classList.remove('closing');
-    locationsMenu.classList.add('open');
-    locationsMenu.setAttribute('aria-hidden', 'false');
-    if (locationsTrigger) locationsTrigger.setAttribute('aria-expanded', 'true');
-  };
-
-  const closeLocationsMenu = () => {
-    if (!locationsMenu) return;
-    if (locationsMenu.classList.contains('open')) {
-      // Start closing animation
-      locationsMenu.classList.add('closing');
-      locationsMenu.classList.remove('open');
-      locationsMenu.setAttribute('aria-hidden', 'true');
-      if (locationsTrigger) locationsTrigger.setAttribute('aria-expanded', 'false');
-      const cleanup = () => locationsMenu.classList.remove('closing');
-      locationsMenu.addEventListener('transitionend', cleanup, { once: true });
-      setTimeout(cleanup, 300);
-    }
-  };
-
-  // Toggle “Procedures” dropdown on click
-  if (proceduresTrigger && proceduresMenu) {
-    proceduresTrigger.addEventListener('click', e => {
-      e.preventDefault();
-      const isOpen = proceduresMenu.classList.contains('open');
-      // Ensure Locations is closed when opening Procedures
-      if (typeof closeLocationsMenu === 'function') closeLocationsMenu();
-      if (isOpen) {
-        closeProceduresMenu();
-      } else {
-        openProceduresMenu();
-      }
-      // Mark as active in nav
-      allNavLinks.forEach(a => a.removeAttribute('aria-current'));
-      proceduresTrigger.setAttribute('aria-current', 'page');
-    });
-
-    // Close on outside click
-    document.addEventListener('click', e => {
-      if (!proceduresMenu.classList.contains('open')) return;
-      const target = e.target;
-      if (target !== proceduresTrigger && !proceduresMenu.contains(target)) {
-        closeProceduresMenu();
-      }
-    });
-
-    // Close on Escape
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeProceduresMenu();
-    });
-
-    // Desktop hover: open on hover, close on leave (keep mobile click intact)
-    try {
-      const supportsHover = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-      if (supportsHover) {
-        let closeTimer = null;
-        const cancelClose = () => { if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; } };
-        const scheduleClose = () => {
-          cancelClose();
-          closeTimer = setTimeout(() => { closeProceduresMenu(); }, 120);
-        };
-
-        // Open when hovering trigger or menu; also close Locations if open
-        ['mouseenter','mousemove','mouseover','focusin'].forEach(evt => {
-          proceduresTrigger.addEventListener(evt, () => {
-            cancelClose();
-            if (typeof closeLocationsMenu === 'function') closeLocationsMenu();
-            openProceduresMenu();
-          }, { passive: true });
-          proceduresMenu.addEventListener(evt, () => {
-            cancelClose();
-            openProceduresMenu();
-          }, { passive: true });
-        });
-
-        // Close when pointer leaves both trigger and panel
-        ['mouseleave','mouseout'].forEach(evt => {
-          proceduresTrigger.addEventListener(evt, scheduleClose, { passive: true });
-          proceduresMenu.addEventListener(evt, scheduleClose, { passive: true });
-        });
-
-        // Keyboard: keep open while focus is within; close when it leaves
-        document.addEventListener('focusin', (e) => {
-          if (proceduresTrigger.contains(e.target) || proceduresMenu.contains(e.target)) {
-            cancelClose();
-            openProceduresMenu();
-          }
-        });
-        document.addEventListener('focusout', () => {
-          setTimeout(() => {
-            const a = document.activeElement;
-            if (!proceduresTrigger.contains(a) && !proceduresMenu.contains(a)) {
-              scheduleClose();
-            }
-          }, 0);
-        });
-      }
-    } catch {}
-  }
-
-  // Toggle “Locations” dropdown on click
-  if (locationsTrigger && locationsMenu) {
-    locationsTrigger.addEventListener('click', e => {
-      e.preventDefault();
-      // Ensure Procedures is closed when opening Locations
-      if (typeof closeProceduresMenu === 'function') closeProceduresMenu();
-      const isOpen = locationsMenu.classList.contains('open');
-      if (isOpen) {
-        closeLocationsMenu();
-      } else {
-        openLocationsMenu();
-      }
-      // Mark as active in nav
-      allNavLinks.forEach(a => a.removeAttribute('aria-current'));
-      locationsTrigger.setAttribute('aria-current', 'page');
-    });
-
-    // Close on outside click
-    document.addEventListener('click', e => {
-      if (!locationsMenu.classList.contains('open')) return;
-      const target = e.target;
-      if (target !== locationsTrigger && !locationsMenu.contains(target)) {
-        closeLocationsMenu();
-      }
-    });
-
-    // Close on Escape
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeLocationsMenu();
-    });
-
-    // Desktop hover: open on hover, close on leave (keep mobile click intact)
-    try {
-      const supportsHover = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-      if (supportsHover) {
-        let closeTimer = null;
-        const cancelClose = () => { if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; } };
-        const scheduleClose = () => {
-          cancelClose();
-          closeTimer = setTimeout(() => { closeLocationsMenu(); }, 120);
-        };
-
-        ['mouseenter','mousemove','mouseover','focusin'].forEach(evt => {
-          locationsTrigger.addEventListener(evt, () => {
-            cancelClose();
-            if (typeof closeProceduresMenu === 'function') closeProceduresMenu();
-            openLocationsMenu();
-          }, { passive: true });
-          locationsMenu.addEventListener(evt, () => {
-            cancelClose();
-            openLocationsMenu();
-          }, { passive: true });
-        });
-
-        ['mouseleave','mouseout'].forEach(evt => {
-          locationsTrigger.addEventListener(evt, scheduleClose, { passive: true });
-          locationsMenu.addEventListener(evt, scheduleClose, { passive: true });
-        });
-
-        document.addEventListener('focusin', (e) => {
-          if (locationsTrigger.contains(e.target) || locationsMenu.contains(e.target)) {
-            cancelClose();
-            openLocationsMenu();
-          }
-        });
-        document.addEventListener('focusout', () => {
-          setTimeout(() => {
-            const a = document.activeElement;
-            if (!locationsTrigger.contains(a) && !locationsMenu.contains(a)) {
-              scheduleClose();
-            }
-          }, 0);
-        });
-      }
-    } catch {}
-  }
-
-  allNavLinks.forEach(link => {
-    link.addEventListener('click', e => {
-      const href = link.getAttribute('href') || '';
-      const isHashOnly = href.startsWith('#');
-
-      // Cross-page links: fade-out then navigate
-      if (!isHashOnly) {
-        if (!link.target && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey) {
-          e.preventDefault();
-          const resolveHref = (url) => {
-            try {
-              // Absolute URLs and root-relative paths: use as-is
-              if (/^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//.test(url) || url.startsWith('/')) return url;
-              // Normalize any other relative path against site root
-              return new URL(url, window.location.href).toString();
-            } catch { return url; }
-          };
-          const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-          const targetUrl = resolveHref(href);
-          const go = () => { window.location.href = targetUrl; };
-          if (prefersReduced) { go(); return; }
-          // Trigger fade-out animation (content-only on booking page)
-          const fadeEl = contentFadeEl || document.body;
-          if (fadeEl === document.body) {
-            document.body.classList.add('leaving');
-          } else {
-            fadeEl.classList.add('leaving');
-          }
-          let navigated = false;
-          const done = () => { if (!navigated) { navigated = true; go(); } };
-          fadeEl.addEventListener('transitionend', done, { once: true });
-          setTimeout(done, 280); // fallback
-        }
-        return;
-      }
-
-      const targetId = href.slice(1);
-      const targetEl = document.getElementById(targetId);
-
-      // Let the dedicated handlers manage dropdown triggers
-      if (targetId === 'procedures' && link === proceduresTrigger) {
-        e.preventDefault();
-        return;
-      }
-      if (targetId === 'locations' && link === locationsTrigger) {
-        e.preventDefault();
-        return;
-      }
       if (targetEl) {
         e.preventDefault();
 
         const headerEl = document.querySelector('header');
         const anchorSelector = targetEl.dataset.scrollAnchor || null;
-        let scrollNode = anchorSelector ? targetEl.querySelector(anchorSelector) : null;
-        if (!scrollNode) scrollNode = targetEl;
-        const computeTop = () => {
-          const headerHeight = headerEl ? headerEl.offsetHeight : 0;
-          const offset = headerHeight + 16;
-          const rect = scrollNode.getBoundingClientRect();
-          return Math.max(0, window.pageYOffset + rect.top - offset);
-        };
-        const performScroll = () => {
-          const top = computeTop();
-          try { window.scrollTo({ top, behavior: 'smooth' }); }
-          catch { window.scrollTo(0, top); }
+        const anchorNode = anchorSelector ? targetEl.querySelector(anchorSelector) : null;
+        const scrollNode = anchorNode || targetEl;
+        const scrollToSection = () => {
+          const previousMargin = scrollNode.style.scrollMarginTop;
+          const getOffset = () => (headerEl ? headerEl.offsetHeight : 0) + 16;
+          const restoreMargin = () => {
+            if (previousMargin) scrollNode.style.scrollMarginTop = previousMargin;
+            else scrollNode.style.removeProperty('scroll-margin-top');
+          };
+          const doScroll = () => {
+            const offset = getOffset();
+            scrollNode.style.scrollMarginTop = `${offset}px`;
+            if (typeof scrollNode.scrollIntoView === 'function') {
+              try {
+                scrollNode.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                return;
+              } catch (err) { /* fall back */ }
+            }
+            const rect = scrollNode.getBoundingClientRect();
+            const finalTop = Math.max(0, rect.top + window.pageYOffset - offset);
+            try { window.scrollTo({ top: finalTop, behavior: 'smooth' }); }
+            catch { window.scrollTo(0, finalTop); }
+          };
+          requestAnimationFrame(() => {
+            doScroll();
+            setTimeout(restoreMargin, 650);
+          });
         };
 
         // Update active state: turn clicked link blue
@@ -549,23 +52,25 @@ document.addEventListener('DOMContentLoaded', () => {
         const triggerScroll = () => {
           if (scrolled) return;
           scrolled = true;
-          requestAnimationFrame(() => {
-            performScroll();
-            setTimeout(performScroll, 220);
-          });
+          scrollToSection();
         };
         if (wasMobileMenuOpen) {
           const onPanelTransition = (event) => {
             if (event && event.target !== panel) return;
+            if (panel) panel.removeEventListener('transitionend', onPanelTransition);
             triggerScroll();
           };
-          if (panel) panel.addEventListener('transitionend', onPanelTransition, { once: true });
-          setTimeout(triggerScroll, 280);
+          if (panel) {
+            panel.addEventListener('transitionend', onPanelTransition);
+          }
+          setTimeout(() => {
+            if (panel) panel.removeEventListener('transitionend', onPanelTransition);
+            triggerScroll();
+          }, 320);
         } else {
           triggerScroll();
         }
-      }
-      // If no target on this page, do not preventDefault and let browser handle
+      }      // If no target on this page, do not preventDefault and let browser handle
     }, { capture: true });
   });
 
@@ -1539,7 +1044,6 @@ function loadGoogleAnalytics(id) {
 
 // TODO: Replace with your GA4 Measurement ID if needed
 loadGoogleAnalytics('G-1PHVDX2CCK');
-
 
 
 
