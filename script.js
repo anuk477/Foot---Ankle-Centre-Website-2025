@@ -545,24 +545,30 @@ document.addEventListener('DOMContentLoaded', () => {
         if (mobileProcTrigger && mobileProcPanel) { mobileCloseSub(); }
         if (mobileLocTrigger && mobileLocPanel) { mobileCloseLocSub(); }
 
-        let scrolled = false;
-        const triggerScroll = () => {
-          if (scrolled) return;
-          scrolled = true;
+        let executed = false;
+        const executeScroll = () => {
+          if (executed) return;
+          executed = true;
           requestAnimationFrame(() => {
             performScroll();
-            setTimeout(performScroll, 220);
+            setTimeout(performScroll, 240);
+            setTimeout(performScroll, 480);
           });
         };
+
         if (wasMobileMenuOpen) {
           const onPanelTransition = (event) => {
             if (event && event.target !== panel) return;
-            triggerScroll();
+            if (panel) panel.removeEventListener('transitionend', onPanelTransition);
+            executeScroll();
           };
-          if (panel) panel.addEventListener('transitionend', onPanelTransition, { once: true });
-          setTimeout(triggerScroll, 280);
+          if (panel) panel.addEventListener('transitionend', onPanelTransition);
+          setTimeout(() => {
+            if (panel) panel.removeEventListener('transitionend', onPanelTransition);
+            executeScroll();
+          }, 360);
         } else {
-          triggerScroll();
+          executeScroll();
         }
       }
       // If no target on this page, do not preventDefault and let browser handle
@@ -1539,6 +1545,7 @@ function loadGoogleAnalytics(id) {
 
 // TODO: Replace with your GA4 Measurement ID if needed
 loadGoogleAnalytics('G-1PHVDX2CCK');
+
 
 
 
