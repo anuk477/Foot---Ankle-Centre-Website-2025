@@ -26,7 +26,7 @@ body.booking-bg{
   /* Base page color */
   background-color: var(--bg);
   /* Image + on-image gradient overlay that fades from white on the image's left edge to transparent */
-  background-image: linear-gradient(to right, rgba(255,255,255,.97) 0%, rgba(255,255,255,0) 65%), url('images/bookings image.jpg');
+  background-image: linear-gradient(to right, rgba(255,255,255,.97) 0%, rgba(255,255,255,0) 65%), url('images/bookings image.avif');
   background-repeat: no-repeat, no-repeat;
   background-attachment: scroll, scroll; /* both gradient and image scroll with page */
   /* Position both layers together on the right, below the sticky navbar */
@@ -500,7 +500,7 @@ nav[aria-label="Main"] {
 .hero::before{
   content:"";
   position:absolute;inset:0;
-  background:url('images/shef header image.jpg') center/cover no-repeat;
+  background:url('images/shef\ header\ image.avif') center/cover no-repeat;
   /* Scale image down by ~50% total now */
   background-size: 50% auto;
   background-position: right center;
