@@ -523,10 +523,11 @@ document.addEventListener('DOMContentLoaded', () => {
           const rect = scrollNode.getBoundingClientRect();
           return Math.max(0, window.pageYOffset + rect.top - offset);
         };
-        const performScroll = () => {
+        const performScroll = (behavior = 'smooth') => {
           const top = computeTop();
-          try { window.scrollTo({ top, behavior: 'smooth' }); }
+          try { window.scrollTo({ top, behavior }); }
           catch { window.scrollTo(0, top); }
+          return top;
         };
 
         // Update active state: turn clicked link blue
@@ -552,7 +553,13 @@ document.addEventListener('DOMContentLoaded', () => {
           // Wait two frames so layout can settle after menu transitions, then scroll once.
           requestAnimationFrame(() => {
             requestAnimationFrame(() => {
-              performScroll();
+              performScroll('smooth');
+              setTimeout(() => {
+                const desired = computeTop();
+                if (Math.abs(window.pageYOffset - desired) > 6) {
+                  performScroll('auto');
+                }
+              }, 420);
             });
           });
         };
