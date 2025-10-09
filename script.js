@@ -550,6 +550,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (mobileProcTrigger && mobileProcPanel) { mobileCloseSub(); }
         if (mobileLocTrigger && mobileLocPanel) { mobileCloseLocSub(); }
 
+        const allowSnap = targetId === 'contact';
         let executed = false;
         const executeScroll = () => {
           if (executed) return;
@@ -558,12 +559,14 @@ document.addEventListener('DOMContentLoaded', () => {
           requestAnimationFrame(() => {
             requestAnimationFrame(() => {
               performScroll('smooth');
-              setTimeout(() => {
-                const desired = computeTop();
-                if (Math.abs(window.pageYOffset - desired) > 6) {
-                  performScroll('auto');
-                }
-              }, 420);
+              if (allowSnap) {
+                setTimeout(() => {
+                  const desired = computeTop();
+                  if (Math.abs(window.pageYOffset - desired) > 12) {
+                    performScroll('auto');
+                  }
+                }, 420);
+              }
             });
           });
         };
