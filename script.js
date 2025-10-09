@@ -1026,21 +1026,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     let scrollPos = 0;
-    const speed = 0.4; // px per frame (~24px/sec at 60fps) as originally
+    const speed = 24; // px per second for fluid, time-based motion
     let paused = false;
+    let lastTime = null;
     // Mobile interaction state
     let userInteracting = false;
     let idleTimer = null;
     const idleDelay = 2000; // resume 2s after last interaction
 
-    const step = () => {
+    const step = (now) => {
+      if (lastTime === null) lastTime = now;
       if (!paused) {
-        // Advance using fixed per-frame increment as originally
+        // Advance using time delta so the loop stays smooth even on variable frame rates
         const half = track.scrollWidth / 2;
-        scrollPos += speed;
-        if (half > 0 && scrollPos >= half) scrollPos = 0;
-        track.scrollLeft = scrollPos;
+        if (half > 0) {
+          const delta = Math.min(now - lastTime, 120); // cap large jumps after tab throttling
+          scrollPos = (scrollPos + (speed * delta) / 1000) % half;
+          track.scrollLeft = scrollPos;
+        }
       }
+      lastTime = now;
       requestAnimationFrame(step);
     };
 
@@ -1059,6 +1064,7 @@ document.addEventListener('DOMContentLoaded', () => {
         idleTimer = setTimeout(() => {
           // Continue from the current position to avoid a jump
           scrollPos = track.scrollLeft;
+          lastTime = null;
           paused = false;
           userInteracting = false;
         }, idleDelay);
