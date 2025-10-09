@@ -453,10 +453,16 @@ nav[aria-label="Main"] {
     margin-top: 1rem;
   }
 
-  .mobile-panel .mobile-booking .btn.primary {
-    width: 100%;
-    justify-content: center;
-  }
+.mobile-panel .mobile-booking .btn.primary {
+  width: 100%;
+  justify-content: center;
+}
+}
+
+.success-actions{margin-top:1.25rem;display:flex;gap:.5rem;flex-wrap:wrap}
+@media (max-width: 620px){
+  .success-actions{flex-direction:column;align-items:flex-start;gap:.75rem}
+  .success-actions .btn{margin:0}
 }
 
 
