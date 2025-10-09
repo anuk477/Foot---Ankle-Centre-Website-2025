@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
   -------------------------- */
   // Include links inside the desktop mega panels so their relative hrefs
   // resolve correctly from any subpage (e.g., procedures/*)
-  const allNavLinks = document.querySelectorAll('nav a, #mobile-menu a, #procedures-menu a, #locations-menu a');
+  const allNavLinks = document.querySelectorAll('nav a, #mobile-menu a, #procedures-menu a, #locations-menu a, a[data-scroll-snippet]');
   const proceduresTrigger = document.getElementById('procedures-trigger');
   const proceduresMenu = document.getElementById('procedures-menu');
   // Desktop Locations dropdown refs
