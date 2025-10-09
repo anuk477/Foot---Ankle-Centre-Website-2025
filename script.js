@@ -1129,6 +1129,9 @@ document.addEventListener('DOMContentLoaded', () => {
       let slideWidthPx = 0;
       let slideGapPx = 0;
       let galleryWidth = 0;
+      let galleryPadLeft = 0;
+      let galleryPadRight = 0;
+      let galleryOffsetLeft = 0;
       let slidesPerView = getSlidesPerView();
       let autoplayId = null;
       let isAnimating = false;
@@ -1143,6 +1146,10 @@ document.addEventListener('DOMContentLoaded', () => {
         slideGapPx = Number.isNaN(gapValue) ? 0 : gapValue;
         const galleryRect = vimaziGallery.getBoundingClientRect();
         galleryWidth = galleryRect.width;
+        const galleryStyles = getComputedStyle(vimaziGallery);
+        galleryPadLeft = parseFloat(galleryStyles.paddingLeft || '0') || 0;
+        galleryPadRight = parseFloat(galleryStyles.paddingRight || '0') || 0;
+        galleryOffsetLeft = vimaziTrack.offsetLeft || 0;
       };
 
       const applyLayout = () => {
@@ -1160,8 +1167,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const slide = vimaziTrack.children[index];
         if (slide) {
           const layoutCenter = slide.offsetLeft + slide.offsetWidth / 2;
-          const galleryCenter = galleryWidth / 2;
-          return layoutCenter - galleryCenter;
+          const usableWidth = Math.max(0, galleryWidth - galleryPadLeft - galleryPadRight);
+          const galleryCenter = galleryPadLeft + usableWidth / 2;
+          const galleryCenterInTrack = galleryCenter - galleryOffsetLeft;
+          return layoutCenter - galleryCenterInTrack;
         }
         const spacing = slideWidthPx + slideGapPx;
         return spacing * index;
@@ -1411,7 +1420,19 @@ document.addEventListener('DOMContentLoaded', () => {
       const pl = parseFloat(ws.paddingLeft || '0');
       return isNaN(pl) ? 0 : Math.round(pl);
     };
+    const shouldCenter = () => {
+      if (!wrapper) return false;
+      const first = baTrack.children[0];
+      if (!first) return false;
+      const trackRect = first.getBoundingClientRect();
+      const wrapperRect = wrapper.getBoundingClientRect();
+      const gap = getGap();
+      // When the visible card already fills the wrapper (mobile stack), avoid peeking offset.
+      return wrapperRect.width - trackRect.width <= gap + 2;
+    };
     const baseline = () => {
+      if (window.matchMedia && window.matchMedia('(max-width: 620px)').matches) return 0;
+      if (shouldCenter()) return 0;
       const gap = getGap();
       const peek = computePeek();
       // Shift by gap + peek so the card edge (not the gap) is visible at both sides
