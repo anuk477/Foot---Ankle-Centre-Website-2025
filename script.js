@@ -549,10 +549,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const executeScroll = () => {
           if (executed) return;
           executed = true;
+          // Wait two frames so layout can settle after menu transitions, then scroll once.
           requestAnimationFrame(() => {
-            performScroll();
-            setTimeout(performScroll, 240);
-            setTimeout(performScroll, 480);
+            requestAnimationFrame(() => {
+              performScroll();
+            });
           });
         };
 
