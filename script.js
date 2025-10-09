@@ -517,6 +517,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const anchorSelector = targetEl.dataset.scrollAnchor || null;
         let scrollNode = anchorSelector ? targetEl.querySelector(anchorSelector) : null;
         if (!scrollNode) scrollNode = targetEl;
+        if (targetId === 'contact') {
+          const kicker = targetEl.querySelector('.kicker');
+          if (kicker) scrollNode = kicker;
+        }
         const computeTop = () => {
           const headerHeight = headerEl ? headerEl.offsetHeight : 0;
           const offset = headerHeight + 16;
