@@ -1160,6 +1160,34 @@ body.fade-transition.leaving{opacity:0;transition:opacity .25s ease;pointer-even
   justify-content:center;
 }
 
+.feature-column{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:1.5rem;
+}
+
+.feature-column .procedure-photo{
+  margin:0;
+  border:0;
+  box-shadow:none;
+}
+
+.procedure-photo img{
+  width:100%;
+  height:auto;
+  border-radius:14px;
+  border:0;
+  box-shadow:none;
+  object-fit:cover;
+}
+
+@media (max-width:600px){
+  .feature-column .procedure-photo{
+    margin:0 auto;
+  }
+}
+
 
 @media (max-width: 860px){
   #services,

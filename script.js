@@ -38,6 +38,34 @@ document.addEventListener('DOMContentLoaded', () => {
     requestAnimationFrame(() => contentFadeEl.classList.add('ready'));
   }
 
+  if (isBookingPage) {
+    const params = new URLSearchParams(window.location.search || '');
+    const requestedService = params.get('service');
+    if (requestedService) {
+      const serviceSelect = document.querySelector("select[name='service']");
+      if (serviceSelect) {
+        const normalize = (input) => (input || '')
+          .replace(/\+/g, ' ')
+          .replace(/[-_]+/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim()
+          .toLowerCase();
+        const target = normalize(requestedService);
+        if (target) {
+          const options = Array.from(serviceSelect.options || []);
+          const match = options.find(opt => !opt.disabled && normalize(opt.value || opt.textContent) === target);
+          if (match) {
+            options.forEach(opt => { opt.selected = false; });
+            match.selected = true;
+            serviceSelect.value = match.value;
+            // Fire change event for any listeners or validation styling
+            serviceSelect.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        }
+      }
+    }
+  }
+
   /* --------------------------
      Mobile menu toggle
   -------------------------- */
