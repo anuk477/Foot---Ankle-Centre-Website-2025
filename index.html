@@ -1,6 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- CACHE-BUSTING: bump ?v=1.0.0 when assets change. With Apache/IONOS .htaccess using
+       Cache-Control: public, max-age=31536000, immutable, browsers will cache aggressively
+       but fetch new files when you update the version number. -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script>
@@ -20,7 +23,7 @@
       }catch(e){}
     })();
   </script>
-  <title>Foot & Ankle Centre London | Podiatry, Chiropody & Foot Surgery – Chingford, Wanstead & Westcliff</title>
+  <title>Foot & Ankle Centre London | Podiatry, Chiropody & Foot Surgery â€“ Chingford, Wanstead & Westcliff</title>
   <meta name="description" content="Specialist podiatry, chiropody and foot & ankle surgery in London. Clinics in Chingford, Wanstead and Westcliff-on-Sea. Book online or call 0208 524 4516."/>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
@@ -29,17 +32,20 @@
   <link rel="alternate" href="https://www.footandanklecentre.co.uk/" hreflang="en-GB">
   <link rel="preload" as="style" href="styles.css?v=1.0.0">
   <link rel="preload" as="script" href="script.js?v=1.0.0">
-
-  
-
-  <!-- Font (optional) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/Inter-Regular.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/Inter-SemiBold.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/Inter-Bold.woff2" crossorigin>
+  <link rel="preload" as="script" href="updateapplyItem.js?v=1.0.0">
+  <link rel="preload" as="script" href="update-scroll-snippet.js?v=1.0.0">
+<!-- Font (optional) -->
+  <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"> -->
 
   <!-- External CSS -->
-  <link rel="icon" type="image/jpeg" href="images/fac logo blue.jpg">
-  <link rel="stylesheet" href="styles.css?v=1.0.0">
+  <link rel="icon" type="image/jpeg" href="images/fac logo blue.avif">
+  <link rel="stylesheet" href="styles.css?v=1.0.0" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="styles.css?v=1.0.0"></noscript>
 </head>
 <body>
   <a href="#main" class="sr-only">Skip to main content</a>
@@ -48,7 +54,7 @@
   <header>
     <div class="container topbar" role="navigation" aria-label="Primary">
       <a class="brand" href="#" aria-label="Foot & Ankle Centre Home">
-        <img class="brand-logo" src="images/fac logo blue.jpg" alt="Foot & Ankle Centre logo" width="40" height="40">
+        <img class="brand-logo" src="images/fac logo blue.avif" alt="Foot & Ankle Centre logo" width="40" height="40">
         <div>
           <strong>Foot & Ankle Centre</strong><br>
           <small class="muted-text">Podiatry & Chiropody Centre</small>
@@ -78,7 +84,7 @@
           <div class="mega-section">
             <h3><a class="mobile-category-link" href="procedures/bunion-correction/">Foot &amp; Ankle Surgery</a></h3>
             <ul class="mega-list">
-              <li><a class="proc-link" href="procedures/toe-shortening/" aria-label="View Toe Shortening">Toe Shortening</a></li>
+              <li><a class="proc-link" href="procedures/scar-free-toe-shortening/" aria-label="View Scar-free Toe Shortening">Scar-free Toe Shortening</a></li>
               <li><a class="proc-link" href="procedures/corn-removal-surgery/" aria-label="View Corn Removal Surgery">Corn Removal Surgery</a></li>
               <li><a class="proc-link" href="procedures/bunion-correction/" aria-label="View Bunion Correction">Bunion Correction</a></li>
               <li><a class="proc-link" href="procedures/webbed-toe-separation/" aria-label="View Webbed Toe Separation">Webbed Toe Separation</a></li>
@@ -175,7 +181,7 @@
             <div class="mobile-subcontent">
               <h3><a class="mobile-category-link" href="procedures/bunion-correction/">Foot &amp; Ankle Surgery</a></h3>
               <ul class="mobile-sublist">
-                <li><a class="proc-link" href="procedures/toe-shortening/" aria-label="View Toe Shortening">Toe Shortening</a></li>
+                <li><a class="proc-link" href="procedures/scar-free-toe-shortening/" aria-label="View Scar-free Toe Shortening">Scar-free Toe Shortening</a></li>
                 <li><a class="proc-link" href="procedures/corn-removal-surgery/" aria-label="View Corn Removal Surgery">Corn Removal Surgery</a></li>
                 <li><a class="proc-link" href="procedures/bunion-correction/" aria-label="View Bunion Correction">Bunion Correction</a></li>
                 <li><a class="proc-link" href="procedures/webbed-toe-separation/" aria-label="View Webbed Toe Separation">Webbed Toe Separation</a></li>
@@ -276,16 +282,16 @@
           <a class="btn ghost" href="#services" data-scroll-snippet="true">See our services</a>
         </div>
         <!-- <ul class="hero-features">
-          <li>Accessible groundÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Ëœfloor clinic</li>
+          <li>Accessible groundÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‹Å“floor clinic</li>
           <li>Free parking</li>
           <li>NHS referrals welcome</li>
         </ul> -->
       </div>
       <!-- <div class="hero-visual" aria-hidden="true">
         <div class="hero-cards">
-          <div class="hero-card"><strong>New Patient</strong><br><small>Assessment Ãƒâ€šÃ‚Â· 45 mins</small></div>
-          <div class="hero-card"><strong>Routine Care</strong><br><small>Nails Ãƒâ€šÃ‚Â· Hard skin</small></div>
-          <div class="hero-card"><strong>Sports Rehab</strong><br><small>Gait Ãƒâ€šÃ‚Â· Orthotics</small></div>
+          <div class="hero-card"><strong>New Patient</strong><br><small>Assessment ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· 45 mins</small></div>
+          <div class="hero-card"><strong>Routine Care</strong><br><small>Nails ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· Hard skin</small></div>
+          <div class="hero-card"><strong>Sports Rehab</strong><br><small>Gait ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· Orthotics</small></div>
         </div> -->
       </div>
     </div>
@@ -369,7 +375,7 @@
           <div class="ba-carousel" id="ba-carousel" aria-live="polite">
           <article class="card">
             <h3 class="center-text">Corn Removal Surgery</h3>
-            <img src="images/cornremoval/corn removal.avif" alt="Toe shortening surgery before and after" loading="lazy">
+            <img src="images/cornremoval/corn removal.avif" alt="Corn removal surgery before and after" loading="lazy">
             <div class="ba-labels">
               <div>Before</div>
               <div>After</div>
@@ -378,7 +384,7 @@
           </article>
           <article class="card">
             <h3 class="center-text">Bunion Correction</h3>
-            <img src="images/bunioncorrection/bunion surgery.avif" alt="Toe shortening surgery before and after" loading="lazy">
+            <img src="images/bunioncorrection/bunion surgery.avif" alt="Bunion surgery before and after" loading="lazy">
             <div class="ba-labels">
               <div>Before</div>
               <div>After</div>
@@ -414,13 +420,13 @@
             <a class="stretched-link" href="procedures/ingrowing-toenail-removal/" aria-label="View Ingrown Toenail Removal procedure page"></a>
           </article>
           <article class="card">
-            <h3 class="center-text">Toe Shortening Surgery</h3>
-            <img src="images/toeshortening/Toe shortening surgery.avif" alt="Toe shortening surgery before and after" loading="lazy">
+            <h3 class="center-text">Scar-free Toe Shortening Surgery</h3>
+            <img src="images/toeshortening/Scar-free Toe Shortening Surgery.avif" alt="Scar-free Toe Shortening Surgery before and after" loading="lazy">
             <div class="ba-labels">
               <div>Before</div>
               <div>After</div>
             </div>
-            <a class="stretched-link" href="procedures/toe-shortening/" aria-label="View Toe Shortening procedure page"></a>
+            <a class="stretched-link" href="procedures/scar-free-toe-shortening/" aria-label="View Scar-free Toe Shortening procedure page"></a>
           </article>
           </div>
           <button class="ba-nav ba-next" aria-label="Next before and after">&#10095;</button>
@@ -474,7 +480,7 @@
           </figure>
           <figure class="quote" data-name="Linda Lancaster" data-link="https://share.google/YqDysWTajfUAsV4Vo" data-avatar="https://lh3.googleusercontent.com/a-/ALV-UjUMyWu7-nsPOQvYO4PtkPNnzQysaorIlO8P-Qo35AYl4btb3lbX=w90-h90-p-rp-mo-ba7-br100">
             <blockquote>
-              <p>Excellent foot & ankle medical centre. Very welcoming, lovely environment and high professional customer service from beginning to end. Surgeon and his team were absolutely brilliant. Highly recommended 👌...thank you. Linda</p>
+              <p>Excellent foot & ankle medical centre. Very welcoming, lovely environment and high professional customer service from beginning to end. Surgeon and his team were absolutely brilliant. Highly recommended ðŸ‘Œ...thank you. Linda</p>
             </blockquote>
             <figcaption>- Linda Lancaster</figcaption>
           </figure>
@@ -488,7 +494,7 @@ Big shout out for the reception staff too who were always really helpful and gre
           <!-- Additional testimonials -->
           <figure class="quote" data-name="Poppy Allen" data-rating="5" data-posted="2024-10" data-posted-label="Oct 2024" data-avatar="https://lh3.googleusercontent.com/a/ACg8ocI8RQGLS79INqnPD7OKZ5ADKdzH1LrQ3AMI-7wt5APhJRtH1A=w90-h90-p-rp-mo-br100" data-link="https://share.google/AoQldkh4k0tY6x30j">
             <blockquote>
-              <p>My family and I have been clients of Ms Gupta for over 5 years. She does magic tidying up my neglected feet and has been brilliant treating my children’s various verrucas. Always a friendly welcome from the helpful reception staff. I wouldn’t hesitate to recommend the clinic.</p>
+              <p>My family and I have been clients of Ms Gupta for over 5 years. She does magic tidying up my neglected feet and has been brilliant treating my childrenâ€™s various verrucas. Always a friendly welcome from the helpful reception staff. I wouldnâ€™t hesitate to recommend the clinic.</p>
             </blockquote>
             <figcaption>- Poppy Allen</figcaption>
           </figure>
@@ -533,39 +539,39 @@ Big shout out for the reception staff too who were always really helpful and gre
           <div class="vimazi-track">
             <figure class="vimazi-slide">
               <img src="images/vimazi/compressed/VIMAZI-FTWR_E-COMM_M_Z20_THREE-QTR-RightShoe_0107.png" alt="Vimazi Z20 running shoe" loading="lazy">
-              <figcaption class="vimazi-caption">Z20 running shoe</figcaption><s>£225</s><a>£202.50</a>
+              <figcaption class="vimazi-caption">Z20 running shoe</figcaption><s>Â£225</s><a>Â£202.50</a>
             </figure>
             <figure class="vimazi-slide">
               <img src="images/vimazi/compressed/VIMAZI-FTWR_E-COMM_M_Z30_THREE-QTR-RightShoe_0104.png" alt="Vimazi Z30 running shoe" loading="lazy">
-              <figcaption class="vimazi-caption">Z30 running shoe</figcaption><s>£225</s><a>£202.50</a>
+              <figcaption class="vimazi-caption">Z30 running shoe</figcaption><s>Â£225</s><a>Â£202.50</a>
             </figure>
             <figure class="vimazi-slide">
               <img src="images/vimazi/compressed/VIMAZI-FTWR_E-COMM_M_Z40_THREE-QTR_RightShoe_0101.png" alt="Vimazi Z40 running shoe" loading="lazy">
-              <figcaption class="vimazi-caption">Z40 running shoe</figcaption><s>£225</s><a>£202.50</a>
+              <figcaption class="vimazi-caption">Z40 running shoe</figcaption><s>Â£225</s><a>Â£202.50</a>
             </figure>
             <figure class="vimazi-slide">
               <img src="images/vimazi/compressed/VIMAZI-FTWR_E-COMM_M_Z50_THREE-QTR-RightShoe_0097.png" alt="Vimazi Z50 running shoe" loading="lazy">
-              <figcaption class="vimazi-caption">Z50 running shoe</figcaption><s>£225</s><a>£202.50</a>
+              <figcaption class="vimazi-caption">Z50 running shoe</figcaption><s>Â£225</s><a>Â£202.50</a>
             </figure>
             <figure class="vimazi-slide">
               <img src="images/vimazi/compressed/VIMAZI-FTWR_E-COMM_M_Z60_THREE-QTR-RightShoe_0095.png" alt="Vimazi Z60 running shoe" loading="lazy">
-              <figcaption class="vimazi-caption">Z60 running shoe</figcaption><s>£225</s><a>£202.50</a>
+              <figcaption class="vimazi-caption">Z60 running shoe</figcaption><s>Â£225</s><a>Â£202.50</a>
             </figure>
             <figure class="vimazi-slide">
               <img src="images/vimazi/compressed/VIMAZI-FTWR_E-COMM_M_Z70_THREE-QTR-RightShoe_0092.png" alt="Vimazi Z70 running shoe" loading="lazy">
-              <figcaption class="vimazi-caption">Z70 running shoe</figcaption><s>£225</s><a>£202.50</a>
+              <figcaption class="vimazi-caption">Z70 running shoe</figcaption><s>Â£225</s><a>Â£202.50</a>
             </figure>
             <figure class="vimazi-slide">
               <img src="images/vimazi/compressed/VIMAZI-FTWR_E-COMM_M_Z90_THREE-QTR-RightShoe_0079.png" alt="Vimazi Z90 running shoe" loading="lazy">
-              <figcaption class="vimazi-caption">Z90 running shoe</figcaption><s>£170</s><a>£153</a>
+              <figcaption class="vimazi-caption">Z90 running shoe</figcaption><s>Â£170</s><a>Â£153</a>
             </figure>
             <figure class="vimazi-slide">
               <img src="images/vimazi/compressed/VIMAZI-FTWR_E-COMM_M_TRAIL-Z2_THREE-QTR-RightShoe_0076.png" alt="Vimazi Trail Z2 running shoe" loading="lazy">
-              <figcaption class="vimazi-caption">Trail Z2 running shoe</figcaption><s>£225</s><a>£202.50</a>
+              <figcaption class="vimazi-caption">Trail Z2 running shoe</figcaption><s>Â£225</s><a>Â£202.50</a>
             </figure>
             <figure class="vimazi-slide">
               <img src="images/vimazi/compressed/VIMAZI-FTWR_E-COMM_M_TRAIL-Z3_THREE-QTR-RightShoe_0073.png" alt="Vimazi Trail Z3 running shoe" loading="lazy">
-              <figcaption class="vimazi-caption">Trail Z3 running shoe</figcaption><s>£225</s><a>£202.50</a>
+              <figcaption class="vimazi-caption">Trail Z3 running shoe</figcaption><s>Â£225</s><a>Â£202.50</a>
             </figure>
           </div>
           <button class="vimazi-nav vimazi-next" type="button" aria-label="View next Vimazi shoe">
@@ -601,17 +607,17 @@ Big shout out for the reception staff too who were always really helpful and gre
           <article class="card">
             <h3>Podiatry Consultation</h3>
             <p>Comprehensive assessment with treatment where appropriate.</p>
-            <div class="meta"><strong>Ãƒâ€šÃ‚Â£120</strong><a href="#booking">Book</a></div>
+            <div class="meta"><strong>ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â£120</strong><a href="#booking">Book</a></div>
           </article>
           <article class="card">
             <h3>Routine Care Consultation</h3>
-            <p>FollowÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Ëœup appointment for nail carcane, corns and callus.</p>
-            <div class="meta"><strong>Ãƒâ€šÃ‚Â£55</strong><a href="#booking">Book</a></div>
+            <p>FollowÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‹Å“up appointment for nail carcane, corns and callus.</p>
+            <div class="meta"><strong>ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â£55</strong><a href="#booking">Book</a></div>
           </article>
           <article class="card">
             <h3>Biomechanical / Gait Analysis Consultation</h3>
             <p>Includes video analysis and tailored rehab plan.</p>
-            <div class="meta"><strong>Ãƒâ€šÃ‚Â£220</strong><a href="#booking">Book</a></div>
+            <div class="meta"><strong>ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â£220</strong><a href="#booking">Book</a></div>
           </article>
         </div>
       </div>
@@ -673,7 +679,7 @@ Big shout out for the reception staff too who were always really helpful and gre
       <div class="grid">
         <div>
           <div class="brand footer-brand">
-            <img class="brand-logo" src="images/fac logo blue.jpg" alt="Foot & Ankle Centre logo" width="40" height="40">
+            <img class="brand-logo" src="images/fac logo blue.avif" alt="Foot & Ankle Centre logo" width="40" height="40">
             <strong>Foot & Ankle Centre</strong>
           </div>
           
@@ -709,16 +715,22 @@ Big shout out for the reception staff too who were always really helpful and gre
         </div>
       </div>
       <div class="bottom">
-        <small>©<span id="year"></span> Foot & Ankle Centre</small>
+        <small>Â©<span id="year"></span> Foot & Ankle Centre</small>
         <small>Website built by Anuk</small>
       </div>
     </div>
   </footer>
 
   <!-- External JS -->
-  <script src="script.js" href="script.js?v=1.0.0"></script>
+  <script defer src="script.js?v=1.0.0"></script>
+<script defer src="updateapplyItem.js?v=1.0.0"></script>
+<script defer src="update-scroll-snippet.js?v=1.0.0"></script>
 </body>
 </html>
+
+
+
+
 
 
 

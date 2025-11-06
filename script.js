@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+﻿document.addEventListener('DOMContentLoaded', () => {
 
   // Clean URLs in address bar: hide .html when pages are served
   // Works on initial load; avoid for file:// protocol to prevent oddities
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         history.replaceState(null, '', clean + search + hash);
         didClean = true;
       }
-      // Strip '.html' at end of path (e.g., procedures/toe-shortening.html)
+      // Strip '.html' at end of path (e.g., procedures/scar-free-toe-shortening.html)
       else if (/\.html$/i.test(pathname)) {
         const clean = pathname.replace(/\.html$/i, '');
         history.replaceState(null, '', clean + search + hash);
@@ -333,7 +333,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Toggle “Procedures” dropdown on click
+  // Toggle â€œProceduresâ€ dropdown on click
   if (proceduresTrigger && proceduresMenu) {
     proceduresTrigger.addEventListener('click', e => {
       e.preventDefault();
@@ -413,7 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch {}
   }
 
-  // Toggle “Locations” dropdown on click
+  // Toggle â€œLocationsâ€ dropdown on click
   if (locationsTrigger && locationsMenu) {
     locationsTrigger.addEventListener('click', e => {
       e.preventDefault();
@@ -1003,10 +1003,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const stars = document.createElement('span');
       stars.className = 'rating';
       stars.setAttribute('aria-label', `${rating} out of 5 stars`);
-      stars.textContent = '★'.repeat(rating) + '☆'.repeat(5 - rating);
+      stars.textContent = 'â˜…'.repeat(rating) + 'â˜†'.repeat(5 - rating);
       const dot = document.createElement('span');
       dot.setAttribute('aria-hidden','true');
-      dot.textContent = '·';
+      dot.textContent = 'Â·';
       const time = document.createElement('time');
       if (posted) time.setAttribute('datetime', posted);
       time.textContent = label || posted;
@@ -1615,6 +1615,7 @@ function loadGoogleAnalytics(id) {
 
 // TODO: Replace with your GA4 Measurement ID if needed
 loadGoogleAnalytics('G-1PHVDX2CCK');
+
 
 
 
