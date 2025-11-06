@@ -1,3 +1,39 @@
+
+/* --------------------------------------------------------------
+   Self-hosted Inter font (copied from Google Fonts .woff2)
+   Keep these URLs exactly as-is if you want to continue using
+   Google’s CDN .woff2 files, or download them and replace the
+   URLs with /fonts/Inter-*.woff2 later.
+   -------------------------------------------------------------- */
+
+/* latin, latin-ext, greek, cyrillic, vietnamese ranges are all included */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0I5nvwU.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0I5nvwU.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0I5nvwU.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* -------------------------------------------------------------- */
+
 :root{
   --bg: #ffffff;
   --ink: #0d1b2a;
@@ -1200,3 +1236,29 @@ body.fade-transition.leaving{opacity:0;transition:opacity .25s ease;pointer-even
 
 
 
+
+
+/* --------------------------------------------------------------
+   Performance: reduce render cost for below-the-fold sections
+   - Uses content-visibility so the browser can skip layout/paint
+     until the user scrolls near the section.
+   - contain-intrinsic-size reserves space to prevent layout shift.
+   - Safe for modern Chromium/Safari/Firefox; ignored by old browsers.
+   -------------------------------------------------------------- */
+@media (min-width: 768px) {
+  :where(.testimonials,
+         #vimazi,
+         .insurance,
+         #prices,
+         .procedure-gallery,
+         .ba-carousel-wrapper,
+         .insurer-grid,
+         #contact .container.split > div:last-child .map-placeholder) {
+    content-visibility: auto;
+    contain-intrinsic-size: 720px 800px; /* tune values if sections look too tall/short before paint */
+  }
+}
+
+/* Hint: when you deploy, serve this file with long cache-lifetimes (Cache-Control: public, max-age=31536000, immutable)
+   and bump the querystring in HTML like styles.css?v=1.0.1 when you change it.
+*/
