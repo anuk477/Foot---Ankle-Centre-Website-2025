@@ -203,6 +203,17 @@ main{flex:1 0 auto}
 }
 .google-rating strong{color:var(--ink);font-size:.9rem}
 .google-rating .muted-text{font-size:.9rem}
+.google-rating .stars{letter-spacing:.12rem;font-family:"Segoe UI Symbol","Arial",sans-serif}
+.google-rating .stars::before{content:"\2605\2605\2605\2605\2605";color:#d5d9df}
+.google-rating .stars::after{
+  content:"\2605\2605\2605\2605\2605";
+  color:#f6b01e;
+  position:absolute;inset:0 auto 0 0;
+  width: calc(var(--rating, 4.6) / 5 * 100%);
+  overflow:hidden;white-space:nowrap;pointer-events:none
+}
+.google-rating .stars>.filled,
+.google-rating .stars>.empty{display:none}
 
 
 /* Header */
@@ -1209,6 +1220,16 @@ body.fade-transition.leaving{opacity:0;transition:opacity .25s ease;pointer-even
   box-shadow:none;
 }
 
+/* Ensure procedure images span their column with no unintended left gap */
+.procedure .feature-column{
+  align-items:stretch;
+  width:100%;
+}
+.procedure .procedure-photo{
+  max-width:none;
+  width:100%;
+  margin-left:0 !important;
+}
 .procedure-photo img{
   width:100%;
   height:auto;

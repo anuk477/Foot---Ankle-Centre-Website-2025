@@ -1,4 +1,4 @@
-﻿document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
 
   // Clean URLs in address bar: hide .html when pages are served
   // Works on initial load; avoid for file:// protocol to prevent oddities
@@ -333,7 +333,7 @@
     }
   };
 
-  // Toggle â€œProceduresâ€ dropdown on click
+  // Toggle “Procedures” dropdown on click
   if (proceduresTrigger && proceduresMenu) {
     proceduresTrigger.addEventListener('click', e => {
       e.preventDefault();
@@ -413,7 +413,7 @@
     } catch {}
   }
 
-  // Toggle â€œLocationsâ€ dropdown on click
+  // Toggle “Locations” dropdown on click
   if (locationsTrigger && locationsMenu) {
     locationsTrigger.addEventListener('click', e => {
       e.preventDefault();
@@ -1003,10 +1003,9 @@
       const stars = document.createElement('span');
       stars.className = 'rating';
       stars.setAttribute('aria-label', `${rating} out of 5 stars`);
-      stars.textContent = 'â˜…'.repeat(rating) + 'â˜†'.repeat(5 - rating);
+      stars.textContent = '\u2605'.repeat(rating) + '\u2606'.repeat(5 - rating);
       const dot = document.createElement('span');
-      dot.setAttribute('aria-hidden','true');
-      dot.textContent = 'Â·';
+      dot.textContent = '\u00b7';
       const time = document.createElement('time');
       if (posted) time.setAttribute('datetime', posted);
       time.textContent = label || posted;
