@@ -278,18 +278,19 @@
           <input type="hidden" name="_subject" value="New Booking Request">
           <input type="hidden" name="_template" value="table">
           <!-- Honey pot (spam trap) -->
-          <!-- <input type="text" name="_honey" style="display:none"> -->
+          <input type="text" name="_honey" style="display:none">
           <!-- Enable CAPTCHA challenge -->
-          <!-- <input type="hidden" name="_captcha" value="true"> -->
+          <input type="hidden" name="_captcha" value="true">
           <!-- After submit, redirect to local success page (extensionless) -->
-          <input type="hidden" name="_next" value="success/">
+          <input type="hidden" name="_next" value="https://www.footandanklecentre.co.uk/success/">
           <label>
             <span class="sr-only">Full name</span>
             <input required type="text" name="name" placeholder="Full name" aria-label="Full name">
           </label>
           <label>
             <span class="sr-only">Email</span>
-            <input required type="email" name="email" placeholder="Email" aria-label="Email">
+            <!-- FormSubmit uses _replyto to set Reply-To -->
+            <input required type="email" name="_replyto" placeholder="Email" aria-label="Email">
           </label>
           <label>
             <span class="sr-only">Phone</span>
