@@ -676,6 +676,47 @@ Big shout out for the reception staff too who were always really helpful and gre
             <button class="btn primary" type="submit">Send message</button>
           </form>
 
+          <script>
+            const contactForm = document.getElementById("contact-form");
+            let contactSubmitting = false;
+
+            contactForm.addEventListener("submit", async function (e) {
+              e.preventDefault();
+
+              if (contactSubmitting) return;
+              contactSubmitting = true;
+
+              const submitButton = contactForm.querySelector('button[type="submit"]');
+              if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.textContent = "Submitting...";
+              }
+
+              const formData = new FormData(contactForm);
+              const successUrl = formData.get("successUrl") || "https://www.footandanklecentre.co.uk/success/";
+              const payload = new URLSearchParams();
+
+              for (const [key, value] of formData.entries()) {
+                payload.append(key, value);
+              }
+
+              try {
+                await fetch(contactForm.action, {
+                  method: "POST",
+                  mode: "no-cors",
+                  headers: {
+                    "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+                  },
+                  body: payload.toString()
+                });
+              } catch (error) {
+                console.error("Contact form submission failed:", error);
+              }
+
+              window.location.href = successUrl;
+            });
+          </script>
+
         </div>
         <div class="map-placeholder">
           <div class="map-inner">

@@ -345,6 +345,47 @@
           <button class="btn primary" type="submit">Request booking</button>
         </form>
 
+        <script>
+          const bookingForm = document.getElementById("booking-form");
+          let bookingSubmitting = false;
+
+          bookingForm.addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            if (bookingSubmitting) return;
+            bookingSubmitting = true;
+
+            const submitButton = bookingForm.querySelector('button[type="submit"]');
+            if (submitButton) {
+              submitButton.disabled = true;
+              submitButton.textContent = "Submitting...";
+            }
+
+            const formData = new FormData(bookingForm);
+            const successUrl = formData.get("successUrl") || "https://www.footandanklecentre.co.uk/success/";
+            const payload = new URLSearchParams();
+
+            for (const [key, value] of formData.entries()) {
+              payload.append(key, value);
+            }
+
+            try {
+              await fetch(bookingForm.action, {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                  "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+                },
+                body: payload.toString()
+              });
+            } catch (error) {
+              console.error("Booking form submission failed:", error);
+            }
+
+            window.location.href = successUrl;
+          });
+        </script>
+
         <p class="muted-text" style="margin-top: .75rem">Prefer to call? Phone <a href="tel:+442085244516">02085244516</a>.</p>
       </div>
     </section>
