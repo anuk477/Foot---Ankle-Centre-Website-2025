@@ -277,7 +277,7 @@
           class="contact-form"
           id="booking-form"
           aria-label="Booking form"
-          action="https://script.google.com/macros/s/AKfycbyTjj9ano8coqP3b2pREkZaJqbYCMIKzFU3FKcgRSNrNrEMM_cQKaaJObJehwWfGW7A/exec"
+          action="https://script.google.com/macros/s/AKfycbwc6DP7T33Twzy5UUiXbYj02N-wE8Zq4h8cJ_WxCDB0ufUWgbnlcHpVFQQhLO9L75hP/exec"
           method="POST"
         >
           <input type="hidden" name="formType" value="Booking Request">
@@ -345,7 +345,6 @@
 
             <div class="turnstile-wrap" style="min-height: 74px;">
               <div
-                id="booking-turnstile"
                 class="cf-turnstile"
                 data-sitekey="0x4AAAAAADAhLsC_5o7pYfM_"
                 data-theme="light"
@@ -358,22 +357,6 @@
         <script>
           const bookingForm = document.getElementById("booking-form");
           let bookingSubmitting = false;
-
-          window.addEventListener("load", function () {
-            if (window.turnstile && document.getElementById("booking-turnstile")) {
-              const widget = document.getElementById("booking-turnstile");
-              if (!widget.querySelector("iframe")) {
-                try {
-                  window.turnstile.render("#booking-turnstile", {
-                    sitekey: "0x4AAAAAADAhLsC_5o7pYfM_",
-                    theme: "light"
-                  });
-                } catch (error) {
-                  console.error("Booking Turnstile render failed:", error);
-                }
-              }
-            }
-          });
 
           bookingForm.addEventListener("submit", async function (e) {
             e.preventDefault();
