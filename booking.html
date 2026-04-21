@@ -22,7 +22,6 @@
   </script>
   <title>Foot & Ankle Centre | Book Online</title>
   <meta name="description" content="Book an appointment online at Foot & Ankle Centre." />
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -343,68 +342,8 @@
               <textarea name="notes" rows="4" placeholder="Notes (optional)" aria-label="Notes (optional)"></textarea>
             </label>
 
-            <div class="turnstile-wrap" style="min-height: 74px;">
-              <div
-                class="cf-turnstile"
-                data-sitekey="0x4AAAAAADAhLsC_5o7pYfM_"
-                data-theme="light"
-              ></div>
-            </div>
-
           <button class="btn primary" type="submit">Request booking</button>
         </form>
-
-        <script>
-          const bookingForm = document.getElementById("booking-form");
-          let bookingSubmitting = false;
-
-          bookingForm.addEventListener("submit", async function (e) {
-            e.preventDefault();
-
-            if (bookingSubmitting) return;
-            bookingSubmitting = true;
-
-            const submitButton = bookingForm.querySelector('button[type="submit"]');
-            if (submitButton) {
-              submitButton.disabled = true;
-              submitButton.textContent = "Submitting...";
-            }
-
-            const formData = new FormData(bookingForm);
-            const successUrl = formData.get("successUrl") || "https://www.footandanklecentre.co.uk/success/";
-            const turnstileToken = formData.get("cf-turnstile-response");
-            const payload = new URLSearchParams();
-
-            if (!turnstileToken) {
-              alert("Please complete the captcha before submitting.");
-              bookingSubmitting = false;
-              if (submitButton) {
-                submitButton.disabled = false;
-                submitButton.textContent = "Request booking";
-              }
-              return;
-            }
-
-            for (const [key, value] of formData.entries()) {
-              payload.append(key, value);
-            }
-
-            try {
-              await fetch(bookingForm.action, {
-                method: "POST",
-                mode: "no-cors",
-                headers: {
-                  "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-                },
-                body: payload.toString()
-              });
-            } catch (error) {
-              console.error("Booking form submission failed:", error);
-            }
-
-            window.location.href = successUrl;
-          });
-        </script>
 
         <p class="muted-text" style="margin-top: .75rem">Prefer to call? Phone <a href="tel:+442085244516">02085244516</a>.</p>
       </div>
