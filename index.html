@@ -32,6 +32,7 @@
   <link rel="alternate" href="https://www.footandanklecentre.co.uk/" hreflang="en-GB">
   <link rel="preload" as="style" href="styles.css?v=1.0.0">
   <link rel="preload" as="script" href="script.js?v=1.0.0">
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <link rel="preload" as="font" type="font/woff2" href="/fonts/Inter-Regular.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/fonts/Inter-SemiBold.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/fonts/Inter-Bold.woff2" crossorigin>
@@ -673,6 +674,14 @@ Big shout out for the reception staff too who were always really helpful and gre
               <textarea required name="message" placeholder="How can we help?" aria-label="Your message" rows="4"></textarea>
             </label>
 
+            <div class="turnstile-wrap">
+              <div
+                class="cf-turnstile"
+                data-sitekey="0x4AAAAAADAhLsC_5o7pYfM_"
+                data-theme="light"
+              ></div>
+            </div>
+
             <button class="btn primary" type="submit">Send message</button>
           </form>
 
@@ -694,7 +703,18 @@ Big shout out for the reception staff too who were always really helpful and gre
 
               const formData = new FormData(contactForm);
               const successUrl = formData.get("successUrl") || "https://www.footandanklecentre.co.uk/success/";
+              const turnstileToken = formData.get("cf-turnstile-response");
               const payload = new URLSearchParams();
+
+              if (!turnstileToken) {
+                alert("Please complete the captcha before submitting.");
+                contactSubmitting = false;
+                if (submitButton) {
+                  submitButton.disabled = false;
+                  submitButton.textContent = "Send message";
+                }
+                return;
+              }
 
               for (const [key, value] of formData.entries()) {
                 payload.append(key, value);

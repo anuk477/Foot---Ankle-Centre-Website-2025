@@ -337,10 +337,18 @@
             <input class="date-native" type="date" name="date" aria-label="Preferred date">
           </label>
 
-          <label>
-            <span class="sr-only">Notes</span>
-            <textarea name="notes" rows="4" placeholder="Notes (optional)" aria-label="Notes (optional)"></textarea>
-          </label>
+            <label>
+              <span class="sr-only">Notes</span>
+              <textarea name="notes" rows="4" placeholder="Notes (optional)" aria-label="Notes (optional)"></textarea>
+            </label>
+
+            <div class="turnstile-wrap">
+              <div
+                class="cf-turnstile"
+                data-sitekey="0x4AAAAAADAhLsC_5o7pYfM_"
+                data-theme="light"
+              ></div>
+            </div>
 
           <button class="btn primary" type="submit">Request booking</button>
         </form>
@@ -363,7 +371,18 @@
 
             const formData = new FormData(bookingForm);
             const successUrl = formData.get("successUrl") || "https://www.footandanklecentre.co.uk/success/";
+            const turnstileToken = formData.get("cf-turnstile-response");
             const payload = new URLSearchParams();
+
+            if (!turnstileToken) {
+              alert("Please complete the captcha before submitting.");
+              bookingSubmitting = false;
+              if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.textContent = "Request booking";
+              }
+              return;
+            }
 
             for (const [key, value] of formData.entries()) {
               payload.append(key, value);
