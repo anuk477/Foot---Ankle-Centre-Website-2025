@@ -272,30 +272,38 @@
           </div>
         </div>
 
-        <!-- Placeholder booking form (adjust or replace with your provider embed) -->
-        <form class="contact-form" aria-label="Booking form" action="https://formsubmit.co/85f2e91a0753a266fadedeb4d36395dd" method="POST">
-          <!-- FormSubmit options -->
-          <input type="hidden" name="_subject" value="New Booking Request">
-          <input type="hidden" name="_template" value="table">
-          <!-- Honey pot (spam trap) -->
-          <input type="text" name="_honey" style="display:none">
-          <!-- Enable CAPTCHA challenge -->
-          <input type="hidden" name="_captcha" value="true">
-          <!-- After submit, redirect to local success page (extensionless) -->
-          <input type="hidden" name="_next" value="https://www.footandanklecentre.co.uk/success/">
+        <form
+          class="contact-form"
+          id="booking-form"
+          aria-label="Booking form"
+          action="https://script.google.com/macros/s/AKfycbwB_8ED74QXkRHIgCGUXgqazhik8jYcS2hRdNm6sPNhK52-WSkqiLj_QrbNWBAiTHWn/exec"
+          method="POST"
+        >
+          <input type="hidden" name="formType" value="Booking Request">
+          <input type="hidden" name="successUrl" value="https://www.footandanklecentre.co.uk/success/">
+          <input type="text" name="website" style="display:none">
+
           <label>
             <span class="sr-only">Full name</span>
             <input required type="text" name="name" placeholder="Full name" aria-label="Full name">
           </label>
+
           <label>
             <span class="sr-only">Email</span>
-            <!-- FormSubmit uses _replyto to set Reply-To -->
-            <input required type="email" name="_replyto" placeholder="Email" aria-label="Email">
+            <input
+              required
+              type="email"
+              name="email"
+              placeholder="Email"
+              aria-label="Email"
+            >
           </label>
+
           <label>
             <span class="sr-only">Phone</span>
             <input required type="tel" name="phone" placeholder="Phone" aria-label="Phone">
           </label>
+
           <label>
             <span class="sr-only">Service</span>
             <select name="service" aria-label="Select a service" required>
@@ -307,13 +315,13 @@
               <option value="Minor Surgery">Minor Surgery</option>
               <option value="Ultrasound / Steroid Injection">Ultrasound / Steroid Injection</option>
               <option value="Cosmetic Foot Surgery">Cosmetic Foot Surgery</option>
-              <option value="Biomechanics, Orthotics & Insoles">Biomechanics, Orthotics & Insoles</option>
               <option value="Foot and Ankle Surgery">Foot and Ankle Surgery</option>
-              <option value="Online Consultation">Online Consultation </option>
+              <option value="Online Consultation">Online Consultation</option>
               <option value="Physiotherapy">Physiotherapy</option>
               <option value="Vimazi Shoe Fitting">Vimazi Shoe Fitting</option>
             </select>
           </label>
+
           <label>
             <span class="sr-only">Location</span>
             <select name="location" aria-label="Select a clinic location">
@@ -323,14 +331,17 @@
               <option value="Westcliff-on-Sea">Westcliff-on-Sea</option>
             </select>
           </label>
+
           <label class="date-field" data-placeholder="dd/mm/yyyy">
             <span class="sr-only">Preferred date</span>
             <input class="date-native" type="date" name="date" aria-label="Preferred date">
           </label>
+
           <label>
             <span class="sr-only">Notes</span>
             <textarea name="notes" rows="4" placeholder="Notes (optional)" aria-label="Notes (optional)"></textarea>
           </label>
+
           <button class="btn primary" type="submit">Request booking</button>
         </form>
 

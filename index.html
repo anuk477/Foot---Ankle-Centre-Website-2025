@@ -636,31 +636,46 @@ Big shout out for the reception staff too who were always really helpful and gre
             <li><strong>Email:</strong> <a href="mailto:enquiries@footandanklecentre.com">enquiries@footandanklecentre.com</a></li>
             <li><strong>Head Office:</strong> Station House Medical Centre, 66 Station Road, E4 7BA</li>
           </ul>
-          <form class="contact-form" aria-label="Contact form" action="https://formsubmit.co/85f2e91a0753a266fadedeb4d36395dd" method="POST">
-            <!-- FormSubmit options -->
-            <input type="hidden" name="_subject" value="New Enquiry">
-            <input type="hidden" name="_template" value="table">
-            <!-- Honey pot (spam trap) -->
-            <input type="text" name="_honey" style="display:none">
-            <!-- Enable CAPTCHA challenge -->
-            <input type="hidden" name="_captcha" value="true">
-            <!-- After submit, redirect to local success page (extensionless) -->
-            <input type="hidden" name="_next" value="https://www.footandanklecentre.co.uk/success/">
+          <form
+            class="contact-form"
+            id="contact-form"
+            aria-label="Contact form"
+            action="https://script.google.com/macros/s/AKfycbwB_8ED74QXkRHIgCGUXgqazhik8jYcS2hRdNm6sPNhK52-WSkqiLj_QrbNWBAiTHWn/exec"
+            method="POST"
+          >
+            <input type="hidden" name="formType" value="General Enquiry">
+            <input type="hidden" name="successUrl" value="https://www.footandanklecentre.co.uk/success/">
+            <input type="text" name="website" style="display:none">
+
             <label>
               <span class="sr-only">Your name</span>
               <input required type="text" name="name" placeholder="Your name" aria-label="Your name">
             </label>
+
             <label>
               <span class="sr-only">Email address</span>
-              <!-- FormSubmit uses _replyto to set Reply-To -->
-              <input required type="email" name="_replyto" placeholder="Email address" aria-label="Email address">
+              <input
+                required
+                type="email"
+                name="email"
+                placeholder="Email address"
+                aria-label="Email address"
+              >
             </label>
+
+            <label>
+              <span class="sr-only">Phone</span>
+              <input required type="tel" name="phone" placeholder="Phone" aria-label="Phone">
+            </label>
+
             <label>
               <span class="sr-only">Message</span>
               <textarea required name="message" placeholder="How can we help?" aria-label="Your message" rows="4"></textarea>
             </label>
+
             <button class="btn primary" type="submit">Send message</button>
           </form>
+
         </div>
         <div class="map-placeholder">
           <div class="map-inner">
@@ -727,14 +742,3 @@ Big shout out for the reception staff too who were always really helpful and gre
 <script defer src="update-scroll-snippet.js?v=1.0.0"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
