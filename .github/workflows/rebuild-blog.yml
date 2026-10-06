@@ -1,0 +1,81 @@
+name: Rebuild and deploy Sanity blog
+
+on:
+  repository_dispatch:
+    types: [sanity-post-published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-blog-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the website
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Build published Sanity posts
+        run: npm run build
+
+      - name: Upload generated blog pages over SFTP
+        env:
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}
+          SFTP_PORT: ${{ secrets.SFTP_PORT }}
+          SFTP_USERNAME: ${{ secrets.SFTP_USERNAME }}
+          SFTP_PRIVATE_KEY: ${{ secrets.SFTP_PRIVATE_KEY }}
+          SFTP_KNOWN_HOSTS: ${{ secrets.SFTP_KNOWN_HOSTS }}
+          SFTP_REMOTE_PATH: ${{ secrets.SFTP_REMOTE_PATH }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          : "${SFTP_HOST:?Add the SFTP_HOST GitHub Actions secret}"
+          : "${SFTP_USERNAME:?Add the SFTP_USERNAME GitHub Actions secret}"
+          : "${SFTP_PRIVATE_KEY:?Add the SFTP_PRIVATE_KEY GitHub Actions secret}"
+          : "${SFTP_KNOWN_HOSTS:?Add the SFTP_KNOWN_HOSTS GitHub Actions secret}"
+          : "${SFTP_REMOTE_PATH:?Add the SFTP_REMOTE_PATH GitHub Actions secret}"
+
+          key_file="$RUNNER_TEMP/sftp_deploy_key"
+          known_hosts_file="$RUNNER_TEMP/sftp_known_hosts"
+          batch_file="$RUNNER_TEMP/sftp_batch"
+          trap 'rm -f "$key_file" "$known_hosts_file" "$batch_file"' EXIT
+
+          umask 077
+          printf '%s\n' "$SFTP_PRIVATE_KEY" > "$key_file"
+          printf '%s\n' "$SFTP_KNOWN_HOSTS" > "$known_hosts_file"
+
+          {
+            printf 'cd "%s"\n' "$SFTP_REMOTE_PATH"
+            printf 'put index.html index.html\n'
+            printf 'put sitemap.xml sitemap.xml\n'
+            printf 'cd blog\n'
+            printf 'put blog/index.html index.html\n'
+
+            for marker in blog/*/.generated-blog-post; do
+              [ -f "$marker" ] || continue
+              post_dir="${marker%/.generated-blog-post}"
+              slug="${post_dir#blog/}"
+              printf -- '-mkdir "%s"\n' "$slug"
+              printf 'put "%s/index.html" "%s/index.html"\n' "$post_dir" "$slug"
+            done
+          } > "$batch_file"
+
+          sftp \
+            -b "$batch_file" \
+            -P "${SFTP_PORT:-22}" \
+            -i "$key_file" \
+            -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=yes \
+            -o "UserKnownHostsFile=$known_hosts_file" \
+            "${SFTP_USERNAME}@${SFTP_HOST}"
+
