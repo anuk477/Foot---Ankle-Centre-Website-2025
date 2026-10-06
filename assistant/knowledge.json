@@ -1,0 +1,49 @@
+{
+  "phone": "020 8524 4516",
+  "phoneHref": "tel:+442085244516",
+  "services": [
+    {"name":"Podiatry Appointment","description":"Discuss a foot or nail concern with a podiatrist. Reception can check which assessment you need."},
+    {"name":"Chiropody Appointment (Routine Care)","description":"Ask about routine nail and skin care, including nail cutting and hard skin."},
+    {"name":"Musculoskeletal Health","description":"Ask about assessment of foot or ankle pain, walking mechanics or insoles."},
+    {"name":"Physiotherapy","description":"Ask about physiotherapy assessment, rehabilitation or an existing physiotherapy plan."},
+    {"name":"Foot & Ankle Surgery","description":"Request a consultation to discuss surgical options. Choosing this category does not mean you need surgery."},
+    {"name":"Cosmetic Foot Surgery","description":"Request a consultation about a cosmetic foot concern. Suitability and treatment are decided by the clinician."}
+  ],
+  "locations": ["Chingford", "Wanstead", "Westcliff-on-Sea"],
+  "team": [
+    {"name":"Shefali Gupta","title":"Podiatrist"},
+    {"name":"Joseph Olivelle","title":"Clinical Director"},
+    {"name":"Sean O'Leary","title":"Myofascial Release Specialist"},
+    {"name":"Jason Hargrave","title":"Consultant Podiatric Surgeon"},
+    {"name":"Smit Christian","title":"Podiatrist"},
+    {"name":"Fathimath Shahana","title":"Physiotherapist"},
+    {"name":"Sharon","title":"Receptionist"},
+    {"name":"Geri","title":"PA to Mr Olivelle"},
+    {"name":"Gaynor Morrin","title":"Theatre Assistant"},
+    {"name":"Amy Taylor","title":"Theatre Assistant"},
+    {"name":"Michael Hutchby","title":"Consultant Podiatric Surgeon"},
+    {"name":"Tracy Reed","title":"Assistant Practice Manager"}
+  ],
+  "links": {
+    "prices":{"label":"Prices and insurance","path":"prices/"},
+    "contact":{"label":"Contact reception","path":"#contact"},
+    "bupa":{"label":"Bupa guidance","path":"insurance/bupa-insured-patients"},
+    "aviva":{"label":"Aviva guidance","path":"insurance/aviva-insured-patients"},
+    "cigna":{"label":"Cigna guidance","path":"insurance/cigna-insured-patients"},
+    "healix":{"label":"Healix guidance","path":"insurance/healix-insured-patients"},
+    "simplyhealth":{"label":"Simplyhealth guidance","path":"insurance/simplyhealth-insured-patients"},
+    "vitality":{"label":"Vitality guidance","path":"insurance/vitality-insured-patients"},
+    "wpa":{"label":"WPA guidance","path":"insurance/wpa-insured-patients"}
+  },
+  "faqs": {
+    "prices":{"title":"Prices and insurance","answer":"You can find current fees and insurer-specific guidance on our prices page. Cupping Therapy is £65 for 30 minutes or £120 for 60 minutes. Acupuncture and Dry Needling are £65 for 30 minutes or £120 for 60 minutes. Electrotherapy is £50 for 30 minutes. Triggerpoint Therapy is £50 for 30 minutes, £85 for 45 minutes or £100 for 60 minutes. Check cover, any excess and any required authorisation with your insurer before attending. Reception can help with clinic questions; the assistant cannot confirm your policy cover.","links":["prices"]},
+    "cupping":{"title":"Cupping Therapy prices","answer":"Cupping Therapy costs £65 for 30 minutes or £120 for 60 minutes. See the prices page for the current fee and procedure details.","links":["prices"]},
+    "acupuncture":{"title":"Acupuncture prices","answer":"Acupuncture costs £65 for 30 minutes or £120 for 60 minutes. See the prices page for current fees and procedure details.","links":["prices"]},
+    "dryNeedling":{"title":"Dry Needling prices","answer":"Dry Needling costs £65 for 30 minutes or £120 for 60 minutes. See the prices page for current fees and procedure details.","links":["prices"]},
+    "electrotherapy":{"title":"Electrotherapy price","answer":"Electrotherapy costs £50 for 30 minutes. See the prices page for the current fee and procedure details.","links":["prices"]},
+    "triggerpoint":{"title":"Triggerpoint Therapy prices","answer":"Triggerpoint Therapy costs £50 for 30 minutes, £85 for 45 minutes or £100 for 60 minutes. See the prices page for current fees and procedure details.","links":["prices"]},
+    "prepare":{"title":"Preparing for my visit","answer":"Preparation depends on your appointment. Ask reception to confirm what to bring and any instructions for your visit. If using insurance, check whether your insurer requires authorisation or referral paperwork. Follow the instructions provided by your clinician; this chat cannot advise you to change medication or fasting arrangements.","links":["contact"]},
+    "surgeryQuote":{"title":"Surgery quotations","answer":"The team can provide an initial surgery quotation based on clear photographs. If you are asking what an operation or procedure might cost, including for joined or webbed toes, use the enquiry form to send your details and photographs of your feet. The clinical team will review the images and confirm the quotation or next steps. Final fees are personalised and may be listed as POA.","links":["prices","contact"]},
+    "contact":{"title":"Contact reception","answer":"Call 020 8524 4516 or use the website contact form. This assistant is automated; reception does not monitor this chat. Appointment requests are reviewed by reception, who will contact you to confirm a date and time.","links":["contact"]}
+  }
+}

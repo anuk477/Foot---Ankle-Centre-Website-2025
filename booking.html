@@ -1,6 +1,7 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="canonical" href="https://www.footandanklecentre.co.uk/booking" />
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script>
@@ -28,7 +29,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <link rel="icon" type="image/jpeg" href="images/fac logo blue.avif">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=1.0.15">
+  <style>.surgery-photo-field .surgery-choice input[type="checkbox"]{appearance:auto;-webkit-appearance:checkbox;width:1.25rem;height:1.25rem;min-width:1.25rem;flex:0 0 1.25rem;margin:.15rem 0 0;padding:0;border:0;border-radius:0;box-shadow:none;accent-color:#2e429b}.is-ios .date-field::after{top:calc(50% + .75rem)}</style>
 </head>
 <body class="booking-bg">
   <a href="#main" class="sr-only">Skip to main content</a>
@@ -36,7 +38,7 @@
   <!-- Header (links point back to index sections) -->
   <header>
     <div class="container topbar" role="navigation" aria-label="Primary">
-      <a class="brand" href="index.html" aria-label="Foot & Ankle Centre Home">
+      <a class="brand" href="./" aria-label="Foot & Ankle Centre Home">
         <img class="brand-logo" src="images/fac logo blue.avif" alt="Foot & Ankle Centre logo" width="40" height="40">
         <div>
           <strong>Foot & Ankle Centre</strong><br>
@@ -46,18 +48,19 @@
 
       <nav aria-label="Main">
         <ul>
-          <li><a href="index.html#services">Services</a></li>
+          <li><a href="#services">Services</a></li>
           <li><a id="procedures-trigger" href="#procedures" aria-expanded="false" aria-controls="procedures-menu">Procedures</a></li>
-          <li><a href="index.html#team">Team</a></li>
+          <li><a href="#team">Team</a></li>
           <li><a href="prices/">Prices</a></li>
+          <li><a href="blog/">Blog</a></li>
           <li><a id="locations-trigger" href="#locations" aria-expanded="false" aria-controls="locations-menu">Locations</a></li>
-          <li><a href="index.html#contact">Contact</a></li>
+          <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
 
       <div class="nav-actions">
         <a class="btn ghost" href="tel:+442085244516" aria-label="Call clinic">Call</a>
-        <a class="btn primary" href="booking.html" aria-label="Book an appointment">Book<span class="hide-sm"> Online</span></a>
+        <a class="btn primary" href="booking" aria-label="Book an appointment">Book<span class="hide-sm"> Online</span></a>
         <button class="btn ghost menu-toggle" aria-expanded="false" aria-controls="mobile-menu"><span class="menu-icon" aria-hidden="true"></span><span class="sr-only">Menu</span></button>
       </div>
     
@@ -80,14 +83,18 @@
           <div class="mega-section">
             <h3>Podiatry</h3>
             <ul class="mega-list">
-              <li><a class="proc-link" href="procedures/biomechanics/" aria-label="View Biomechanics">Biomechanics</a></li>
-              <li><a class="proc-link" href="procedures/gait-analysis/" aria-label="View Gait Analysis">Gait Analysis</a></li>
+              <li><a class="proc-link" href="procedures/foot-pain/" aria-label="View Foot Pain">Foot Pain</a></li>
+              <li><a class="proc-link" href="procedures/plantar-fasciitis/" aria-label="View Plantar Fasciitis">Plantar Fasciitis</a></li>
               <li><a class="proc-link" href="procedures/insoles/" aria-label="View Insoles">Insoles</a></li>
-              <li><a class="proc-link" href="procedures/ultrasound-guided-injections/" aria-label="View Ultrasound Guided Injections">Ultrasound Guided Injections</a></li>
-              <li><a class="proc-link" href="procedures/diagnostic-injections/" aria-label="View Diagnostic Injections">Diagnostic Injections</a></li>
-              <li><a class="proc-link" href="procedures/x-ray-facilities/" aria-label="View X-ray Facilities">X-ray Facilities</a></li>
               <li><a class="proc-link" href="procedures/cushions-for-feet/" aria-label="View Cushions for Feet">Cushions for Feet</a></li>
               <li><a class="proc-link" href="procedures/foot-botox/" aria-label="View Foot Botox">Foot Botox</a></li>
+            </ul>
+            <h3>Musculoskeletal Health</h3>
+            <ul class="mega-list">
+              <li><a class="proc-link" href="procedures/ultrasound-guided-injections/" aria-label="View Ultrasound Guided Injections">Ultrasound Guided Injections</a></li>
+              <li><a class="proc-link" href="procedures/biomechanics/" aria-label="View Biomechanics">Biomechanics</a></li>
+              <li><a class="proc-link" href="procedures/gait-analysis/" aria-label="View Gait Analysis">Gait Analysis</a></li>
+              <li><a class="proc-link" href="procedures/x-ray-facilities/" aria-label="View X-ray Facilities">X-ray Facilities</a></li>
             </ul>
           </div>
           <div class="mega-section">
@@ -111,7 +118,8 @@
               <li><a class="proc-link" href="procedures/electrotherapy/" aria-label="View Electrotherapy">Electrotherapy</a></li>
               <li><a class="proc-link" href="procedures/dry-needling/" aria-label="View Dry Needling">Dry Needling</a></li>
               <li><a class="proc-link" href="procedures/cupping-therapy/" aria-label="View Cupping Therapy">Cupping Therapy</a></li>
-              <li><a class="proc-link" href="procedures/acupunture/" aria-label="View Acupunture">Acupunture</a></li>
+              <li><a class="proc-link" href="procedures/acupuncture/" aria-label="View Acupuncture">Acupuncture</a></li>
+              <li><a class="proc-link" href="procedures/sports-massage/" aria-label="View Sports Massage">Sports Massage</a></li>
             </ul>
           </div>
         </div>
@@ -131,10 +139,10 @@
               </a>
             </li>
             <li>
-              <a class="location-link" href="https://www.google.com/maps/place/Target+Fit/@51.5798239,0.0214932,17z/data=!3m1!4b1!4m6!3m5!1s0x47d8a73f8e8f382d:0xcc76f3f0024490a8!8m2!3d51.5798239!4d0.0240681!16s%2Fg%2F11bz0bzf1k?entry=ttu&g_ep=EgoyMDI1MDkxMC4wIKXMDSoASAFQAw%3D%3D" data-location="Wanstead" aria-label="View Wanstead clinic" target="_blank" rel="noopener"><svg class="location-icon" viewBox="0 0 24 24" aria-hidden="true"><path class="marker-body" d="M12 2C7.03 2 3 6.03 3 11c0 5.56 6.73 12.44 7.59 13.29.23.22.53.34.83.34s.6-.12.83-.34C14.27 23.44 21 16.56 21 11c0-4.97-4.03-9-9-9zm0 12a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/><circle class="marker-hole" cx="12" cy="11" r="1.7"/></svg>
+              <a class="location-link" href="https://www.google.com/maps/search/?api=1&query=11-13%20Cambridge%20Park%2C%20Wanstead%2C%20London%20E11%202PU" data-location="Wanstead" aria-label="View Wanstead clinic" target="_blank" rel="noopener"><svg class="location-icon" viewBox="0 0 24 24" aria-hidden="true"><path class="marker-body" d="M12 2C7.03 2 3 6.03 3 11c0 5.56 6.73 12.44 7.59 13.29.23.22.53.34.83.34s.6-.12.83-.34C14.27 23.44 21 16.56 21 11c0-4.97-4.03-9-9-9zm0 12a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/><circle class="marker-hole" cx="12" cy="11" r="1.7"/></svg>
                 <div class="location-text">
                   <span class="location-name">Wanstead</span>
-                  <span class="location-meta">Target Fit, 15 High Street, Wanstead, London E11 2AA</span>
+                  <span class="location-meta">11-13 Cambridge Park, Wanstead, London E11 2PU</span>
                 </div>
               </a>
             </li>
@@ -157,7 +165,7 @@
     <button class="menu-close" aria-label="Close menu">&times;</button>
     <div class="container">
       <ul>
-        <li><a href="index.html#services">Services</a></li>
+        <li><a href="#services">Services</a></li>
         <li class="mobile-has-sub">
           <button id="mobile-procedures-trigger" class="mobile-sub-toggle" aria-expanded="false" aria-controls="mobile-procedures-menu">Procedures</button>
           <div id="mobile-procedures-menu" class="mobile-subpanel" hidden>
@@ -175,14 +183,18 @@
               </ul>
               <h3>Podiatry</h3>
               <ul class="mobile-sublist">
-                <li><a class="proc-link" href="procedures/biomechanics/" aria-label="View Biomechanics">Biomechanics</a></li>
-                <li><a class="proc-link" href="procedures/gait-analysis/" aria-label="View Gait Analysis">Gait Analysis</a></li>
+                <li><a class="proc-link" href="procedures/foot-pain/" aria-label="View Foot Pain">Foot Pain</a></li>
+                <li><a class="proc-link" href="procedures/plantar-fasciitis/" aria-label="View Plantar Fasciitis">Plantar Fasciitis</a></li>
                 <li><a class="proc-link" href="procedures/insoles/" aria-label="View Insoles">Insoles</a></li>
-                <li><a class="proc-link" href="procedures/ultrasound-guided-injections/" aria-label="View Ultrasound Guided Injections">Ultrasound Guided Injections</a></li>
-                <li><a class="proc-link" href="procedures/diagnostic-injections/" aria-label="View Diagnostic Injections">Diagnostic Injections</a></li>
-                <li><a class="proc-link" href="procedures/x-ray-facilities/" aria-label="View X-ray Facilities">X-ray Facilities</a></li>
                 <li><a class="proc-link" href="procedures/cushions-for-feet/" aria-label="View Cushions for Feet">Cushions for Feet</a></li>
                 <li><a class="proc-link" href="procedures/foot-botox/" aria-label="View Foot Botox">Foot Botox</a></li>
+              </ul>
+              <h3>Musculoskeletal Health</h3>
+              <ul class="mobile-sublist">
+                <li><a class="proc-link" href="procedures/ultrasound-guided-injections/" aria-label="View Ultrasound Guided Injections">Ultrasound Guided Injections</a></li>
+                <li><a class="proc-link" href="procedures/biomechanics/" aria-label="View Biomechanics">Biomechanics</a></li>
+                <li><a class="proc-link" href="procedures/gait-analysis/" aria-label="View Gait Analysis">Gait Analysis</a></li>
+              <li><a class="proc-link" href="procedures/x-ray-facilities/" aria-label="View X-ray Facilities">X-ray Facilities</a></li>
               </ul>
               <h3><a class="mobile-category-link" href="procedures/hard-skin-removal/">Chiropody</a></h3>
               <ul class="mobile-sublist">
@@ -202,7 +214,8 @@
                 <li><a class="proc-link" href="procedures/electrotherapy/" aria-label="View Electrotherapy">Electrotherapy</a></li>
                 <li><a class="proc-link" href="procedures/dry-needling/" aria-label="View Dry Needling">Dry Needling</a></li>
                 <li><a class="proc-link" href="procedures/cupping-therapy/" aria-label="View Cupping Therapy">Cupping Therapy</a></li>
-                <li><a class="proc-link" href="procedures/accupunture/" aria-label="View Accupunture">Accupunture</a></li>
+                <li><a class="proc-link" href="procedures/acupuncture/" aria-label="View Acupuncture">Acupuncture</a></li>
+              <li><a class="proc-link" href="procedures/sports-massage/" aria-label="View Sports Massage">Sports Massage</a></li>
               </ul>
             </div>
           </div>
@@ -221,10 +234,10 @@
               </a>
             </li>
                 <li>
-              <a class="location-link" href="https://www.google.com/maps/place/Target+Fit/@51.5798239,0.0214932,17z/data=!3m1!4b1!4m6!3m5!1s0x47d8a73f8e8f382d:0xcc76f3f0024490a8!8m2!3d51.5798239!4d0.0240681!16s%2Fg%2F11bz0bzf1k?entry=ttu&g_ep=EgoyMDI1MDkxMC4wIKXMDSoASAFQAw%3D%3D" data-location="Wanstead" aria-label="View Wanstead clinic" target="_blank" rel="noopener"><svg class="location-icon" viewBox="0 0 24 24" aria-hidden="true"><path class="marker-body" d="M12 2C7.03 2 3 6.03 3 11c0 5.56 6.73 12.44 7.59 13.29.23.22.53.34.83.34s.6-.12.83-.34C14.27 23.44 21 16.56 21 11c0-4.97-4.03-9-9-9zm0 12a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/><circle class="marker-hole" cx="12" cy="11" r="1.7"/></svg>
+              <a class="location-link" href="https://www.google.com/maps/search/?api=1&query=11-13%20Cambridge%20Park%2C%20Wanstead%2C%20London%20E11%202PU" data-location="Wanstead" aria-label="View Wanstead clinic" target="_blank" rel="noopener"><svg class="location-icon" viewBox="0 0 24 24" aria-hidden="true"><path class="marker-body" d="M12 2C7.03 2 3 6.03 3 11c0 5.56 6.73 12.44 7.59 13.29.23.22.53.34.83.34s.6-.12.83-.34C14.27 23.44 21 16.56 21 11c0-4.97-4.03-9-9-9zm0 12a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/><circle class="marker-hole" cx="12" cy="11" r="1.7"/></svg>
                 <div class="location-text">
                   <span class="location-name">Wanstead</span>
-                  <span class="location-meta">Target Fit, 15 High Street, Wanstead, London E11 2AA</span>
+                  <span class="location-meta">11-13 Cambridge Park, Wanstead, London E11 2PU</span>
                 </div>
               </a>
             </li>
@@ -240,10 +253,11 @@
             </div>
           </div>
         </li>
-        <li><a href="index.html#team">Team</a></li>
+        <li><a href="#team">Team</a></li>
         <li><a href="prices/">Prices</a></li>
-        <li><a href="index.html#contact">Contact</a></li>
-        <li class="mobile-booking"><a class="btn primary" href="booking.html">Book online</a></li>
+        <li><a href="blog/">Blog</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li class="mobile-booking"><a class="btn primary" href="booking">Book online</a></li>
       </ul>
     </div>
   </div>
@@ -268,81 +282,112 @@
         <div class="section-head">
           <div>
             <div class="kicker">Booking</div>
-            <h2 id="b-heading">Book an appointment</h2>
+            <h2 id="b-heading">Request an appointment</h2>
           </div>
         </div>
 
-        <form
-          class="contact-form"
-          id="booking-form"
-          aria-label="Booking form"
-          action="https://script.google.com/macros/s/AKfycbwc6DP7T33Twzy5UUiXbYj02N-wE8Zq4h8cJ_WxCDB0ufUWgbnlcHpVFQQhLO9L75hP/exec"
-          method="POST"
-        >
-          <input type="hidden" name="formType" value="Booking Request">
-          <input type="hidden" name="successUrl" value="https://www.footandanklecentre.co.uk/success/">
-          <input type="text" name="website" style="display:none">
-
+        <!-- Appointment requests are reviewed and confirmed manually by reception. -->
+        <form class="contact-form" aria-label="Booking form" action="https://script.google.com/macros/s/AKfycbw3MGPbu32VMJp27QRKoJVrTbhHVCxMYVNv2zqMHcz11RWYqfj1I2eQP8OQb7CGSb3Kmg/exec" method="POST" target="_top" data-form-endpoint="https://script.google.com/macros/s/AKfycbw3MGPbu32VMJp27QRKoJVrTbhHVCxMYVNv2zqMHcz11RWYqfj1I2eQP8OQb7CGSb3Kmg/exec" data-form-type="booking">
+          <input type="hidden" name="formType" value="booking">
+          <input type="hidden" name="subject" value="New Booking Request">
+          <input type="hidden" name="redirectUrl" value="https://www.footandanklecentre.co.uk/success/">
+          <input type="hidden" name="pageUrl" value="">
+          <p data-assistant-handoff hidden role="status">Your preferences have been added from the assistant. Please review them and enter your contact details.</p>
+          <input type="text" name="website" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
           <label>
             <span class="sr-only">Full name</span>
             <input required type="text" name="name" placeholder="Full name" aria-label="Full name">
           </label>
-
-          <label>
+          <label> 
             <span class="sr-only">Email</span>
-            <input
-              required
-              type="email"
-              name="email"
-              placeholder="Email"
-              aria-label="Email"
-            >
+            <input required type="email" name="email" placeholder="Email" aria-label="Email">
           </label>
-
           <label>
             <span class="sr-only">Phone</span>
             <input required type="tel" name="phone" placeholder="Phone" aria-label="Phone">
           </label>
-
+          <fieldset class="patient-status" data-existing-patient>
+            <legend class="sr-only">Are you an existing patient with us?</legend>
+            <p class="patient-status-question">Are you an existing patient with us?</p>
+            <label>
+              <input required type="radio" name="existingPatient" value="yes">
+              <span>Yes</span>
+            </label>
+            <label>
+              <input required type="radio" name="existingPatient" value="no">
+              <span>No</span>
+            </label>
+          </fieldset>
+          <div class="booking-extra" data-new-patient-fields hidden aria-hidden="true">
+            <div class="booking-extra-fields">
+              <label class="date-field" data-placeholder="dd/mm/yyyy">
+                <span class="field-label">Date of birth</span>
+                <input class="date-native" type="date" name="dob" aria-label="Date of birth" data-new-patient-required>
+              </label>
+              <div class="postcode-lookup" data-postcode-lookup>
+                <label class="postcode-field">
+                  <span class="sr-only">Postcode</span>
+                  <input type="text" name="postcode" placeholder="Postcode" aria-label="Postcode" autocomplete="postal-code" data-new-patient-required>
+                  <select class="postcode-results" name="addressPicker" aria-label="Select address" data-address-results hidden><option value="" selected>Select address</option></select>
+                </label>
+                <button class="btn ghost" type="button" data-postcode-button>Find</button>
+              </div>
+              <p class="postcode-status muted-text" data-postcode-status aria-live="polite"></p>
+              <label>
+                <span class="sr-only">Address line 1</span>
+                <input type="text" name="addressLine1" placeholder="Address line 1" aria-label="Address line 1" autocomplete="address-line1" data-new-patient-required>
+              </label>
+              <label>
+                <span class="sr-only">Address line 2</span>
+                <input type="text" name="addressLine2" placeholder="Address line 2" aria-label="Address line 2" autocomplete="address-line2">
+              </label>
+              <label>
+                <span class="sr-only">Town or city</span>
+                <input type="text" name="city" placeholder="Town or city" aria-label="Town or city" autocomplete="address-level2" data-new-patient-required>
+              </label>
+            </div>
+          </div>
           <label>
             <span class="sr-only">Service</span>
             <select name="service" aria-label="Select a service" required>
               <option value="" disabled selected hidden>Select appointment</option>
-              <option value="Podiatry Appointment">Podiatry Appointment</option>
-              <option value="Routine Care">Routine Care</option>
-              <option value="Biomechanics, Orthotics &amp; Insoles">Biomechanics, Orthotics &amp; Insoles</option>
-              <option value="Gait Analysis">Gait Analysis</option>
-              <option value="Minor Surgery">Minor Surgery</option>
-              <option value="Ultrasound / Steroid Injection">Ultrasound / Steroid Injection</option>
+              <option value="Foot &amp; Ankle Surgery">Foot &amp; Ankle Surgery</option>
               <option value="Cosmetic Foot Surgery">Cosmetic Foot Surgery</option>
-              <option value="Foot and Ankle Surgery">Foot and Ankle Surgery</option>
-              <option value="Online Consultation">Online Consultation</option>
+              <option value="Podiatry Appointment">Podiatry Appointment</option>
+              <option value="Chiropody Appointment (Routine Care)">Chiropody Appointment (Routine Care)</option>
+              <option value="Musculoskeletal Health">Musculoskeletal Health</option>
               <option value="Physiotherapy">Physiotherapy</option>
-              <option value="Vimazi Shoe Fitting">Vimazi Shoe Fitting</option>
             </select>
           </label>
-
+          <div class="surgery-photo-field" data-surgery-photo-field hidden>
+            <label for="booking-photos">Photos of your feet</label>
+            <input id="booking-photos" name="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple data-surgery-photos>
+            <label class="surgery-choice"><input type="checkbox" name="photoConsent" value="yes" data-photo-consent> I am happy to send photos of my feet for examination.</label>
+            <label class="surgery-choice"><input type="checkbox" name="consultationRequested" value="yes" data-consultation-requested> I would prefer a free 20-minute consultation so my feet can be examined in person.</label>
+            <p class="muted-text">Photos are optional. If you send them, attach up to 3 clear JPG, PNG or WebP images, up to 5 MB each. Please select one of the options above.</p>
+            <p class="surgery-photo-status" data-surgery-photo-status role="status" aria-live="polite" hidden></p>
+          </div>
           <label>
             <span class="sr-only">Location</span>
-            <select name="location" aria-label="Select a clinic location">
+            <select name="location" aria-label="Select a clinic location" required>
               <option value="" disabled selected hidden>Select location</option>
               <option value="Chingford">Chingford</option>
               <option value="Wanstead">Wanstead</option>
               <option value="Westcliff-on-Sea">Westcliff-on-Sea</option>
+              <option value="No preference">No preference</option>
             </select>
           </label>
-
           <label class="date-field" data-placeholder="dd/mm/yyyy">
-            <span class="sr-only">Preferred date</span>
+            <span class="field-label">Preferred date</span>
             <input class="date-native" type="date" name="date" aria-label="Preferred date">
           </label>
-
-            <label>
-              <span class="sr-only">Notes</span>
-              <textarea name="notes" rows="4" placeholder="Notes (optional)" aria-label="Notes (optional)"></textarea>
-            </label>
-
-          <button class="btn primary" type="submit">Request booking</button>
+          <label>
+            <span class="sr-only">Notes</span>
+            <textarea name="notes" rows="4" maxlength="2300" placeholder="Notes (optional)" aria-label="Notes (optional)" data-surgery-notes></textarea>
+            <p class="surgery-notes-status" data-surgery-notes-status role="status" aria-live="polite" hidden></p>
+          </label>
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAADAhLsC_5o7pYfM_" data-theme="light"></div>
+          <button class="btn primary" type="submit">Send appointment request</button>
         </form>
 
         <p class="muted-text" style="margin-top: .75rem">Prefer to call? Phone <a href="tel:+442085244516">02085244516</a>.</p>
@@ -375,10 +420,11 @@
         <div>
           <strong>Clinic</strong>
           <ul class="footer-links">
-            <li><a href="index.html#services">Services</a></li>
-            <li><a href="index.html#team">Team</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#team">Team</a></li>
             <li><a href="prices/">Prices</a></li>
-            <li><a href="index.html#contact">Contact</a></li>
+            <li><a href="blog/">Blog</a></li>
+            <li><a href="#contact">Contact</a></li>
           </ul>
         </div>
         <div>
@@ -392,23 +438,14 @@
         </div>
       </div>
       <div class="bottom">
-        <small>©<span id="year"></span> Foot & Ankle Centre</small>
+        <small>&copy;<span id="year"></span> Foot & Ankle Centre</small>
         <small>Website built by Anuk</small>
-      </div>
+      </div>  
     </div>
   </footer>
 
   <!-- External JS -->
-  <script src="script.js"></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <script src="script.js?v=1.0.30"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-

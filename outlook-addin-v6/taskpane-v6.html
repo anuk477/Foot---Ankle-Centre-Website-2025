@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>FAC Status v6</title>
+  <link rel="stylesheet" href="taskpane.css?v=6">
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+</head>
+<body>
+  <main class="wrap">
+    <h1>FAC Status v6</h1>
+    <p id="enquiry">Select an FAC enquiry email.</p>
+    <div class="buttons">
+      <button data-status="Dealt With">Dealt With</button>
+      <button data-status="Email Sent">Email Sent</button>
+      <button data-status="Message Left">Message Left</button>
+      <button data-status="No Reply">No Reply</button>
+      <button data-status="To Be Followed Up">To Be Followed Up</button>
+      <button data-status="Will Think About It">Will Think About It</button>
+    </div>
+    <p id="result" class="result"></p>
+  </main>
+
+  <script>
+const STATUS_API_URL =
+  "https://www.footandanklecentre.co.uk/outlook-addin-v6/status-proxy.php";
+
+let currentEnquiryId = "";
+
+Office.onReady(() => {
+  const item = Office.context.mailbox.item;
+  const subject = item && item.subject ? item.subject : "";
+
+  currentEnquiryId = extractEnquiryId(subject);
+
+  const enquiryEl = document.getElementById("enquiry");
+  enquiryEl.textContent = currentEnquiryId
+    ? "Enquiry ID: " + currentEnquiryId
+    : "No ENQ-... ID found in this email subject.";
+
+  document.querySelectorAll("button[data-status]").forEach(btn => {
+    btn.addEventListener("click", () => setStatus(btn.dataset.status));
+  });
+});
+
+function extractEnquiryId(subject) {
+  const match = String(subject || "").match(/ENQ-[A-Za-z0-9-]+/i);
+  return match ? match[0].toUpperCase() : "";
+}
+
+async function setStatus(status) {
+  const result = document.getElementById("result");
+
+  if (!currentEnquiryId) {
+    result.textContent = "This email has no Enquiry ID.";
+    return;
+  }
+
+  setBusy(true);
+  result.textContent = "Updating Google Sheet...";
+
+  try {
+    const response = await fetch(STATUS_API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        enquiryId: currentEnquiryId,
+        status: status
+      })
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok || data.ok !== true) {
+      throw new Error(data.error || "Google Sheet update failed.");
+    }
+
+    result.textContent = "Status updated: " + status;
+  } catch (err) {
+    result.textContent =
+      "Error: " + (err && err.message ? err.message : String(err));
+  } finally {
+    setBusy(false);
+  }
+}
+
+function setBusy(isBusy) {
+  document.querySelectorAll("button[data-status]").forEach(btn => {
+    btn.disabled = isBusy;
+  });
+}
+
+  </script>
+</body>
+</html>
