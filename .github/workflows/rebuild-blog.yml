@@ -32,7 +32,7 @@ jobs:
           SFTP_HOST: ${{ secrets.SFTP_HOST }}
           SFTP_PORT: ${{ secrets.SFTP_PORT }}
           SFTP_USERNAME: ${{ secrets.SFTP_USERNAME }}
-          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          : "${SFTP_PASSWORD:?Add the SFTP_PASSWORD GitHub Actions secret}"
           SFTP_KNOWN_HOSTS: ${{ secrets.SFTP_KNOWN_HOSTS }}
           SFTP_REMOTE_PATH: ${{ secrets.SFTP_REMOTE_PATH }}
         shell: bash
@@ -41,7 +41,7 @@ jobs:
 
           : "${SFTP_HOST:?Add the SFTP_HOST GitHub Actions secret}"
           : "${SFTP_USERNAME:?Add the SFTP_USERNAME GitHub Actions secret}"
-          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          : "${SFTP_PASSWORD:?Add the SFTP_PASSWORD GitHub Actions secret}"
           : "${SFTP_KNOWN_HOSTS:?Add the SFTP_KNOWN_HOSTS GitHub Actions secret}"
           : "${SFTP_REMOTE_PATH:?Add the SFTP_REMOTE_PATH GitHub Actions secret}"
 
