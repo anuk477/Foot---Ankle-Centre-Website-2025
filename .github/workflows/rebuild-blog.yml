@@ -29,9 +29,9 @@ jobs:
 
       - name: Upload generated blog pages over SFTP
         env:
-          SFTP_HOST: ${{ secrets.SFTP_HOST }}
-          SFTP_PORT: ${{ secrets.SFTP_PORT }}
-          SFTP_USERNAME: ${{ secrets.SFTP_USERNAME }}
+          SFTP_HOST: home485975784.1and1-data.host
+          SFTP_PORT: '22'
+          SFTP_USERNAME: acc49436123
           SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
           SFTP_KNOWN_HOSTS: ${{ secrets.SFTP_KNOWN_HOSTS }}
           SFTP_REMOTE_PATH: ${{ secrets.SFTP_REMOTE_PATH }}
