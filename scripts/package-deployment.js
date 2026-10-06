@@ -1,10 +1,12 @@
 'use strict'
 
+const {spawnSync} = require('node:child_process')
 const fs = require('node:fs')
 const path = require('node:path')
 
 const root = path.resolve(__dirname, '..')
 const output = path.join(root, 'dist')
+const videoExtensions = new Set(['.mp4', '.m4v', '.mov'])
 
 const rootFiles = [
   '.htaccess',
@@ -54,6 +56,28 @@ function copyTree(source, destination, relativePath) {
   }
 
   fs.mkdirSync(path.dirname(destination), {recursive: true})
+
+  if (relativePath.startsWith(`videos${path.sep}`) && videoExtensions.has(path.extname(source).toLowerCase())) {
+    const result = spawnSync('ffmpeg', [
+      '-hide_banner',
+      '-loglevel', 'error',
+      '-y',
+      '-i', source,
+      '-vf', "scale='min(720,iw)':-2",
+      '-c:v', 'libx264',
+      '-preset', 'veryfast',
+      '-crf', '29',
+      '-an',
+      '-movflags', '+faststart',
+      destination,
+    ], {stdio: 'inherit'})
+
+    if (result.error || result.status !== 0) {
+      throw new Error(`Could not create a browser-compatible compressed video for ${relativePath}: ${result.error?.message || `ffmpeg exited with code ${result.status}`}`)
+    }
+    return
+  }
+
   fs.copyFileSync(source, destination)
 }
 
@@ -74,4 +98,4 @@ for (const directory of runtimeDirectories) {
   copyTree(source, path.join(output, directory), directory)
 }
 
-console.log('Prepared the IONOS package in dist from the website runtime files.')
+console.log('Prepared the IONOS package in dist; source videos remain in Git and deployed copies are compressed H.264.')
