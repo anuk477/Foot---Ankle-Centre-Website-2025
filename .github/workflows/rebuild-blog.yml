@@ -51,7 +51,8 @@ jobs:
           trap 'rm -f "$key_file" "$known_hosts_file" "$batch_file"' EXIT
 
           umask 077
-          printf '%s\n' "$SFTP_PRIVATE_KEY" > "$key_file"
+          printf '%s\n' "$SFTP_PRIVATE_KEY" | tr -d "\r" > "$key_file"
+          ssh-keygen -y -f "$key_file" >/dev/null
           printf '%s\n' "$SFTP_KNOWN_HOSTS" > "$known_hosts_file"
 
           {
