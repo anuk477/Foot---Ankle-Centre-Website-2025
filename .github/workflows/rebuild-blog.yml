@@ -1,83 +1,57 @@
-name: Rebuild and deploy Sanity blog
+name: Rebuild Sanity blog pages
 
 on:
   repository_dispatch:
     types: [sanity-post-published]
   workflow_dispatch:
-  push:
-    branches: [main]
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
-  group: production-blog-deploy
+  group: production-blog-build
   cancel-in-progress: false
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the website
         uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.BLOG_DEPLOY_TOKEN }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v7
         with:
           node-version: 22
+          cache: npm
 
       - name: Build published Sanity posts
-        run: npm run build
+        run: |
+          npm ci
+          npm run build
 
-      - name: Upload generated blog pages over SFTP
-        env:
-          SFTP_HOST: home485975784.1and1-data.host
-          SFTP_PORT: '22'
-          SFTP_USERNAME: acc49436123
-          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
-          SFTP_KNOWN_HOSTS: ${{ secrets.SFTP_KNOWN_HOSTS }}
-          SFTP_REMOTE_PATH: ${{ secrets.SFTP_REMOTE_PATH }}
+      - name: Commit generated pages to main
         shell: bash
         run: |
           set -euo pipefail
 
-          : "${SFTP_HOST:?Add the SFTP_HOST GitHub Actions secret}"
-          : "${SFTP_USERNAME:?Add the SFTP_USERNAME GitHub Actions secret}"
-          : "${SFTP_PASSWORD:?Add the SFTP_PASSWORD GitHub Actions secret}"
-          : "${SFTP_KNOWN_HOSTS:?Add the SFTP_KNOWN_HOSTS GitHub Actions secret}"
-          : "${SFTP_REMOTE_PATH:?Add the SFTP_REMOTE_PATH GitHub Actions secret}"
+          git add -- index.html blog/index.html sitemap.xml
+          git add -u -- blog
 
-          known_hosts_file="$RUNNER_TEMP/sftp_known_hosts"
-          batch_file="$RUNNER_TEMP/sftp_batch"
-          trap 'rm -f "$known_hosts_file" "$batch_file"' EXIT
+          for marker in blog/*/.generated-blog-post; do
+            [ -f "$marker" ] || continue
+            post_dir="${marker%/.generated-blog-post}"
+            git add -- "$marker" "$post_dir/index.html"
+          done
 
-          umask 077
-          printf '%s\n' "$SFTP_KNOWN_HOSTS" > "$known_hosts_file"
+          if git diff --cached --quiet; then
+            echo "Sanity content produced no file changes."
+            exit 0
+          fi
 
-          {
-            printf 'cd "%s"\n' "$SFTP_REMOTE_PATH"
-            printf 'put index.html index.html\n'
-            printf 'put sitemap.xml sitemap.xml\n'
-            printf 'cd blog\n'
-            printf 'put blog/index.html index.html\n'
-
-            for marker in blog/*/.generated-blog-post; do
-              [ -f "$marker" ] || continue
-              post_dir="${marker%/.generated-blog-post}"
-              slug="${post_dir#blog/}"
-              printf -- '-mkdir "%s"\n' "$slug"
-              printf 'put "%s/index.html" "%s/index.html"\n' "$post_dir" "$slug"
-            done
-          } > "$batch_file"
-
-          sudo apt-get update
-          sudo apt-get install --yes sshpass
-
-          SSHPASS="$SFTP_PASSWORD" sshpass -e sftp \
-            -b "$batch_file" \
-            -P "${SFTP_PORT:-22}" \
-            -o PreferredAuthentications=keyboard-interactive,password \
-            -o PubkeyAuthentication=no \
-            -o StrictHostKeyChecking=yes \
-            -o "UserKnownHostsFile=$known_hosts_file" \
-            "${SFTP_USERNAME}@${SFTP_HOST}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Rebuild published Sanity blog pages"
+          git push origin HEAD:main
