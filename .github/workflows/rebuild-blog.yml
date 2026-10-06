@@ -32,7 +32,7 @@ jobs:
           SFTP_HOST: ${{ secrets.SFTP_HOST }}
           SFTP_PORT: ${{ secrets.SFTP_PORT }}
           SFTP_USERNAME: ${{ secrets.SFTP_USERNAME }}
-          : "${SFTP_PASSWORD:?Add the SFTP_PASSWORD GitHub Actions secret}"
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
           SFTP_KNOWN_HOSTS: ${{ secrets.SFTP_KNOWN_HOSTS }}
           SFTP_REMOTE_PATH: ${{ secrets.SFTP_REMOTE_PATH }}
         shell: bash
@@ -79,4 +79,3 @@ jobs:
             -o StrictHostKeyChecking=yes \
             -o "UserKnownHostsFile=$known_hosts_file" \
             "${SFTP_USERNAME}@${SFTP_HOST}"
-
