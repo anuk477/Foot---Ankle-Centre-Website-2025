@@ -1,0 +1,90 @@
+.fac-assistant{font:14px/1.5 Inter,Arial,sans-serif;color:#17243b;position:fixed;right:22px;bottom:22px;z-index:12000;text-align:left}
+.fac-assistant *{box-sizing:border-box}
+.fac-assistant [hidden]{display:none!important}
+.fac-assistant button,.fac-assistant input,.fac-assistant select{font:inherit}
+.fac-assistant button,.fac-assistant a{touch-action:manipulation}
+.fac-assistant button{cursor:pointer}
+.fac-assistant .fac-teaser{position:absolute;right:0;bottom:76px;max-width:230px;padding:10px 14px;border:1px solid #dce3ed;border-radius:14px;background:white;color:#17243b;box-shadow:0 6px 24px #15203a26;font-size:13px;font-weight:600;white-space:nowrap;animation:fac-teaser-in .35s ease-out both,fac-teaser-out .5s ease 5s forwards}
+.fac-assistant .fac-teaser::after{content:"";position:absolute;right:20px;bottom:-7px;width:12px;height:12px;background:white;border-right:1px solid #dce3ed;border-bottom:1px solid #dce3ed;transform:rotate(45deg)}
+.fac-assistant .fac-teaser:hover{color:#2e429b;box-shadow:0 9px 28px #15203a38}
+@keyframes fac-teaser-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fac-teaser-out{to{opacity:0;visibility:hidden;transform:translateY(4px)}}
+.fac-assistant :focus-visible{outline:3px solid #829bff;outline-offset:3px}
+.fac-assistant .fac-launch{display:flex;align-items:center;gap:10px;border:0;border-radius:30px;background:#2e429b;color:white;padding:15px 20px;box-shadow:0 6px 26px #16265133;font-weight:600;transition:transform .18s ease,box-shadow .18s ease,background-color .18s ease}
+.fac-assistant .fac-launch:hover{transform:translateY(-3px) scale(1.02);background:#354cac;box-shadow:0 10px 30px #1626514d}
+.fac-assistant .fac-launch:active{transform:translateY(-1px) scale(.99)}
+.fac-assistant .fac-launch svg{width:23px;height:23px;flex:none}
+.fac-assistant .fac-panel{position:absolute;bottom:72px;right:0;width:390px;max-width:calc(100vw - 32px);height:590px;max-height:calc(100dvh - 125px);background:white;border:1px solid #dce3ed;border-radius:20px;box-shadow:0 14px 60px #15203a33;display:flex;flex-direction:column;overflow:hidden}
+.fac-assistant .fac-panel.fac-panel-opening{animation:fac-panel-in .22s cubic-bezier(.2,.8,.2,1) both}
+.fac-assistant .fac-panel.fac-panel-closing{animation:fac-panel-out .18s ease-in both;pointer-events:none}
+@keyframes fac-panel-in{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes fac-panel-out{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(8px) scale(.97)}}
+.fac-assistant .fac-head{display:flex;gap:12px;align-items:center;background:#2e429b;color:white;padding:18px;flex:none}
+.fac-assistant .fac-head strong{font-size:16px;display:block}
+.fac-assistant .fac-head small{color:#e5eaff;display:block;margin-top:3px}
+.fac-assistant .fac-close{margin-left:auto;display:inline-flex;align-items:center;justify-content:center;flex:0 0 34px;width:34px;min-width:34px;height:34px;min-height:34px;padding:0;-webkit-appearance:none;appearance:none;background:transparent;border:1px solid #ffffff70;border-radius:50%;color:white;font-family:Arial,sans-serif;font-size:24px;font-weight:400;line-height:1}
+.fac-assistant .fac-body{padding:18px;overflow-y:auto;overscroll-behavior:contain;flex:1;background:#f0f3f8;scrollbar-width:thin;scrollbar-color:#c4ccdc transparent}
+.fac-assistant .fac-log{display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding-bottom:14px}
+.fac-assistant .fac-message{position:relative;isolation:isolate;flex:none;width:fit-content;max-width:88%;padding:11px 15px;border:0;background:white;color:#17243b;border-radius:19px;margin:0;white-space:pre-wrap;overflow-wrap:anywhere;box-shadow:0 1px 2px #17243b14;line-height:1.55}
+.fac-assistant .fac-message::before{content:"";position:absolute;z-index:-1;bottom:0;left:-5px;width:15px;height:16px;background:inherit;border-bottom-right-radius:12px}
+.fac-assistant .fac-message::after{content:"";position:absolute;z-index:-1;bottom:0;left:-8px;width:8px;height:19px;background:#f0f3f8;border-bottom-right-radius:9px}
+.fac-assistant .fac-message-user{align-self:flex-end;background:#2e429b;color:white}
+.fac-assistant .fac-message-user::before{left:auto;right:-5px;border-bottom-right-radius:0;border-bottom-left-radius:12px}
+.fac-assistant .fac-message-user::after{left:auto;right:-8px;border-bottom-right-radius:0;border-bottom-left-radius:9px}
+.fac-assistant .fac-typing{display:flex;align-items:center;gap:5px;min-height:42px;padding:14px 17px;margin-bottom:14px}
+.fac-assistant .fac-typing-dot{width:7px;height:7px;border-radius:50%;background:#77839b;animation:fac-typing 1.2s ease-in-out infinite}
+.fac-assistant .fac-typing-dot:nth-child(2){animation-delay:.15s}
+.fac-assistant .fac-typing-dot:nth-child(3){animation-delay:.3s}
+.fac-assistant .fac-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+@keyframes fac-typing{0%,60%,100%{transform:translateY(0);opacity:.45}30%{transform:translateY(-4px);opacity:1}}
+@media(prefers-reduced-motion:reduce){.fac-assistant .fac-typing-dot{animation:none;opacity:.7}.fac-assistant .fac-panel.fac-panel-opening,.fac-assistant .fac-panel.fac-panel-closing,.fac-assistant .fac-teaser{animation:none}.fac-assistant .fac-launch{transition:none}}
+.fac-assistant .fac-options{display:grid;gap:8px;margin:0 0 14px}
+.fac-assistant .fac-controls{display:grid;gap:8px}
+.fac-assistant.fac-booking-active .fac-ai{display:none}
+.fac-assistant section.fac-panel{padding:0}
+.fac-assistant .fac-body{min-height:0}
+.fac-assistant .fac-foot{max-height:48%;overflow-y:auto}
+.fac-assistant .fac-ai-details summary{cursor:pointer;color:#2e429b;font-weight:600;padding:5px 0}
+.fac-assistant .fac-option,.fac-assistant .fac-link{display:block;width:100%;text-align:left;padding:11px 13px;background:white;border:1px solid #cfd8ed;border-radius:10px;color:#263a89;text-decoration:none;font-weight:600;line-height:1.45}
+.fac-assistant .fac-option:hover,.fac-assistant .fac-link:hover{background:#edf1ff;border-color:#2e429b}
+.fac-assistant .fac-option small{display:block;color:#536077;font-weight:400;margin-top:4px}
+.fac-assistant .fac-flexible{text-align:center}
+.fac-assistant .fac-primary{background:#2e429b;color:white;border-color:#2e429b;text-align:center}
+.fac-assistant .fac-primary:hover{background:#24367f;color:white}
+.fac-assistant .fac-foot{border-top:1px solid #e1e6ef;background:white;padding:10px 16px 9px;flex:none}
+.fac-assistant .fac-note{font-size:12px;color:#546178;margin:0 0 9px}
+.fac-assistant .fac-compose{display:flex;gap:8px;margin:0}
+.fac-assistant .fac-compose input{min-width:0;flex:1;border:1px solid #bdc8dd;border-radius:24px;background:#f7f9fc;color:#17243b;padding:10px 14px}
+.fac-assistant .fac-compose button{border:0;border-radius:24px;padding:10px 16px;background:#2e429b;color:white;font-weight:600}
+.fac-assistant .fac-retry{margin-top:8px}
+.fac-assistant button:disabled{opacity:.55;cursor:default}
+.fac-assistant .fac-toolbar{display:flex;justify-content:space-between;gap:10px;margin-top:7px}
+.fac-assistant .fac-text-button{border:0;padding:3px 0;background:none;color:#2e429b;text-decoration:underline;font-size:12px}
+.fac-assistant .fac-consent{font-size:12px;display:flex;gap:7px;align-items:center;margin:0 0 8px}
+.fac-assistant .fac-consent input{margin:0;flex:none;width:16px;height:16px}
+.fac-assistant .fac-preferences{display:grid;gap:10px;margin-bottom:14px}
+.fac-assistant .fac-preferences label{display:grid;gap:4px;font-size:13px}
+.fac-assistant .fac-preferences input,.fac-assistant .fac-preferences select{width:100%;min-width:0;border:1px solid #bdc8dd;background:white;border-radius:9px;padding:10px;color:#17243b}
+.fac-assistant .fac-booking-step{display:grid;gap:10px;margin-bottom:14px;padding:13px;border:1px solid #d8dfeb;border-radius:15px;background:white;box-shadow:0 1px 2px #17243b0d}
+.fac-assistant .fac-booking-step label{display:grid;gap:4px;font-size:12px;font-weight:600;color:#44516a}
+.fac-assistant .fac-booking-step input,.fac-assistant .fac-booking-step textarea{width:100%;min-width:0;border:1px solid #bdc8dd;background:#fbfcfe;border-radius:10px;padding:10px;color:#17243b;resize:vertical}
+.fac-assistant .fac-booking-step input:focus,.fac-assistant .fac-booking-step textarea:focus{border-color:#2e429b;background:white}
+.fac-assistant .fac-booking-step .fac-choice{display:flex;grid-template-columns:none;gap:7px;align-items:flex-start;font-weight:500}
+.fac-assistant .fac-booking-step .fac-choice input[type="checkbox"]{appearance:auto;-webkit-appearance:checkbox;width:18px;height:18px;min-width:18px;flex:none;margin:2px 0 0;padding:0;border:0;border-radius:0;box-shadow:none;accent-color:#2e429b}
+.fac-assistant .fac-booking-step .fac-option{margin:0}
+.fac-assistant .fac-booking-back{font-weight:500;text-align:center;background:#f7f9fc}
+.fac-assistant .fac-booking-review{display:grid;gap:9px;margin-bottom:14px;padding:13px;border:1px solid #d8dfeb;border-radius:15px;background:white;box-shadow:0 1px 2px #17243b0d}
+.fac-assistant .fac-booking-review .fac-option{text-align:center}
+.fac-assistant .fac-booking-review dl{display:grid;grid-template-columns:minmax(88px,.7fr) minmax(0,1.3fr);gap:5px 10px;margin:0;font-size:12px}
+.fac-assistant .fac-booking-review dt{color:#59657b}
+.fac-assistant .fac-booking-review dd{margin:0;font-weight:600;overflow-wrap:anywhere}
+.fac-assistant .fac-booking-turnstile{min-height:65px;overflow:hidden}
+.fac-assistant .fac-booking-status{margin:0}
+.fac-assistant .fac-status{margin:0 0 7px;padding:6px 8px;border-radius:8px;background:#f2f4fa;font-size:11px;color:#536077}
+.fac-assistant .fac-info{margin-top:4px;font-size:11px;color:#536077}
+.fac-assistant .fac-info summary{width:max-content;margin:0 auto;padding:2px 4px;color:#536077;cursor:pointer}
+.fac-assistant .fac-info div{margin-top:5px;padding:8px 10px;border-radius:9px;background:#f5f7fb}
+.fac-assistant .fac-info p{margin:0 0 5px}
+.fac-assistant .fac-info p:last-of-type{margin-bottom:4px}
+.fac-assistant .fac-info a{color:#2e429b}
+@media(max-width:520px){.fac-assistant{right:12px;bottom:max(12px,env(safe-area-inset-bottom))}.fac-assistant .fac-teaser{right:-2px;bottom:64px;max-width:calc(100vw - 36px);font-size:12px}.fac-assistant .fac-launch{width:52px;height:52px;padding:0;justify-content:center;gap:0;border-radius:50%}.fac-assistant .fac-launch span{display:none}.fac-assistant .fac-launch svg{width:25px;height:25px;transform:translate(1px,-1px)}.fac-assistant .fac-panel{bottom:64px;width:calc(100vw - 24px);max-width:none;max-height:calc(100dvh - 100px)}.fac-assistant .fac-head{padding:14px}.fac-assistant .fac-body{padding:14px}}

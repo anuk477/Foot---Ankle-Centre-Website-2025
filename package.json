@@ -1,0 +1,19 @@
+{
+  "name": "foot-and-ankle-centre-website",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "npm run build:blog",
+    "build:blog": "node scripts/generate-blog.js",
+    "studio": "node ./node_modules/sanity/bin/sanity dev --host 0.0.0.0",
+    "studio:build": "node ./node_modules/sanity/bin/sanity build",
+    "studio:deploy": "node ./node_modules/sanity/bin/sanity deploy"
+  },
+  "dependencies": {
+    "@sanity/icons": "^3.7.4",
+    "@sanity/vision": "^4.3.0",
+    "sanity": "^4.3.0",
+    "styled-components": "^6.1.19"
+  },
+  "devDependencies": {}
+}
