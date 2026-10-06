@@ -32,6 +32,11 @@ jobs:
         with:
           node-version: v22.x
 
+      - name: Install ffmpeg for deployment video compression
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes ffmpeg
+
       - name: Build Node assets
         env:
           CI: true
