@@ -14,7 +14,7 @@ on:
         type: string
 
 env:
-  DEPLOYMENT_FOLDER: /footandanklecentre
+  DEPLOYMENT_FOLDER: .
 
 jobs:
 # Please do not rename this job
@@ -36,7 +36,9 @@ jobs:
         env:
           CI: true
           SITE_URL: ${{ inputs.site-url }}
-        run: npm ci
+        run: |
+          npm ci
+          npm run build
 
 # Please do not touch the following action
       - name: Store deployment content
