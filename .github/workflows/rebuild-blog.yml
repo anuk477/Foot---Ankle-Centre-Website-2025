@@ -32,7 +32,7 @@ jobs:
           SFTP_HOST: ${{ secrets.SFTP_HOST }}
           SFTP_PORT: ${{ secrets.SFTP_PORT }}
           SFTP_USERNAME: ${{ secrets.SFTP_USERNAME }}
-          SFTP_PRIVATE_KEY: ${{ secrets.SFTP_PRIVATE_KEY }}
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
           SFTP_KNOWN_HOSTS: ${{ secrets.SFTP_KNOWN_HOSTS }}
           SFTP_REMOTE_PATH: ${{ secrets.SFTP_REMOTE_PATH }}
         shell: bash
@@ -41,18 +41,15 @@ jobs:
 
           : "${SFTP_HOST:?Add the SFTP_HOST GitHub Actions secret}"
           : "${SFTP_USERNAME:?Add the SFTP_USERNAME GitHub Actions secret}"
-          : "${SFTP_PRIVATE_KEY:?Add the SFTP_PRIVATE_KEY GitHub Actions secret}"
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
           : "${SFTP_KNOWN_HOSTS:?Add the SFTP_KNOWN_HOSTS GitHub Actions secret}"
           : "${SFTP_REMOTE_PATH:?Add the SFTP_REMOTE_PATH GitHub Actions secret}"
 
-          key_file="$RUNNER_TEMP/sftp_deploy_key"
           known_hosts_file="$RUNNER_TEMP/sftp_known_hosts"
           batch_file="$RUNNER_TEMP/sftp_batch"
-          trap 'rm -f "$key_file" "$known_hosts_file" "$batch_file"' EXIT
+          trap 'rm -f "$known_hosts_file" "$batch_file"' EXIT
 
           umask 077
-          printf '%s\n' "$SFTP_PRIVATE_KEY" | tr -d "\r" > "$key_file"
-          ssh-keygen -y -f "$key_file" >/dev/null
           printf '%s\n' "$SFTP_KNOWN_HOSTS" > "$known_hosts_file"
 
           {
@@ -71,11 +68,14 @@ jobs:
             done
           } > "$batch_file"
 
-          sftp \
+          sudo apt-get update
+          sudo apt-get install --yes sshpass
+
+          SSHPASS="$SFTP_PASSWORD" sshpass -e sftp \
             -b "$batch_file" \
             -P "${SFTP_PORT:-22}" \
-            -i "$key_file" \
-            -o IdentitiesOnly=yes \
+            -o PreferredAuthentications=password \
+            -o PubkeyAuthentication=no \
             -o StrictHostKeyChecking=yes \
             -o "UserKnownHostsFile=$known_hosts_file" \
             "${SFTP_USERNAME}@${SFTP_HOST}"
