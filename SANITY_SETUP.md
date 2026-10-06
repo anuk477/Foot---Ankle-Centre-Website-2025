@@ -91,14 +91,12 @@ In the `Foot---Ankle-Centre-Website-2025` repository, open **Settings → Secret
 
 - `SFTP_HOST`: the SFTP server hostname.
 - `SFTP_PORT`: the SFTP port, usually `22` (optional; the workflow defaults to `22`).
-- `SFTP_USERNAME`: a dedicated SFTP user restricted to the website root.
-- `SFTP_PRIVATE_KEY`: the private SSH key for that user. Do not commit this key.
-- `SFTP_KNOWN_HOSTS`: the verified SSH host-key line supplied by the hosting provider (or verified with them). Do not disable host-key checking.
-- `SFTP_REMOTE_PATH`: the absolute remote path to the website root, the folder containing `booking.html`.
+- `SFTP_USERNAME`: the IONOS SFTP username.
+- `SFTP_PASSWORD`: the password for that IONOS SFTP account (not your IONOS account password).
+- `SFTP_KNOWN_HOSTS`: the verified SSH host-key line for the IONOS SFTP server.
+- `SFTP_REMOTE_PATH`: the remote website root, the folder containing `booking.html`.
 
-The workflow uses SSH key authentication. Add the matching public key to the hosting account's authorized SSH keys; if the host only offers password-based SFTP, this workflow needs to be adapted before use.
-
-The workflow uploads `index.html`, `sitemap.xml`, `blog/index.html`, and each generated blog post page. It does not mirror or delete other website files.
+The workflow uses password-based SFTP authentication and keeps host-key checking enabled. Remove any old `SFTP_PRIVATE_KEY` secret; it is no longer used. The workflow uploads `index.html`, `sitemap.xml`, `blog/index.html`, and each generated blog post page. It does not mirror or delete other website files.
 
 ### Configure the Sanity webhook
 
