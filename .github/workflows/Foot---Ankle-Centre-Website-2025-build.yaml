@@ -14,7 +14,7 @@ on:
         type: string
 
 env:
-  DEPLOYMENT_FOLDER: .
+  DEPLOYMENT_FOLDER: dist
 
 jobs:
 # Please do not rename this job
@@ -39,6 +39,7 @@ jobs:
         run: |
           npm ci
           npm run build
+          node scripts/package-deployment.js
 
 # Please do not touch the following action
       - name: Store deployment content
