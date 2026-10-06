@@ -52,32 +52,32 @@ jobs:
           trap 'rm -f "$known_hosts_file" "$batch_file"' EXIT
 
           umask 077
-          printf '%s\\n' "$SFTP_KNOWN_HOSTS" > "$known_hosts_file"
+          printf '%s\n' "$SFTP_KNOWN_HOSTS" > "$known_hosts_file"
 
           {
-            printf 'cd "%s"\\n' "$SFTP_REMOTE_PATH"
-            printf 'put index.html index.html\\n'
-            printf 'put sitemap.xml sitemap.xml\\n'
-            printf 'cd blog\\n'
-            printf 'put blog/index.html index.html\\n'
+            printf 'cd "%s"\n' "$SFTP_REMOTE_PATH"
+            printf 'put index.html index.html\n'
+            printf 'put sitemap.xml sitemap.xml\n'
+            printf 'cd blog\n'
+            printf 'put blog/index.html index.html\n'
 
             for marker in blog/*/.generated-blog-post; do
               [ -f "$marker" ] || continue
               post_dir="${marker%/.generated-blog-post}"
               slug="${post_dir#blog/}"
-              printf -- '-mkdir "%s"\\n' "$slug"
-              printf 'put "%s/index.html" "%s/index.html"\\n' "$post_dir" "$slug"
+              printf -- '-mkdir "%s"\n' "$slug"
+              printf 'put "%s/index.html" "%s/index.html"\n' "$post_dir" "$slug"
             done
           } > "$batch_file"
 
           sudo apt-get update
           sudo apt-get install --yes sshpass
 
-          SSHPASS="$SFTP_PASSWORD" sshpass -e sftp \\
-            -b "$batch_file" \\
-            -P "${SFTP_PORT:-22}" \\
-            -o PreferredAuthentications=keyboard-interactive,password \\
-            -o PubkeyAuthentication=no \\
-            -o StrictHostKeyChecking=yes \\
-            -o "UserKnownHostsFile=$known_hosts_file" \\
+          SSHPASS="$SFTP_PASSWORD" sshpass -e sftp \
+            -b "$batch_file" \
+            -P "${SFTP_PORT:-22}" \
+            -o PreferredAuthentications=keyboard-interactive,password \
+            -o PubkeyAuthentication=no \
+            -o StrictHostKeyChecking=yes \
+            -o "UserKnownHostsFile=$known_hosts_file" \
             "${SFTP_USERNAME}@${SFTP_HOST}"
