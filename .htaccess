@@ -2,10 +2,6 @@ RewriteEngine On
 
 ErrorDocument 404 /404.html
 
-RewriteCond %{HTTPS} !=on [OR]
-RewriteCond %{HTTP_HOST} !^www\.footandanklecentre\.co\.uk$ [NC]
-RewriteRule ^ https://www.footandanklecentre.co.uk%{REQUEST_URI} [L,R=301]
-
 # Keep existing links to the former misspelling working.
 RewriteRule ^procedures/acupunture(?:/index\.html|/)?$ /procedures/acupuncture/ [L,R=301]
 
