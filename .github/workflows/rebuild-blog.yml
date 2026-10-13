@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: production-blog-deploy
@@ -16,8 +16,19 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Check for the Git push token
+        env:
+          BLOG_DEPLOY_TOKEN: ${{ secrets.BLOG_DEPLOY_TOKEN }}
+        shell: bash
+        run: |
+          : "${BLOG_DEPLOY_TOKEN:?Add a fine-grained BLOG_DEPLOY_TOKEN secret with Contents: Read and write for this repository}"
+
       - name: Check out the website
         uses: actions/checkout@v6
+        with:
+          # A PAT is needed so the resulting push can start IONOS Deploy Now's
+          # own GitHub Actions workflow.
+          token: ${{ secrets.BLOG_DEPLOY_TOKEN }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v7
@@ -27,54 +38,28 @@ jobs:
       - name: Build published Sanity posts
         run: npm run build
 
-      - name: Upload generated blog pages over SFTP
+      - name: Commit generated blog pages for Deploy Now
         env:
-          SFTP_HOST: ${{ secrets.SFTP_HOST }}
-          SFTP_PORT: ${{ secrets.SFTP_PORT }}
-          SFTP_USERNAME: ${{ secrets.SFTP_USERNAME }}
-          SFTP_PRIVATE_KEY: ${{ secrets.SFTP_PRIVATE_KEY }}
-          SFTP_KNOWN_HOSTS: ${{ secrets.SFTP_KNOWN_HOSTS }}
-          SFTP_REMOTE_PATH: ${{ secrets.SFTP_REMOTE_PATH }}
+          BLOG_DEPLOY_TOKEN: ${{ secrets.BLOG_DEPLOY_TOKEN }}
+          TARGET_BRANCH: ${{ github.ref_name }}
         shell: bash
         run: |
           set -euo pipefail
 
-          : "${SFTP_HOST:?Add the SFTP_HOST GitHub Actions secret}"
-          : "${SFTP_USERNAME:?Add the SFTP_USERNAME GitHub Actions secret}"
-          : "${SFTP_PRIVATE_KEY:?Add the SFTP_PRIVATE_KEY GitHub Actions secret}"
-          : "${SFTP_KNOWN_HOSTS:?Add the SFTP_KNOWN_HOSTS GitHub Actions secret}"
-          : "${SFTP_REMOTE_PATH:?Add the SFTP_REMOTE_PATH GitHub Actions secret}"
+          : "${BLOG_DEPLOY_TOKEN:?Add a fine-grained BLOG_DEPLOY_TOKEN secret with Contents: Read and write for this repository}"
+          : "${TARGET_BRANCH:?Could not determine the branch to update}"
 
-          key_file="$RUNNER_TEMP/sftp_deploy_key"
-          known_hosts_file="$RUNNER_TEMP/sftp_known_hosts"
-          batch_file="$RUNNER_TEMP/sftp_batch"
-          trap 'rm -f "$key_file" "$known_hosts_file" "$batch_file"' EXIT
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          umask 077
-          printf '%s\n' "$SFTP_PRIVATE_KEY" > "$key_file"
-          printf '%s\n' "$SFTP_KNOWN_HOSTS" > "$known_hosts_file"
+          # The generator owns the blog output, its marker files, and the sitemap.
+          # Stage deletions too so unpublished posts are removed from the next deploy.
+          git add -- index.html sitemap.xml blog
 
-          {
-            printf 'cd "%s"\n' "$SFTP_REMOTE_PATH"
-            printf 'put index.html index.html\n'
-            printf 'put sitemap.xml sitemap.xml\n'
-            printf 'cd blog\n'
-            printf 'put blog/index.html index.html\n'
+          if git diff --cached --quiet; then
+            echo "Generated blog output is already current; no commit is needed."
+            exit 0
+          fi
 
-            for marker in blog/*/.generated-blog-post; do
-              [ -f "$marker" ] || continue
-              post_dir="${marker%/.generated-blog-post}"
-              slug="${post_dir#blog/}"
-              printf -- '-mkdir "%s"\n' "$slug"
-              printf 'put "%s/index.html" "%s/index.html"\n' "$post_dir" "$slug"
-            done
-          } > "$batch_file"
-
-          sftp \
-            -b "$batch_file" \
-            -P "${SFTP_PORT:-22}" \
-            -i "$key_file" \
-            -o IdentitiesOnly=yes \
-            -o StrictHostKeyChecking=yes \
-            -o "UserKnownHostsFile=$known_hosts_file" \
-            "${SFTP_USERNAME}@${SFTP_HOST}"
+          git commit -m "chore: rebuild published Sanity blog"
+          git push origin "HEAD:${TARGET_BRANCH}"
