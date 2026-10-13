@@ -85,18 +85,13 @@ The workflow at `.github/workflows/rebuild-blog.yml` rebuilds the static blog an
 
 The workflow must first be pushed to the repository's default branch (`main`) before GitHub can run it. The current workflow listens for Sanity's `repository_dispatch` event and can also be started manually.
 
-### Add SFTP secrets in GitHub
+### Add the blog deployment token in GitHub
 
 In the `Foot---Ankle-Centre-Website-2025` repository, open **Settings → Secrets and variables → Actions → New repository secret** and add:
 
-- `SFTP_HOST`: the SFTP server hostname.
-- `SFTP_PORT`: the SFTP port, usually `22` (optional; the workflow defaults to `22`).
-- `SFTP_USERNAME`: the IONOS SFTP username.
-- `SFTP_PASSWORD`: the password for that IONOS SFTP account (not your IONOS account password).
-- `SFTP_KNOWN_HOSTS`: the verified SSH host-key line for the IONOS SFTP server.
-- `SFTP_REMOTE_PATH`: the absolute remote path to the website root, the folder containing `booking.html`.
+- `BLOG_DEPLOY_TOKEN`: a fine-grained GitHub personal access token limited to this repository, with **Contents: read and write** permission. Never commit its value.
 
-The workflow uses password-based SFTP authentication and keeps host-key checking enabled. Remove any old `SFTP_PRIVATE_KEY` secret; it is no longer used. The workflow uploads `index.html`, `sitemap.xml`, `blog/index.html`, and each generated blog post page. It does not mirror or delete other website files.
+The workflow rebuilds the published posts and commits changes to `index.html`, `sitemap.xml`, and `blog/`. Its push starts IONOS Deploy Now's existing deployment workflow. The blog rebuild no longer uses the `SFTP_*` secrets; keep the separate IONOS Deploy Now secrets configured.
 
 ### Configure the Sanity webhook
 
@@ -112,4 +107,4 @@ In Sanity Manage, open **API → Webhooks** and create a webhook with:
 - **Projection:** `{ "event_type": "sanity-post-published" }`
 - **Headers:** `Accept: application/vnd.github+json`, `Content-Type: application/json`, `X-GitHub-Api-Version: 2022-11-28`, and `Authorization: Bearer <the fine-grained token>`
 
-Sanity ignores draft documents by default, so the workflow runs when the published post changes, not while someone edits a draft. After saving the webhook, publish a test post and check **Actions → Rebuild and deploy Sanity blog** for the run result. You can also run the workflow manually from the Actions tab after adding the SFTP secrets.
+Sanity ignores draft documents by default, so the workflow runs when the published post changes, not while someone edits a draft. After saving the webhook, publish a test post and check **Actions → Rebuild and deploy Sanity blog** for the run result. You can also run the workflow manually from the Actions tab after adding `BLOG_DEPLOY_TOKEN`.
