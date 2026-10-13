@@ -37,7 +37,8 @@
   <meta name="twitter:title" content="Foot & Ankle Centre London | Podiatry & Foot Surgery">
   <meta name="twitter:description" content="Specialist podiatry, chiropody and foot & ankle surgery in London, Chingford, Wanstead and Westcliff-on-Sea.">
   <meta name="twitter:image" content="https://www.footandanklecentre.co.uk/images/fac%20logo%20blue.avif">
-  <link rel="preload" as="style" href="styles.css?v=1.0.16">
+  <!-- Load the main stylesheet before first paint to prevent unstyled navigation flashes. -->
+  <link rel="stylesheet" href="styles.css?v=1.0.16">
   <link rel="preload" as="script" href="script.js?v=1.0.31">
   <link rel="preload" as="font" type="font/woff2" href="/fonts/Inter-Regular.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/fonts/Inter-SemiBold.woff2" crossorigin>
@@ -154,10 +155,7 @@
     ]
   }
   </script>
-  <!-- External CSS -->
   <link rel="icon" type="image/avif" href="images/fac logo blue.avif">
-  <link rel="stylesheet" href="styles.css?v=1.0.16" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="styles.css?v=1.0.16"></noscript>
 </head>
 <body>
   <a href="#main" class="sr-only">Skip to main content</a>
