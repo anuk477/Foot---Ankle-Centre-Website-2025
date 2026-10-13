@@ -2,6 +2,8 @@
   'use strict';
 
   const root = new URL('../', document.currentScript.src);
+  const isHomepage = window.location.pathname === root.pathname ||
+    window.location.pathname === `${root.pathname}index.html`;
 
   const endpoint =
     'https://ckg04u58w5.execute-api.eu-west-2.amazonaws.com/default/fac-chatbot-backend';
@@ -41,7 +43,7 @@
   host.setAttribute('aria-label', 'Appointment help');
 
   host.innerHTML = `
-    <button class="fac-teaser" type="button" aria-label="Open chat: Unsure about booking? Chat now">Unsure about booking? Chat now</button>
+    <button class="fac-teaser" type="button" aria-label="Open chat: Unsure about booking? Chat now"${isHomepage ? '' : ' hidden'}>Unsure about booking? Chat now</button>
     <button class="fac-launch" aria-label="Help with appointments" aria-expanded="false" aria-controls="fac-assistant-panel">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
         <path d="M20 11.5a8 8 0 0 1-8 8H5l-4 3v-11a9 9 0 0 1 19 0Z"/>

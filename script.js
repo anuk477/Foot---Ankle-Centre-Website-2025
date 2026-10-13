@@ -2320,7 +2320,7 @@ if (document.readyState === 'loading') {
     style.rel = 'stylesheet'; style.href = new URL('assistant/assistant.css?v=19', siteRoot);
   document.head.appendChild(style);
   const assistant = document.createElement('script');
-    assistant.src = new URL('assistant/assistant.js?v=42', siteRoot);
+    assistant.src = new URL('assistant/assistant.js?v=43', siteRoot);
   assistant.dataset.facAssistantLoader = 'true';
   assistant.defer = true;
   const load = () => document.body.appendChild(assistant);
