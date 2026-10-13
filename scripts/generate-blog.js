@@ -279,7 +279,7 @@ function buildHead(post, url, image, description) {
   <meta property="og:url" content="${escapeAttribute(url)}" />
   ${image ? `<meta property="og:image" content="${escapeAttribute(image)}" />` : ''}
   <link rel="icon" type="image/jpeg" href="../../images/fac logo blue.avif" />
-  <link rel="stylesheet" href="../../styles.css?v=1.0.15" />
+  <link rel="stylesheet" href="../../styles.css?v=1.0.16" />
   <script type="application/ld+json">${renderJsonLd(post, url, image, description)}</script>
 </head>`
 }

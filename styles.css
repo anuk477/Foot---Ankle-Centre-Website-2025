@@ -1310,6 +1310,21 @@ section{padding:clamp(2rem,5vw,4rem) 0}
 /* Mobile brand title size tweak */
 @media (max-width: 860px){
   .brand strong{font-size:.95rem;line-height:1.1}
+  /* Keep the same compact header on every page, with room for the menu. */
+  header{background:#fff}
+  header .topbar{gap:8px;padding:8px 0}
+  header .brand{gap:8px;min-width:0}
+  header .brand-logo{flex:none;inline-size:36px;block-size:36px}
+  header .brand > div{min-width:0;line-height:1.45}
+  header .brand strong{font-size:clamp(.75rem,3.3vw,.95rem);white-space:nowrap}
+  header .brand small{font-size:clamp(.625rem,2.7vw,.8rem);white-space:nowrap}
+  header .nav-actions{flex:none;gap:6px}
+  header .nav-actions .btn{min-height:44px;padding:8px 10px;font-size:.9rem}
+  header .nav-actions .menu-toggle{min-width:44px;padding:8px}
+}
+@media (max-width: 359px){
+  header .topbar{flex-wrap:wrap}
+  header .nav-actions{margin-left:auto}
 }
 .testimonial-track{display:flex;gap:0;overflow-x:auto;scroll-snap-type:none;padding-bottom:.5rem;-ms-overflow-style:none;scrollbar-width:none;max-height:400px;overflow-y:hidden;-webkit-overflow-scrolling:touch}
 .testimonial-track::-webkit-scrollbar{display:none}
