@@ -279,7 +279,7 @@ function buildHead(post, url, image, description) {
   <meta property="og:url" content="${escapeAttribute(url)}" />
   ${image ? `<meta property="og:image" content="${escapeAttribute(image)}" />` : ''}
   <link rel="icon" type="image/jpeg" href="../../images/fac logo blue.avif" />
-  <link rel="stylesheet" href="../../styles.css?v=1.0.8" />
+  <link rel="stylesheet" href="../../styles.css?v=1.0.15" />
   <script type="application/ld+json">${renderJsonLd(post, url, image, description)}</script>
 </head>`
 }
@@ -294,12 +294,6 @@ function buildMain(post, posts, projectId, dataset) {
   return `<main id="main">
     <article class="blog-article">
       <div class="container blog-post-layout">
-        <aside class="blog-sidebar" aria-labelledby="blog-sidebar-heading">
-          <h2 id="blog-sidebar-heading">Other posts</h2>
-          <nav aria-label="Other blog posts">
-            ${sidebar}
-          </nav>
-        </aside>
         <div id="blog-post" class="blog-post">
           ${categories}
           <h1>${escapeHtml(post.title)}</h1>
@@ -308,6 +302,12 @@ function buildMain(post, posts, projectId, dataset) {
           ${image ? `<figure class="blog-main-image"><img src="${escapeAttribute(image)}" alt="${escapeAttribute((post.mainImage && post.mainImage.alt) || post.title)}"></figure>` : ''}
           <div class="blog-content">${content}</div>
         </div>
+        <aside class="blog-sidebar" aria-labelledby="blog-sidebar-heading">
+          <h2 id="blog-sidebar-heading">Other posts</h2>
+          <nav aria-label="Other blog posts">
+            ${sidebar}
+          </nav>
+        </aside>
       </div>
     </article>
   </main>`
