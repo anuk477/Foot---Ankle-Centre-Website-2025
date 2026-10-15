@@ -23,8 +23,7 @@
   </main>
 
   <script>
-const STATUS_API_URL =
-  "https://www.footandanklecentre.co.uk/outlook-addin-v6/status-proxy.php";
+const STATUS_API_URL = new URL("status-proxy.php", window.location.href).href;
 
 let currentEnquiryId = "";
 
@@ -72,8 +71,12 @@ async function setStatus(status) {
 
     const data = await response.json().catch(() => ({}));
 
+    if (response.status === 404) {
+      throw new Error("The status service is missing from the website deployment. Please contact the website administrator.");
+    }
+
     if (!response.ok || data.ok !== true) {
-      throw new Error(data.error || "Google Sheet update failed.");
+      throw new Error(data.error || "Google Sheet update failed (HTTP " + response.status + ").");
     }
 
     result.textContent = "Status updated: " + status;

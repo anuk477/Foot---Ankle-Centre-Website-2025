@@ -4,4 +4,4 @@ dist/
 .env
 .env.*
 .fac-assistant.php
-/outlook-addin-v6/status-proxy.php
+/outlook-addin-v6/status-config.php

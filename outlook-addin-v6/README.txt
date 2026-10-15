@@ -16,8 +16,23 @@ What it does NOT do:
 Upload all website files to:
 https://www.footandanklecentre.co.uk/outlook-addin-v6/
 
-Before upload:
-- status-proxy.php must contain the correct OUTLOOK_STATUS_SECRET.
+Deploy Now setup:
+- Add a GitHub Actions repository secret named OUTLOOK_STATUS_SECRET. Its value
+  must match OUTLOOK_STATUS_SECRET in the Google Apps Script properties.
+- The workflow passes this to scripts/package-deployment.js, which creates the
+  private status-config.php in dist. The build fails if the secret is missing.
+- Commit status-proxy.php, .htaccess, and the taskpane files. Never commit
+  status-config.php: it contains the private shared secret.
+- For local packaging, the ignored status-config.php can supply the existing
+  secret instead. CI always requires the GitHub Actions secret.
+- Keep this as a PHP-enabled Deploy Now project. Static-only hosting cannot run
+  the proxy. No database is required.
+
+Migration troubleshooting:
+- status-proxy.php must return JSON, not 404 HTML. A GET should return 405;
+  posting {} should return 400 with "Invalid enquiry ID" without changing data.
+- The taskpane uses a same-origin URL to avoid www/non-www POST redirects.
+- After deployment, close and reopen the add-in to load the updated taskpane.
 
 Install:
 1. Remove old FAC Status add-ins.

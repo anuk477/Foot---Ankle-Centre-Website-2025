@@ -1,0 +1,4 @@
+Options -Indexes
+<Files "status-config.php">
+  Require all denied
+</Files>

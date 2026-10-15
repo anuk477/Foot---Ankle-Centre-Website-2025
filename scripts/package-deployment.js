@@ -3,9 +3,12 @@
 const {spawnSync} = require('node:child_process')
 const fs = require('node:fs')
 const path = require('node:path')
+const {outlookStatusConfig} = require('./configure-outlook-status')
 
 const root = path.resolve(__dirname, '..')
 const output = path.join(root, 'dist')
+// Fail before packaging if the private Outlook configuration is missing.
+const statusConfig = outlookStatusConfig(root)
 const videoExtensions = new Set(['.mp4', '.m4v', '.mov'])
 
 const rootFiles = [
@@ -97,5 +100,7 @@ for (const directory of runtimeDirectories) {
   }
   copyTree(source, path.join(output, directory), directory)
 }
+
+fs.writeFileSync(path.join(output, 'outlook-addin-v6', 'status-config.php'), statusConfig)
 
 console.log('Prepared the IONOS package in dist; source videos remain in Git and deployed copies are compressed H.264.')

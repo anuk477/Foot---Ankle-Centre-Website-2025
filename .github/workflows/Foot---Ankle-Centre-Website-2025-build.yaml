@@ -36,6 +36,7 @@ jobs:
         env:
           CI: true
           SITE_URL: ${{ inputs.site-url }}
+          OUTLOOK_STATUS_SECRET: ${{ secrets.OUTLOOK_STATUS_SECRET }}
         run: |
           sudo apt-get update && sudo apt-get install --yes ffmpeg
           npm ci
