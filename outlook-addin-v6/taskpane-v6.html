@@ -3,13 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>FAC Status v6</title>
+  <title>FAC Status v7</title>
   <link rel="stylesheet" href="taskpane.css?v=6">
   <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
 </head>
 <body>
   <main class="wrap">
-    <h1>FAC Status v6</h1>
+    <h1>FAC Status v7</h1>
+    <p style="font-size:12px">Build 20261015.2</p>
     <p id="enquiry">Select an FAC enquiry email.</p>
     <div class="buttons">
       <button data-status="Dealt With">Dealt With</button>
@@ -82,7 +83,10 @@ async function setStatus(status) {
     result.textContent = "Status updated: " + status;
   } catch (err) {
     result.textContent =
-      "Error: " + (err && err.message ? err.message : String(err));
+      "Error: " + (err && err.message ? err.message : String(err)) +
+      (err instanceof TypeError
+        ? " — Outlook could not reach " + STATUS_API_URL + ". Build 20261015.2."
+        : "");
   } finally {
     setBusy(false);
   }

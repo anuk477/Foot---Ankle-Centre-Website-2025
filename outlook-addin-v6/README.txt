@@ -1,4 +1,4 @@
-FAC Status v6 - Google Sheet only
+FAC Status v7 - Google Sheet only
 
 Reason:
 The Outlook category API is returning "An internal error has occurred" for this
@@ -33,10 +33,15 @@ Migration troubleshooting:
   posting {} should return 400 with "Invalid enquiry ID" without changing data.
 - The taskpane uses a same-origin URL to avoid www/non-www POST redirects.
 - After deployment, close and reopen the add-in to load the updated taskpane.
+- For the Deploy Now migration, replace the installed custom add-in using the
+  updated manifest-v6.xml (manifest version 1.0.0.7). The filename and add-in ID
+  stay compatible, but the pane is named FAC Status v7, Build 20261015.2.
+- The updated manifest loads the canonical non-www URL directly with a new
+  version query to avoid cached www redirects and taskpane code.
 
 Install:
 1. Remove old FAC Status add-ins.
 2. Upload this folder to /outlook-addin-v6/.
 3. Add manifest-v6.xml as a new custom add-in.
-4. Open an enquiry and confirm the pane says FAC Status v6.
+4. Open an enquiry and confirm the pane says FAC Status v7, Build 20261015.2.
 5. Click a status and check the Google Sheet.

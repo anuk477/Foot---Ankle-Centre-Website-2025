@@ -5,16 +5,17 @@
            xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0"
            xsi:type="MailApp">
   <Id>c0c40589-aa7d-4130-84d5-460dd68d1020</Id>
-  <Version>1.0.0.6</Version>
+  <Version>1.0.0.7</Version>
   <ProviderName>Foot &amp; Ankle Centre</ProviderName>
   <DefaultLocale>en-GB</DefaultLocale>
-  <DisplayName DefaultValue="FAC Status v6"/>
+  <DisplayName DefaultValue="FAC Status v7"/>
   <Description DefaultValue="Update FAC enquiry status from Outlook."/>
-  <IconUrl DefaultValue="https://www.footandanklecentre.co.uk/outlook-addin-v6/icon-64.png"/>
-  <HighResolutionIconUrl DefaultValue="https://www.footandanklecentre.co.uk/outlook-addin-v6/icon-128.png"/>
-  <SupportUrl DefaultValue="https://www.footandanklecentre.co.uk/"/>
+  <IconUrl DefaultValue="https://footandanklecentre.co.uk/outlook-addin-v6/icon-64.png"/>
+  <HighResolutionIconUrl DefaultValue="https://footandanklecentre.co.uk/outlook-addin-v6/icon-128.png"/>
+  <SupportUrl DefaultValue="https://footandanklecentre.co.uk/"/>
 
   <AppDomains>
+    <AppDomain>https://footandanklecentre.co.uk</AppDomain>
     <AppDomain>https://www.footandanklecentre.co.uk</AppDomain>
   </AppDomains>
 
@@ -31,7 +32,7 @@
   <FormSettings>
     <Form xsi:type="ItemRead">
       <DesktopSettings>
-        <SourceLocation DefaultValue="https://www.footandanklecentre.co.uk/outlook-addin-v6/taskpane-v6.html"/>
+        <SourceLocation DefaultValue="https://footandanklecentre.co.uk/outlook-addin-v6/taskpane-v6?v=20261015.2"/>
         <RequestedHeight>450</RequestedHeight>
       </DesktopSettings>
     </Form>
@@ -85,14 +86,14 @@
 
     <Resources>
       <bt:Images>
-        <bt:Image id="Icon16" DefaultValue="https://www.footandanklecentre.co.uk/outlook-addin-v6/icon-16.png"/>
-        <bt:Image id="Icon32" DefaultValue="https://www.footandanklecentre.co.uk/outlook-addin-v6/icon-32.png"/>
-        <bt:Image id="Icon80" DefaultValue="https://www.footandanklecentre.co.uk/outlook-addin-v6/icon-80.png"/>
+        <bt:Image id="Icon16" DefaultValue="https://footandanklecentre.co.uk/outlook-addin-v6/icon-16.png"/>
+        <bt:Image id="Icon32" DefaultValue="https://footandanklecentre.co.uk/outlook-addin-v6/icon-32.png"/>
+        <bt:Image id="Icon80" DefaultValue="https://footandanklecentre.co.uk/outlook-addin-v6/icon-80.png"/>
       </bt:Images>
 
       <bt:Urls>
-        <bt:Url id="Commands.Url" DefaultValue="https://www.footandanklecentre.co.uk/outlook-addin-v6/taskpane-v6.html"/>
-        <bt:Url id="Taskpane.Url" DefaultValue="https://www.footandanklecentre.co.uk/outlook-addin-v6/taskpane-v6.html"/>
+        <bt:Url id="Commands.Url" DefaultValue="https://footandanklecentre.co.uk/outlook-addin-v6/taskpane-v6?v=20261015.2"/>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://footandanklecentre.co.uk/outlook-addin-v6/taskpane-v6?v=20261015.2"/>
       </bt:Urls>
 
       <bt:ShortStrings>

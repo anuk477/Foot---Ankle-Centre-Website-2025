@@ -2,3 +2,13 @@ Options -Indexes
 <Files "status-config.php">
   Require all denied
 </Files>
+
+# Outlook must revalidate its taskpane rather than reuse old request URLs.
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|xml)$">
+    Header unset Cache-Control
+    Header always set Cache-Control "no-store, max-age=0"
+    Header always set Pragma "no-cache"
+    Header always set Expires "0"
+  </FilesMatch>
+</IfModule>
